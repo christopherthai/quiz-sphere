@@ -25,7 +25,7 @@ QuizSphere is a quiz application where users can choose a wide variety of quizze
 
 - Read
 
-  - List Quizzes
+  - List quizzes
   - List the answer options to the questions
   - List all of the scores from all of the quizzes from the user
   - Only view the score for a specific quiz
