@@ -16,6 +16,10 @@ QuizSphere is a quiz application where users can choose a wide variety of quizze
 
 - Each question should only have one correct answer.
 
+- All users should have an unique usernames.
+
+- Admin users should only have the ability to edit quizzes and not take quizzes
+
 ## CRUD Actions
 
 - Create
