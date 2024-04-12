@@ -64,15 +64,19 @@ class Score:
         query = select([Score, Quiz.name, Score.date_taken]).select_from(join(Score, Quiz, Score.quiz_id == Quiz.id)).where(Score.user_id == user_id)
         result = CURSOR.execute(query)
         for row in result:
+            # Calculate the score by querying the Answer table
+            score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == row[Score.quiz_id])
+            score_result = CURSOR.execute(score_query).fetchone()
+            score = score_result[0] if score_result[0] is not None else 0
             # Store the scores, quiz names, and date taken in a tuple
-            user_scores.append((row[Score.score], row[Quiz.name], row[Score.date_taken], row[Score.quiz_id]))
+            user_scores.append((score, row[Quiz.name], row[Score.date_taken], row[Score.quiz_id]))
         return user_scores
-
+    
     @staticmethod
     def get_average_score(quiz_id):
         # Query the database to calculate the average score for the quiz
-        query = select([func.avg(Score.score)]).where(Score.quiz_id == quiz_id)
-        result = CURSOR.execute(query).fetchone()
+        score_query = select([func.avg(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
+        result = CURSOR.execute(score_query).fetchone()
         average_score = result[0] if result[0] is not None else 0  # If no scores are found, default to 0
         return average_score
 
@@ -116,11 +120,11 @@ class Score:
     @staticmethod
     def get_scores_for_quiz(quiz_id):
         # Query the database to retrieve all scores for the quiz
-        query = select([Score.score]).where(Score.quiz_id == quiz_id)
-        result = CURSOR.execute(query)
+        score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
+        result = CURSOR.execute(score_query)
         scores = [row[0] for row in result]
         return scores
-
+    
     @staticmethod
     def plot_score_comparison(quiz_id, user_score):
         # Get all scores for the quiz
@@ -138,10 +142,17 @@ class Score:
     @staticmethod
     def get_correct_answers_percentage(quiz_id):
         # Query the database to calculate the percentage of correct answers for each question in the quiz
-        query = select([Question.id, Question.question_text,func.avg(Score.score).label('percentage_correct')]
-                    ).select_from(
-                        Question.join(Score, Question.id == Score.quiz_id)
-                    ).where(Score.quiz_id == quiz_id).group_by(Question.id)
+        query = select([
+            Question.id,
+            Question.question_text,
+            func.avg(Answer.is_correct).label('percentage_correct')
+        ]).select_from(
+            Question.join(Score, Question.id == Score.quiz_id)
+        ).where(
+            Score.quiz_id == quiz_id
+        ).group_by(
+            Question.id
+        )
         result = CURSOR.execute(query)
         return result.fetchall()
 
