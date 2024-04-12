@@ -49,35 +49,45 @@ class Score:
     def quiz_id(self, value):
         self._quiz_id = value
 
-        
-        
-# user can return user scores on all taken quizzes.  This will be the highest score earned on the quiz.
-# the user then can select a quiz to show more info for each quiz
-# user can see a graph showing their score to the average score on selected quiz by other users
-# user can see a list of a selected quiz with correct answers labelled correct and incorrect answers labelled incorrect
-# user can see a list which shows list of questions and percentage of correct answers from a selected quiz
+    # user can return user scores on all taken quizzes.  This will be the highest score earned on the quiz.
+    # the user then can select a quiz to show more info for each quiz
+    # user can see a graph showing their score to the average score on selected quiz by other users
+    # user can see a list of a selected quiz with correct answers labelled correct and incorrect answers labelled incorrect
+    # user can see a list which shows list of questions and percentage of correct answers from a selected quiz
 
     @staticmethod
     def get_user_scores(user_id):
         user_scores = []
         # Join scores table with quizzes table to get quiz names
-        query = select([Score, Quiz.name, Score.date_taken]).select_from(join(Score, Quiz, Score.quiz_id == Quiz.id)).where(Score.user_id == user_id)
+        query = (
+            select([Score, Quiz.name, Score.date_taken])
+            .select_from(join(Score, Quiz, Score.quiz_id == Quiz.id))
+            .where(Score.user_id == user_id)
+        )
         result = CURSOR.execute(query)
         for row in result:
             # Calculate the score by querying the Answer table
-            score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == row[Score.quiz_id])
+            score_query = select([func.sum(Answer.is_correct)]).where(
+                Answer.quiz_id == row[Score.quiz_id]
+            )
             score_result = CURSOR.execute(score_query).fetchone()
             score = score_result[0] if score_result[0] is not None else 0
             # Store the scores, quiz names, and date taken in a tuple
-            user_scores.append((score, row[Quiz.name], row[Score.date_taken], row[Score.quiz_id]))
+            user_scores.append(
+                (score, row[Quiz.name], row[Score.date_taken], row[Score.quiz_id])
+            )
         return user_scores
 
     @staticmethod
     def get_average_score(quiz_id):
         # Query the database to calculate the average score for the quiz
-        score_query = select([func.avg(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
+        score_query = select([func.avg(Answer.is_correct)]).where(
+            Answer.quiz_id == quiz_id
+        )
         result = CURSOR.execute(score_query).fetchone()
-        average_score = result[0] if result[0] is not None else 0  # If no scores are found, default to 0
+        average_score = (
+            result[0] if result[0] is not None else 0
+        )  # If no scores are found, default to 0
         return average_score
 
     @staticmethod
@@ -105,13 +115,21 @@ class Score:
     @staticmethod
     def print_quiz_details(quiz_id):
         # Query the database to retrieve quiz details, including questions and answers
-        query = select([Quiz.name, Score.date_taken, Question, Answer]).select_from(
-            Quiz.join(Question, Quiz.id == Question.quiz_id).join(Answer, Question.id == Answer.question_id)
-        ).where(Quiz.id == quiz_id)
+        query = (
+            select([Quiz.name, Score.date_taken, Question, Answer])
+            .select_from(
+                Quiz.join(Question, Quiz.id == Question.quiz_id).join(
+                    Answer, Question.id == Answer.question_id
+                )
+            )
+            .where(Quiz.id == quiz_id)
+        )
         result = CURSOR.execute(query)
-        
+
         # Print quiz name and date taken
-        quiz_info = result.fetchone()  # Assuming one row contains quiz name and date taken
+        quiz_info = (
+            result.fetchone()
+        )  # Assuming one row contains quiz name and date taken
         print(f"Quiz: {quiz_info[Quiz.name]}")
         print(f"Date Taken: {quiz_info[Score.date_taken]}\n")
         for row in result:
@@ -126,7 +144,9 @@ class Score:
     @staticmethod
     def get_scores_for_quiz(quiz_id):
         # Query the database to retrieve all scores for the quiz
-        score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
+        score_query = select([func.sum(Answer.is_correct)]).where(
+            Answer.quiz_id == quiz_id
+        )
         result = CURSOR.execute(score_query)
         scores = [row[0] for row in result]
         return scores
@@ -134,29 +154,32 @@ class Score:
     @staticmethod
     def plot_score_comparison(quiz_id, user_id):
         all_scores = Score.get_scores_for_quiz(quiz_id)
-        
+
         # Plotting
-        plt.hist(all_scores, bins=10, alpha=0.5, label='All Scores')
-        plt.axvline(user_score, color='red', linestyle='dashed', linewidth=1, label='Your Score')
-        plt.xlabel('Score')
-        plt.ylabel('Frequency')
-        plt.title('Score Comparison')
+        plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
+        plt.axvline(
+            user_score, color="red", linestyle="dashed", linewidth=1, label="Your Score"
+        )
+        plt.xlabel("Score")
+        plt.ylabel("Frequency")
+        plt.title("Score Comparison")
         plt.legend()
         plt.show()
 
     @staticmethod
     def get_correct_answers_percentage(quiz_id):
         # Query the database to calculate the percentage of correct answers for each question in the quiz
-        query = select([
-            Question.id,
-            Question.question_text,
-            func.avg(Answer.is_correct).label('percentage_correct')
-        ]).select_from(
-            Question.join(Score, Question.id == Score.quiz_id)
-        ).where(
-            Score.quiz_id == quiz_id
-        ).group_by(
-            Question.id
+        query = (
+            select(
+                [
+                    Question.id,
+                    Question.question_text,
+                    func.avg(Answer.is_correct).label("percentage_correct"),
+                ]
+            )
+            .select_from(Question.join(Score, Question.id == Score.quiz_id))
+            .where(Score.quiz_id == quiz_id)
+            .group_by(Question.id)
         )
         result = CURSOR.execute(query)
         return result.fetchall()
