@@ -8,7 +8,7 @@ QuizSphere is a quiz application where users can choose a wide variety of quizze
 
 ## Database Diagram
 
-![DatabaseDiagram](./planning/database-diagram.png)
+![DatabaseDiagram](./Planning/database-diagram.png)
 
 ## Constraints
 
@@ -40,11 +40,11 @@ QuizSphere is a quiz application where users can choose a wide variety of quizze
 
 ## Decision Tree
 
-![DecisionTree](./planning/decision-tree.png)
+![DecisionTree](./Planning/decision-tree.png)
 
 ## Database
 
-![Database](./planning/Database.png)
+![Database](./Planning/Database.png)
 
 ## Stretch Goals
 
@@ -56,4 +56,4 @@ QuizSphere is a quiz application where users can choose a wide variety of quizze
 
 ## Trello Board
 
-![Trello Board](./planning/TrelloBoard.png)
+![Trello Board](./Planning/TrelloBoard.png)
