@@ -2,13 +2,6 @@ import inquirer
 from models.user import User
 
 
-# Function that exits the application
-def exit_application():
-    """Exit the application"""
-    print("Exiting application...")
-    exit()
-
-
 def user_login():
     """Login the user to the application"""
     questions = [
