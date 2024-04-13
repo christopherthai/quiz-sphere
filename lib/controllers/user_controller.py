@@ -12,10 +12,12 @@ def exit_application():
 def user_login():
     """Login the user to the application"""
     questions = [
-        inquirer.Text('username', message='Enter your username:'),
+        inquirer.Text(
+            "username", message="Enter your username:"
+        ),  # Ask for the username
     ]
-    answers = inquirer.prompt(questions)
-    username = answers['username']
+    answers = inquirer.prompt(questions)  # Ask the user for the username
+    username = answers["username"]  # Get the username from the answers
     user = User.find_by_username(username)
     if user:
         print(f"Welcome, {user.username}!")
@@ -26,12 +28,18 @@ def user_login():
 def create_username():
     """Create a new username for the user"""
     questions = [
-        inquirer.Text('username', message='Enter your username:'),
-        inquirer.Confirm('is_admin', message='Are you an admin?'),
+        inquirer.Text(
+            "username", message="Enter your username:"
+        ),  # Ask for the username
+        inquirer.Confirm(
+            "is_admin", message="Are you an admin?"
+        ),  # Ask if the user is an admin
     ]
-    answers = inquirer.prompt(questions)
-    username = answers['username']
-    is_admin_input = answers['is_admin']
+    answers = inquirer.prompt(
+        questions
+    )  # Ask the user for the username and if they are an admin
+    username = answers["username"]  # Get the username from the answers
+    is_admin_input = answers["is_admin"]  # Get the is_admin from the answers
 
     # Check if the username already exists
     if User.find_by_username(username):
