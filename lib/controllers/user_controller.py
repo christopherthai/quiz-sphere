@@ -8,7 +8,7 @@ def exit_application():
     exit()
 
 
-def login_user():
+def user_login():
     """Login the user to the application"""
     username = input("Enter your username: ")
     user = User.find_by_username(username)
