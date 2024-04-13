@@ -99,8 +99,10 @@ class Quiz:
     @classmethod
     def instance_from_db_row(cls, row):
         """Create a new instance of the Quiz from a database row"""
-        quiz = cls(row["title"], row["description"], row["id"])
-        return quiz
+        if row is None:
+            return None
+
+        return cls(row[1], row[2], id=row[0])
 
     @classmethod
     def get_all(cls):

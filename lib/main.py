@@ -7,7 +7,7 @@ def main_menu():
     questions = [
         inquirer.List(
             "service",
-            message="Welcome to the QuizSphere. Choose an option",
+            message="Choose an option",
             choices=[
                 "Take Quiz",
                 "View Scores",
@@ -17,19 +17,17 @@ def main_menu():
         ),
     ]
     answers = inquirer.prompt(questions)
-    if answers["service"] == "Admin":
+    if answers["service"] == "Take Quiz":
         pass
-    elif answers["service"] == "Quiz Management":
+    elif answers["service"] == "View Scores":
         pass
-    elif answers["service"] == "Score Management":
-        pass
-    elif answers["service"] == "User Management":
+    elif answers["service"] == "Admin Menu":
         pass
     elif answers["service"] == "Exit":
         exit()
 
 
 if __name__ == "__main__":
-
+    user = user_login_menu()
     while True:
-        user_login_menu()
+        main_menu()

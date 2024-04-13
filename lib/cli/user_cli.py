@@ -13,8 +13,10 @@ def user_login_menu():
     ]
     answer = inquirer.prompt(questions)
     if answer["action"] == "Register":
-        create_username()
+        user = create_username()
     elif answer["action"] == "Login":
-        user_login()
+        user = user_login()
     elif answer["action"] == "Exit":
         exit_application()
+
+    return user

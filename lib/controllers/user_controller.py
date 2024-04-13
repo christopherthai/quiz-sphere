@@ -23,6 +23,9 @@ def user_login():
         print(f"Welcome, {user.username}!")
     else:
         print("User not found.")
+        user = user_login()  # Recursively call the function
+
+    return user
 
 
 def create_username():
