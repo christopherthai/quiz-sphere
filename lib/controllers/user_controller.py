@@ -1,5 +1,5 @@
 import inquirer
-from lib.models.user import User
+from models.user import User
 
 
 # Function that exits the application

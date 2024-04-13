@@ -106,17 +106,9 @@ class User:
     @classmethod
     def instance_from_db(cls, row):
         """Return a User object having the attributes value from the table row"""
-
-        # Checking the dictionary for the existing instance using the row's primary key
-        user = cls.all.get(row[0])  # Get the User instance from the all dictionary
-        if user:
-            # Making sure the instance has the latest data
-            user.username = row[1]
-            user.is_admin = row[2]
-        else:
-            # Create a new instance of the User class
-            user = cls(row[0], row[1], row[2])
-        return user
+        if row:
+            return cls(row[1], row[2], row[0])
+        return None
 
     @classmethod
     def get_all(cls):
