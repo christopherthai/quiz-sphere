@@ -3,6 +3,7 @@ from models.__init__ import CURSOR, CONN
 
 class User:
 
+    # Class attribute that stores all the instances of the User
     all = {}
 
     def __init__(self, username, is_admin=0, id=None):
@@ -43,7 +44,7 @@ class User:
     def create_table(cls):
         """Create a new table to persist the attributes of the User instance"""
         sql = """
-        CREATE TABLE IF NOT EXISTS users (
+        CREATE TABLE IF NOT EXISTS Users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             is_admin INTEGER NOT NULL
@@ -56,7 +57,7 @@ class User:
     @classmethod
     def drop_table(cls):
         """Drop the table that persists the attributes of the User instance"""
-        sql = "DROP TABLE IF EXISTS users"
+        sql = "DROP TABLE IF EXISTS Users"
         CURSOR.execute(sql)  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
 
@@ -91,6 +92,17 @@ class User:
         CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
 
+        del type(self).all[self.id]  # Remove the User instance from the all dictionary
+
+        self.id = None  # Reset the id of the instance to None
+
+    @classmethod
+    def create(cls, username, is_admin):
+        """Create a new instance of the User class"""
+        user = cls(username, is_admin)  # Create a new User instance
+        user.save()  # Save the User instance to the database
+        return user  # Return the User instance
+
     @classmethod
     def instance_from_db(cls, row):
         """Return a User object having the attributes value from the table row"""
@@ -114,7 +126,9 @@ class User:
         """
         CURSOR.execute(sql)  # Execute the SQL statement
         rows = CURSOR.fetchall()  # Returns all rows
-        return [cls(*row) for row in rows]  # Create a User instance for each row
+        return [
+            cls.instance_from_db(row) for row in rows
+        ]  # Create a User instance for each row
 
     @classmethod
     def find_by_id(cls, id):
@@ -124,7 +138,9 @@ class User:
         """
         CURSOR.execute(sql, (id,))  # Execute the SQL statement
         row = CURSOR.fetchone()  # Returns the first row
-        return cls(*row) if row else None  # Create a User instance if row is not None
+        return (
+            cls.instance_from_db(row) if row else None
+        )  # Create a User instance if row is not None
 
     @classmethod
     def find_by_username(cls, username):
@@ -134,4 +150,6 @@ class User:
         """
         CURSOR.execute(sql, (username,))  # Execute the SQL statement
         row = CURSOR.fetchone()  # Returns the first row
-        return cls(*row) if row else None  # Create a User instance if row is not None
+        return (
+            cls.instance_from_db(row) if row else None
+        )  # Create a User instance if row is not None
