@@ -1,5 +1,5 @@
 import inquirer
-from controllers.user_controller import user_login, create_username, exit_application
+from controllers.user_controller import user_login, create_username
 
 
 # Function that displays the user login menu
@@ -17,6 +17,7 @@ def user_login_menu():
     elif answer["action"] == "Login":
         user = user_login()
     elif answer["action"] == "Exit":
-        exit_application()
+        print("Exiting application...")
+        exit()
 
     return user

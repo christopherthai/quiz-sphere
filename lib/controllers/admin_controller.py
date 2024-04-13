@@ -11,8 +11,7 @@ from models.quiz import Quiz
 def list_users():
     """List all users in the database"""
     users = User.get_all()  # Get all users from the database
-    for user in users:
-        print(f"Username: {user.username}")
+    return users
 
 
 def add_user():

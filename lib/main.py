@@ -1,5 +1,6 @@
 import inquirer
 
+from cli.admin_cli import admin_menu
 from cli.user_cli import user_login_menu
 
 
@@ -7,7 +8,7 @@ def main_menu(user):
     questions = [
         inquirer.List(
             "service",
-            message="Choose an option",
+            message="Main Menu: Choose an option",
             choices=[
                 "Take Quiz",
                 "View Scores",
@@ -22,7 +23,7 @@ def main_menu(user):
     elif answers["service"] == "View Scores":
         pass
     elif answers["service"] == "Admin Menu":
-        pass
+        admin_menu(user)
     elif answers["service"] == "Exit":
         print("Exiting application...")
         exit()
@@ -30,6 +31,6 @@ def main_menu(user):
 
 if __name__ == "__main__":
     user = user_login_menu()
-    print(f"Welcome, {user}!")
+    # print(f"Welcome, {user}!")
     while True:
         main_menu(user)
