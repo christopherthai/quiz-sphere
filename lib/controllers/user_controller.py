@@ -1,3 +1,4 @@
+import inquirer
 from lib.models.user import User
 
 
@@ -10,7 +11,11 @@ def exit_application():
 
 def user_login():
     """Login the user to the application"""
-    username = input("Enter your username: ")
+    questions = [
+        inquirer.Text('username', message='Enter your username:'),
+    ]
+    answers = inquirer.prompt(questions)
+    username = answers['username']
     user = User.find_by_username(username)
     if user:
         print(f"Welcome, {user.username}!")
@@ -20,8 +25,13 @@ def user_login():
 
 def create_username():
     """Create a new username for the user"""
-    username = input("Enter your username: ")
-    is_admin_input = input("Are you an admin? (y/n): ").lower() == "y"
+    questions = [
+        inquirer.Text('username', message='Enter your username:'),
+        inquirer.Confirm('is_admin', message='Are you an admin?'),
+    ]
+    answers = inquirer.prompt(questions)
+    username = answers['username']
+    is_admin_input = answers['is_admin']
 
     # Check if the username already exists
     if User.find_by_username(username):
@@ -29,10 +39,7 @@ def create_username():
         return create_username()  # Recursively call the function
 
     # Check if the user is an admin
-    if is_admin_input == "y":
-        is_admin = 1
-    else:
-        is_admin = 0
+    is_admin = 1 if is_admin_input else 0
 
     user = User.create(username, is_admin)
     print(f"User {user.username} created successfully.")

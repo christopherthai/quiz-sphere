@@ -1,5 +1,5 @@
 import inquirer
-from user_controller import register_user, login_user
+from controllers.user_controller import user_login, create_username
 
 
 def user_menu():
