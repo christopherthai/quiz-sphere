@@ -1,5 +1,5 @@
 import inquirer
-from controllers.admin_controller import list_users, delete_user
+from helpers.admin_helper import list_users, delete_user
 
 
 def admin_menu(user):

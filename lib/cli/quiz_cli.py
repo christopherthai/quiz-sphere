@@ -15,7 +15,7 @@ engine = create_engine('sqlite:///quiz.db')
 base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.append(base_path)
 
-from lib.controllers.quiz_controller import get_all_subjects, get_questions_by_subject
+from lib.controllers.quiz_helper import get_all_subjects, get_questions_by_subject
 
 def quiz_flow():
     subjects = get_all_subjects()

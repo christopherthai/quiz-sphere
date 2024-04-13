@@ -1,5 +1,5 @@
 import inquirer
-from controllers.user_controller import user_login, create_username
+from helpers.user_helper import user_login, create_username
 
 
 # Function that displays the user login menu
