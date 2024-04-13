@@ -1,5 +1,5 @@
 import inquirer
-from lib.models.user import User
+from models.user import User
 
 
 # Function that exits the application
@@ -23,6 +23,9 @@ def user_login():
         print(f"Welcome, {user.username}!")
     else:
         print("User not found.")
+        user = user_login()  # Recursively call the function
+
+    return user
 
 
 def create_username():
@@ -46,7 +49,7 @@ def create_username():
         print("Username already exists.")
         return create_username()  # Recursively call the function
 
-    # Check if the user is an admin
+    # Convert the is_admin input to a boolean
     is_admin = 1 if is_admin_input else 0
 
     user = User.create(username, is_admin)

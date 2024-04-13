@@ -1,23 +1,22 @@
 import inquirer
-from controllers.user_controller import user_login, create_username
+from controllers.user_controller import user_login, create_username, exit_application
 
 
-def user_menu():
+# Function that displays the user login menu
+def user_login_menu():
     questions = [
         inquirer.List(
             "action",
-            message="User tasks - select an option:",
+            message="Welcome to the QuizSphere. Choose an option:",
             choices=["Register", "Login", "Exit"],
         ),
     ]
     answer = inquirer.prompt(questions)
     if answer["action"] == "Register":
-        username = input("Enter your username: ")
-        password = input("Enter your password: ")
-        register_user(username, password)
+        user = create_username()
     elif answer["action"] == "Login":
-        username = input("Enter your username: ")
-        password = input("Enter your password: ")
-        login_user(username, password)
+        user = user_login()
     elif answer["action"] == "Exit":
-        return
+        exit_application()
+
+    return user

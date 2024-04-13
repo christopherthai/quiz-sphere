@@ -1,43 +1,13 @@
 import inquirer
 
-from cli.admin_cli import admin_menu
-from cli.quiz_cli import quiz_menu
-from cli.score_cli import score_menu
-from cli.user_cli import user_menu
+from cli.user_cli import user_login_menu
 
 
-def login_screen():
+def main_menu(user):
     questions = [
         inquirer.List(
             "service",
-            message="Welcome to the QuizSphere. Choose an option:",
-            choices=[
-                "Admin",
-                "Quiz Management",
-                "Score Management",
-                "User Management",
-                "Exit",
-            ],
-        ),
-    ]
-    answers = inquirer.prompt(questions)
-    if answers["service"] == "Admin":
-        admin_menu()
-    elif answers["service"] == "Quiz Management":
-        quiz_menu()
-    elif answers["service"] == "Score Management":
-        score_menu()
-    elif answers["service"] == "User Management":
-        user_menu()
-    elif answers["service"] == "Exit":
-        exit()
-
-
-def main_menu():
-    questions = [
-        inquirer.List(
-            "service",
-            message="Welcome to the QuizSphere. Choose an option:",
+            message="Choose an option",
             choices=[
                 "Take Quiz",
                 "View Scores",
@@ -47,18 +17,19 @@ def main_menu():
         ),
     ]
     answers = inquirer.prompt(questions)
-    if answers["service"] == "Admin":
-        admin_menu()
-    elif answers["service"] == "Quiz Management":
-        quiz_menu()
-    elif answers["service"] == "Score Management":
-        score_menu()
-    elif answers["service"] == "User Management":
-        user_menu()
+    if answers["service"] == "Take Quiz":
+        pass
+    elif answers["service"] == "View Scores":
+        pass
+    elif answers["service"] == "Admin Menu":
+        pass
     elif answers["service"] == "Exit":
+        print("Exiting application...")
         exit()
 
 
 if __name__ == "__main__":
+    user = user_login_menu()
+    print(f"Welcome, {user}!")
     while True:
-        main_menu()
+        main_menu(user)
