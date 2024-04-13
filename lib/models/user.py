@@ -14,7 +14,7 @@ class User:
 
     # Method that returns representation of the object
     def __repr__(self):
-        return f"<User {self.id}: {self.username}" + f"Is_admin: {self.is_admin}>"
+        return f"<User {self.id}: {self.username}, " + f"Is_admin: {self.is_admin}>"
 
     # Property method that returns the username
     @property
@@ -105,7 +105,7 @@ class User:
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return a User object having the attributes value from the table row"""
+        """Return a User instance from a row in the Users table"""
         if row:
             return cls(row[1], row[2], row[0])
         return None
@@ -144,4 +144,4 @@ class User:
         row = CURSOR.fetchone()  # Returns the first row
         return (
             cls.instance_from_db(row) if row else None
-        )  # Create a User instance if row is not None
+        )  # Return a User instance if row is not None

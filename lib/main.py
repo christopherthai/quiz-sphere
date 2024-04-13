@@ -3,7 +3,7 @@ import inquirer
 from cli.user_cli import user_login_menu
 
 
-def main_menu():
+def main_menu(user):
     questions = [
         inquirer.List(
             "service",
@@ -24,10 +24,12 @@ def main_menu():
     elif answers["service"] == "Admin Menu":
         pass
     elif answers["service"] == "Exit":
+        print("Exiting application...")
         exit()
 
 
 if __name__ == "__main__":
     user = user_login_menu()
+    print(f"Welcome, {user}!")
     while True:
-        main_menu()
+        main_menu(user)
