@@ -6,74 +6,67 @@ class Answer:
     # Class attribute that stores all the instances of the Answer
     all = {}
 
-    def __init__(self, title, description, id=None):
+    def __init__(self, content, is_correct, question_id, id=None):
         self.id = id
-        self.title = title
-        self.description = description
-        type(self).all[title] = self
+        self.content = content
+        self.is_correct = is_correct
+        self.question_id = question_id
+        type(self).all.append(self)
 
     # Method that returns representation of the object
     def __repr__(self):
-        return f"<Answer {self.id}: {self.title}" + f"Description: {self.description}>"
+        return f"<Answer {self.id} : {self.content} : {self.is_correct} : {self.question_id}>"
 
-    # Property method that returns the title
+    # Property method that returns the content
     @property
-    def title(self):
-        return self._title
+    def content(self):
+        return self._content
 
-    @title.setter
-    def title(self, value):
+    @content.setter
+    def content(self, value):
         if value in self.all:
-            raise ValueError("Title already exists")
-        self._title = value
+            raise ValueError("Content already exists")
+        self._content = value
 
-    # Property method that returns the description
+    # Property method that returns the is_correct
     @property
-    def description(self):
-        return self._description
+    def is_correct(self):
+        return self._is_correct
 
-    # Property method that sets the description
-    @description.setter
-    def description(self, value):
-        self._description = value
+    # Property method that sets the is_correct
+    @is_correct.setter
+    def is_correct(self, value):
+        if value in self.all:
+            raise ValueError("")
+        self._is_correct = value
+    
+    #Property method that sets the question_id
+    @property
+    def question_id(self):
+        return self._question_id
+    
+    @question_id.setter
+    def question_id(self, value):
+        if value in self.all:
+            raise ValueError("")
 
-    @classmethod
-    def create_table(cls):
-        """Create a new table to persist the attributes of the Answer instance"""
-        sql = """
-        CREATE TABLE IF NOT EXISTS Answers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            description TEXT NOT NULL
-        )
-        """
-
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
-
-    @classmethod
-    def drop_table(cls):
-        """Drop the table that persists the attributes of the Answer instance"""
-        sql = "DROP TABLE IF EXISTS Answers"
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
 
     def save(self):
         """Save the instance of the Answer to the database"""
         sql = """
-        INSERT INTO Answers (title, description) VALUES (?, ?)
+        INSERT INTO Answers (content, is_correct, question_id) VALUES (?, ?, ?)
         """
-        CURSOR.execute(sql, (self.title, self.description))  # Execute the SQL statement
+        CURSOR.execute(sql, (self.content, self.is_correct, self.question_id))  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
         self.id = CURSOR.lastrowid  # Set the id of the instance to the last row id
 
     def update(self):
         """Update the instance of the Answer in the database"""
         sql = """
-        UPDATE Answers SET title = ?, description = ? WHERE id = ?
+        UPDATE Answers SET content = ?, is_correct = ? , question_id = ? WHERE id = ?
         """
         CURSOR.execute(
-            sql, (self.title, self.description, self.id)
+            sql, (self.content, self.is_correct, self.question_id, self.id)
         )  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
 
@@ -90,9 +83,9 @@ class Answer:
         self.id = None
 
     @classmethod
-    def create(cls, title, description):
+    def create(cls, content, is_correct, question_id):
         """Create a new instance of the Answer"""
-        answer = cls(title, description)  # Create a new instance of the Answer
+        answer = cls(content, is_correct, question_id)  # Create a new instance of the Answer
         answer.save()  # Save the instance to the database
         return answer  # Return the instance
 
@@ -102,7 +95,7 @@ class Answer:
         if row is None:
             return None
 
-        return cls(row[1], row[2], id=row[0])
+        return cls(row[1], row[2], row[3], id=row[0])
 
     @classmethod
     def get_all(cls):
@@ -124,18 +117,6 @@ class Answer:
         SELECT * FROM Answers WHERE id = ?
         """
         CURSOR.execute(sql, (id,))
-        row = CURSOR.fetchone()  # Fetch the first row from the result
-        return (
-            cls.instance_from_db_row(row) if row else None
-        )  # Return the Answer instance
-
-    @classmethod
-    def find_by_title(cls, title):
-        """Find a Answer instance by its title"""
-        sql = """
-        SELECT * FROM Answers WHERE title = ?
-        """
-        CURSOR.execute(sql, (title,))  # Execute the SQL statement
         row = CURSOR.fetchone()  # Fetch the first row from the result
         return (
             cls.instance_from_db_row(row) if row else None

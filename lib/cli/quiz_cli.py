@@ -4,6 +4,8 @@ import random
 import inquirer
 import logging
 from sqlalchemy import create_engine
+# 필요한 모듈을 'lib/helpers' 폴더에서 임포트
+from helpers.question_helper import get_all_subjects, get_questions_by_subject
 
 # set logging level
 logging.basicConfig(level=logging.ERROR)
@@ -17,8 +19,7 @@ sys.path.append(base_path)
 db_path = os.path.join(base_path, 'lib', 'data', 'quiz_sphere_1.db')
 engine = create_engine(f'sqlite:///{db_path}')
 
-# 필요한 모듈을 'lib/helpers' 폴더에서 임포트
-from helpers.question_helper import get_all_subjects, get_questions_by_subject
+
 
 def quiz_flow():
     subjects = get_all_subjects()
