@@ -6,74 +6,53 @@ class Question:
     # Class attribute that stores all the instances of the Questions
     all = {}
 
-    def __init__(self, title, description, id=None):
+    def __init__(self, content, quiz_id, id=None):
         self.id = id
-        self.title = title
-        self.description = description
-        type(self).all[title] = self
+        self. content = content
+        self.quiz_id = quiz_id
+        type(self).all.append(self)
 
     # Method that returns representation of the object
     def __repr__(self):
-        return f"<Question {self.id}: {self.title}" + f"Description: {self.description}>"
+        return f"<Question {self.id}:{self.content}:{self.quiz_id}>"
 
     # Property method that returns the title
     @property
-    def title(self):
-        return self._title
+    def content(self):
+        return self._content
 
-    @title.setter
-    def title(self, value):
+    @content.setter
+    def content(self, value):
         if value in self.all:
-            raise ValueError("Title already exists")
-        self._title = value
+            raise ValueError("Content already exists")
+        self._content = value
 
     # Property method that returns the description
     @property
-    def description(self):
-        return self._description
+    def quiz_id(self):
+        return self._quiz_id
 
     # Property method that sets the description
-    @description.setter
-    def description(self, value):
-        self._description = value
-
-    @classmethod
-    def create_table(cls):
-        """Create a new table to persist the attributes of the Question instance"""
-        sql = """
-        CREATE TABLE IF NOT EXISTS Questions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            description TEXT NOT NULL
-        )
-        """
-
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
-
-    @classmethod
-    def drop_table(cls):
-        """Drop the table that persists the attributes of the Question instance"""
-        sql = "DROP TABLE IF EXISTS Questions"
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
+    @quiz_id.setter
+    def quiz_id(self, value):
+        self._quiz_id = value
 
     def save(self):
         """Save the instance of the Question to the database"""
         sql = """
-        INSERT INTO Questions (title, description) VALUES (?, ?)
+        INSERT INTO Questions (content, quiz_id) VALUES (?, ?)
         """
-        CURSOR.execute(sql, (self.title, self.description))  # Execute the SQL statement
+        CURSOR.execute(sql, (self.content, self.quiz_id))  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
         self.id = CURSOR.lastrowid  # Set the id of the instance to the last row id
 
     def update(self):
         """Update the instance of the Question in the database"""
         sql = """
-        UPDATE Questions SET title = ?, description = ? WHERE id = ?
+        UPDATE Questions SET content = ?, quiz_id = ? WHERE id = ?
         """
         CURSOR.execute(
-            sql, (self.title, self.description, self.id)
+            sql, (self.content, self.quiz_id, self.id)
         )  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
 
@@ -90,9 +69,9 @@ class Question:
         self.id = None
 
     @classmethod
-    def create(cls, title, description):
+    def create(cls, content, quiz_id):
         """Create a new instance of the Question"""
-        question = cls(title, description)  # Create a new instance of the Question
+        question = cls(content, quiz_id)  # Create a new instance of the Question
         question.save()  # Save the instance to the database
         return question  # Return the instance
 
@@ -124,18 +103,6 @@ class Question:
         SELECT * FROM Questions WHERE id = ?
         """
         CURSOR.execute(sql, (id,))
-        row = CURSOR.fetchone()  # Fetch the first row from the result
-        return (
-            cls.instance_from_db_row(row) if row else None
-        )  # Return the Question instance
-
-    @classmethod
-    def find_by_title(cls, title):
-        """Find a Question instance by its title"""
-        sql = """
-        SELECT * FROM Questions WHERE title = ?
-        """
-        CURSOR.execute(sql, (title,))  # Execute the SQL statement
         row = CURSOR.fetchone()  # Fetch the first row from the result
         return (
             cls.instance_from_db_row(row) if row else None
