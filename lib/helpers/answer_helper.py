@@ -12,11 +12,11 @@ def list_questions():
         print(answer)
 
 
-def find_answer_by_name():
-    name = input("Enter the answer's name: ")
-    answer = Answer.find_by_name(name)
+def find_answer_by_title():
+    title = input("Enter the answer's title: ")
+    answer = Answer.find_by_title(title)
     print(answer) if answer else print(
-        f'Answer {name} not found')
+        f'Answer {title} not found')
 
 
 def find_answer_by_id():
