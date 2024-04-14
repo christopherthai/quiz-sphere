@@ -11,6 +11,7 @@ from models.score import Score
 
 @staticmethod
 def get_user_scores(user_id):
+    """Get the users scores"""
     user_scores = []
     query = select([Score, Quiz.name, Score.date_taken]).select_from(
         Quiz.join(Score, Score.quiz_id == Quiz.id)
@@ -25,6 +26,7 @@ def get_user_scores(user_id):
 
 @staticmethod
 def get_average_score(quiz_id):
+    """Get average score from all users for given quiz"""
     score_query = select([func.avg(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
     result = CURSOR.execute(score_query).fetchone()
     average_score = result[0] if result[0] is not None else 0
@@ -32,6 +34,7 @@ def get_average_score(quiz_id):
 
 @staticmethod
 def compare_with_average(quiz_id, user_score):
+    """Compares users average with all other users average"""
     average_score = Score.get_average_score(quiz_id)
     if user_score > average_score:
         return f"Your score ({user_score}) is higher than the average score of {average_score}.", average_score, user_score
@@ -42,6 +45,7 @@ def compare_with_average(quiz_id, user_score):
 
 @staticmethod
 def print_quiz_details(quiz_id):
+    """Prints quiz details with incorrect and correct listed next to the question"""
     query = select([Quiz.name, Score.date_taken, Question, Answer]).select_from(
         Quiz.join(Question, Quiz.id == Question.quiz_id).join(Answer, Question.id == Answer.question_id)
     ).where(Quiz.id == quiz_id)
@@ -60,6 +64,7 @@ def print_quiz_details(quiz_id):
 
 @staticmethod
 def get_scores_for_quiz(quiz_id):
+    """Returns the scores for a given quiz"""
     score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
     result = CURSOR.execute(score_query)
     scores = [row[0] for row in result]
@@ -67,6 +72,7 @@ def get_scores_for_quiz(quiz_id):
 
 @staticmethod
 def plot_score_comparison(quiz_id, user_id):
+    """Plots results of users score against other users scores"""
     all_scores = Score.get_scores_for_quiz(quiz_id)
     user_score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id, Answer.user_id == user_id)
     user_score_result = CURSOR.execute(user_score_query).fetchone()
@@ -82,6 +88,7 @@ def plot_score_comparison(quiz_id, user_id):
 
 @staticmethod
 def get_correct_answers_percentage(quiz_id):
+    """Gets the percentage of correct answers for a given question on a quiz"""
     query = select([
         Question.id,
         Question.question_text,
@@ -98,6 +105,7 @@ def get_correct_answers_percentage(quiz_id):
 
 @staticmethod
 def get_percentage_correct_list(quiz_id):
+    """Lists the users taken quiz and add the percentage of correct answers per given question"""
     result = Score.get_correct_answers_percentage(quiz_id)
     percentage_correct_list = []
     for row in result:
