@@ -21,7 +21,7 @@ def user_login():
     user = User.find_by_username(username)
     if user:
         clear_screen()
-        print(f"Welcome, {user.username}!")
+        print(f"Welcome, {user.username}!\n")
     else:
         clear_screen()
         print("User not found.")

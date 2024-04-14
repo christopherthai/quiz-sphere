@@ -17,7 +17,7 @@ def main_menu(user):
                 "Take Quiz",
                 "View Scores",
                 "Admin Menu",
-                "Exit",
+                "Exit Application",
             ],
         ),
     ]
@@ -38,7 +38,7 @@ def main_menu(user):
         else:
             clear_screen()
             print("Only admin users can access the admin menu.")
-    elif answers["service"] == "Exit":
+    elif answers["service"] == "Exit Application":
         print("Exiting application...")
         exit()
 

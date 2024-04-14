@@ -24,8 +24,6 @@ class User:
     # Property method that sets the username
     @username.setter
     def username(self, value):
-        if value in self.all:
-            raise ValueError("Username already exists")
         self._username = value
 
     # Property method that returns the is_admin value
