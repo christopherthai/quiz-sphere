@@ -1,5 +1,11 @@
 import inquirer
-from helpers.user_helper import list_users, delete_user, clear_screen
+from helpers.user_helper import (
+    list_users,
+    delete_user,
+    add_user,
+    edit_user,
+    clear_screen,
+)
 
 
 def admin_menu(user):
@@ -37,18 +43,22 @@ def user_management_menu():
     questions = [
         inquirer.List(
             "action",
-            message="User Management - choose an option:",
+            message="User Management - choose an option",
             choices=["Add User", "Edit User", "Delete User", "Return to Admin Menu"],
         ),
     ]
     answer = inquirer.prompt(questions)
     if answer["action"] == "Add User":
-        pass
+        add_user()
+        user_management_menu()
     elif answer["action"] == "Edit User":
-        pass
+        username = input("Enter the username to edit: ")
+        edit_user(username)
+        user_management_menu()
     elif answer["action"] == "Delete User":
-        user_id = input("Enter the user ID to delete: ")
-        delete_user(user_id)
+        username = input("Enter the username to delete: ")
+        delete_user(username)
+        user_management_menu()
     elif answer["action"] == "Return to Admin Menu":
         clear_screen()
         admin_menu(user)

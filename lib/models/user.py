@@ -90,10 +90,6 @@ class User:
         CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
 
-        del type(self).all[self.id]  # Remove the User instance from the all dictionary
-
-        self.id = None  # Reset the id of the instance to None
-
     @classmethod
     def create(cls, username, is_admin):
         """Create a new instance of the User class"""

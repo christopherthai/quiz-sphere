@@ -48,14 +48,14 @@ def create_username():
 
     # Check if the username already exists
     if User.find_by_username(username):
-        print("Username already exists.")
+        print("Username already exists.\n")
         return create_username()  # Recursively call the function
 
     # Convert the is_admin input to a boolean
     is_admin = 1 if is_admin_input else 0
 
     user = User.create(username, is_admin)
-    print(f"User {user.username} created successfully.")
+    print(f"User {user.username} created successfully.\n")
     return user
 
 
@@ -69,7 +69,7 @@ def add_user():
     """Add a user to the database"""
     questions = [
         inquirer.Text(
-            "username", message="Enter the username:"
+            "username", message="Enter the username"
         ),  # Ask for the username
         inquirer.Confirm(
             "is_admin", message="Is the user an admin?"
@@ -83,6 +83,7 @@ def add_user():
 
     # Check if the username already exists
     if User.find_by_username(username):
+        clear_screen()
         print("Username already exists.")
         return add_user()  # Recursively call the function
 
@@ -90,17 +91,18 @@ def add_user():
     is_admin = 1 if is_admin_input else 0
 
     user = User.create(username, is_admin)
-    print(f"User {user.username} created successfully.")
+    clear_screen()
+    print(f"User {user.username} created successfully.\n")
     return user
 
 
-def edit_user(user_id):
+def edit_user(username):
     """Edit a user in the database"""
-    user = User.find_by_id(user_id)  # Find the user by id
+    user = User.find_by_username(username)  # Find the user by username
     if user:
         questions = [
             inquirer.Text(
-                "username", message="Enter the new username:"
+                "username", message="Enter the new username"
             ),  # Ask for the new username
             inquirer.Confirm(
                 "is_admin", message="Is the user an admin?"
@@ -114,6 +116,7 @@ def edit_user(user_id):
 
         # Check if the new username already exists
         if User.find_by_username(username):
+            clear_screen()
             print("Username already exists.")
             return edit_user(user_id)  # Recursively call the function
 
@@ -123,17 +126,19 @@ def edit_user(user_id):
         user.username = username
         user.is_admin = is_admin
         user.save()  # Save the changes to the database
-        print(f"User {user.username} updated successfully.")
+        clear_screen()
+        print(f"User {user.username} updated successfully.\n")
     else:
         print("User not found.")
 
 
-def delete_user(user_id):
+def delete_user(username):
     """Delete a user from the database"""
-    user = User.find_by_id(user_id)  # Find the user by id
+    user = User.find_by_username(username)  # Find the user by username
     if user:
         user.delete()  # Delete the user from the database
-        print(f"User {user.username} deleted successfully.")
+        clear_screen()
+        print(f"User {user.username} deleted successfully.\n")
     else:
         print("User not found.")
 
