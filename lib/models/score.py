@@ -1,11 +1,11 @@
 from matplotlib import pyplot as plt
 from sqlalchemy import select, func
 
-from __init__ import CURSOR, CONN
-from user import User
-from quiz import Quiz
-from question import Question
-from answer import Answer
+from models.__init__ import CURSOR, CONN
+from models.user import User
+from models.quiz import Quiz
+from models.question import Question
+from models.answer import Answer
 
 class Score:
     all = {}

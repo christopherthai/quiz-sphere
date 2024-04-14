@@ -1,5 +1,5 @@
 from matplotlib import pyplot as plt
-from sqlalchemy import select, func
+from sqlalchemy import select, join, func
 
 from models.__init__ import CURSOR
 from models.user import User
