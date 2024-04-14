@@ -95,7 +95,7 @@ class Answer:
         if row is None:
             return None
 
-        return cls(row[1], row[2], row[3], id=row[0])
+        return cls(row[1], row[2], row[3], row[0])
 
     @classmethod
     def get_all(cls):
