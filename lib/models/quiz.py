@@ -1,4 +1,8 @@
 from models.__init__ import CURSOR, CONN
+from models.score import Score
+from models.quiz import User
+from models.question import Question
+from models.answer import Answer
 
 
 class Quiz:
@@ -36,27 +40,6 @@ class Quiz:
     @description.setter
     def description(self, value):
         self._description = value
-
-    @classmethod
-    def create_table(cls):
-        """Create a new table to persist the attributes of the Quiz instance"""
-        sql = """
-        CREATE TABLE IF NOT EXISTS Quizzes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            description TEXT NOT NULL
-        )
-        """
-
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
-
-    @classmethod
-    def drop_table(cls):
-        """Drop the table that persists the attributes of the Quiz instance"""
-        sql = "DROP TABLE IF EXISTS Quizzes"
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
 
     def save(self):
         """Save the instance of the Quiz to the database"""
@@ -102,7 +85,7 @@ class Quiz:
         if row is None:
             return None
 
-        return cls(row[1], row[2], id=row[0])
+        return cls(row[1], row[2], row[0])
 
     @classmethod
     def get_all(cls):
@@ -140,3 +123,20 @@ class Quiz:
         return (
             cls.instance_from_db_row(row) if row else None
         )  # Return the Quiz instance
+
+    def get_questions(self):
+        """Get all the questions for the quiz"""
+        sql = """
+        SELECT * FROM Questions WHERE quiz_id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        rows = CURSOR.fetchall()
+        return [Question.instance_from_db_row(row) for row in rows]
+
+    def get_questions_and_answers(self):
+        """Get all the questions and answers for the quiz"""
+        questions = self.get_questions()
+        for question in questions:
+            answers = question.get_answers()
+            question.answers = answers
+        return questions

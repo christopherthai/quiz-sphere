@@ -1,4 +1,8 @@
 from models.__init__ import CURSOR, CONN
+from models.score import Score
+from models.quiz import User
+from models.question import Quiz
+from models.answer import Answer
 
 
 class Question:
@@ -8,7 +12,7 @@ class Question:
 
     def __init__(self, content, quiz_id, id=None):
         self.id = id
-        self. content = content
+        self.content = content
         self.quiz_id = quiz_id
         type(self).all.append(self)
 
@@ -107,3 +111,13 @@ class Question:
         return (
             cls.instance_from_db_row(row) if row else None
         )  # Return the Question instance
+
+    def get_answers(self):
+        """Get all the answers for the question"""
+        sql = """
+        SELECT * FROM Answers WHERE question_id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        rows = CURSOR.fetchall()
+
+        return [Answer.instance_from_db_row(row) for row in rows]
