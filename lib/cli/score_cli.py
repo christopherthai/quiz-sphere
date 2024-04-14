@@ -1,5 +1,4 @@
-import inquirer
-from score import Score
+from score import Score 
 
 
 class ScoreCLI:
