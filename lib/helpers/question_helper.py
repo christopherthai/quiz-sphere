@@ -27,10 +27,10 @@ def find_question_by_id():
 
 
 def create_question():
-    name = input("Enter the question's name: ")
+    title = input("Enter the question's title: ")
     location = input("Enter the question's location: ")
     try:
-        question = Question.create(name, location)
+        question = Question.create(title, location)
         print(f'Success: {question}')
     except Exception as exc:
         print("Error creating question: ", exc)
@@ -40,8 +40,8 @@ def update_question():
     id_ = input("Enter the question's id: ")
     if question := Question.find_by_id(id_):
         try:
-            name = input("Enter the question's new name: ")
-            question.name = name
+            title = input("Enter the question's new title: ")
+            question.title = title
             location = input("Enter the question's new location: ")
             question.location = location
 

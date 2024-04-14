@@ -27,10 +27,10 @@ def find_answer_by_id():
 
 
 def create_answer():
-    name = input("Enter the answer's name: ")
+    title = input("Enter the answer's title: ")
     location = input("Enter the answer's location: ")
     try:
-        answer = Answer.create(name, location)
+        answer = Answer.create(title, location)
         print(f'Success: {answer}')
     except Exception as exc:
         print("Error creating answer: ", exc)
@@ -40,8 +40,8 @@ def update_answer():
     id_ = input("Enter the answer's id: ")
     if answer := Answer.find_by_id(id_):
         try:
-            name = input("Enter the answer's new name: ")
-            answer.name = name
+            title = input("Enter the answer's new title: ")
+            answer.title = title
             location = input("Enter the answer's new location: ")
             answer.location = location
 
