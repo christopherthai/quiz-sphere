@@ -4,11 +4,11 @@ from models.__init__ import CURSOR, CONN
 class Question:
 
     # Class attribute that stores all the instances of the Questions
-    all = {}
+    all = []
 
     def __init__(self, content, quiz_id, id=None):
         self.id = id
-        self. content = content
+        self.content = content
         self.quiz_id = quiz_id
         type(self).all.append(self)
 
