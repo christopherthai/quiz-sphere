@@ -9,9 +9,9 @@ from helpers.user_helper import (
 
 
 def admin_menu(user):
+    """Admin menu for the application"""
     from main import main_menu
 
-    """Admin menu for the application"""
     questions = [
         inquirer.List(
             "action",
@@ -21,14 +21,14 @@ def admin_menu(user):
     ]
     answer = inquirer.prompt(questions)
     if answer["action"] == "List Users":
-        clear_screen()
-        user_management_menu()
+        clear_screen()  # Clear the screen
+        user_management_menu()  # Call the user_management_menu function
     elif answer["action"] == "List Quizzes":
-        clear_screen()
+        clear_screen()  # Clear the screen
         print("List Quizzes")
     elif answer["action"] == "Return to Main Menu":
-        clear_screen()
-        main_menu(user)
+        clear_screen()  # Clear the screen
+        main_menu(user)  # Call the main_menu function
 
 
 def user_management_menu():
@@ -37,7 +37,7 @@ def user_management_menu():
     users = list_users()
     print("List of Users:\n")
     for user in users:
-        i = users.index(user) + 1
+        i = users.index(user) + 1  # Get the index of the user
         print(f"{i}. {user.username}\n")
 
     questions = [

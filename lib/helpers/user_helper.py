@@ -114,11 +114,6 @@ def edit_user(username):
         username = answers["username"]  # Get the new username from the answers
         is_admin_input = answers["is_admin"]  # Get the is_admin from the answers
 
-        # # Check if the new username already exists
-        # if User.find_by_username(username):
-        #     print("Username already exists.")
-        #     return edit_user(username)  # Recursively call the function
-
         # Convert the is_admin input to a boolean
         is_admin = 1 if is_admin_input else 0
 
@@ -137,13 +132,13 @@ def delete_user(username):
     user = User.find_by_username(username)  # Find the user by username
     if user:
         user.delete()  # Delete the user from the database
-        clear_screen()
+        clear_screen() # Clear the screen
         print(f"User {user.username} deleted successfully.\n")
     else:
         print("User not found.")
 
 
 def clear_screen():
-    # Use 'cls' for Windows and 'clear' for macOS and Unix/Linux
+    """Use 'cls' for Windows and 'clear' for macOS and Unix/Linux"""
     command = "cls" if os.name == "nt" else "clear"
     os.system(command)

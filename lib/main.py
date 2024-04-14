@@ -9,6 +9,7 @@ from helpers.user_helper import clear_screen
 
 
 def main_menu(user):
+    """Main menu for the application"""
     questions = [
         inquirer.List(
             "service",
@@ -44,7 +45,7 @@ def main_menu(user):
 
 
 if __name__ == "__main__":
-    clear_screen()
+    clear_screen() # Clear the screen
     user = user_login_menu()
     while True:
         main_menu(user)
