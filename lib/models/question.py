@@ -1,7 +1,7 @@
 from models.__init__ import CURSOR, CONN
 from models.score import Score
-from models.quiz import User
-from models.question import Quiz
+from models.user import User
+from models.quiz import Quiz
 from models.answer import Answer
 
 
