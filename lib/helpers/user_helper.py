@@ -13,15 +13,17 @@ def user_login():
     """Login the user to the application"""
     questions = [
         inquirer.Text(
-            "username", message="Enter your username:"
+            "username", message="Enter your username"
         ),  # Ask for the username
     ]
     answers = inquirer.prompt(questions)  # Ask the user for the username
     username = answers["username"]  # Get the username from the answers
     user = User.find_by_username(username)
     if user:
+        clear_screen()
         print(f"Welcome, {user.username}!")
     else:
+        clear_screen()
         print("User not found.")
         user = user_login()  # Recursively call the function
 
@@ -32,7 +34,7 @@ def create_username():
     """Create a new username for the user"""
     questions = [
         inquirer.Text(
-            "username", message="Enter your username:"
+            "username", message="Enter your username"
         ),  # Ask for the username
         inquirer.Confirm(
             "is_admin", message="Are you an admin?"

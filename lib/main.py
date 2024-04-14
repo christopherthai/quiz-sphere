@@ -23,20 +23,28 @@ def main_menu(user):
     ]
     answers = inquirer.prompt(questions)
     if answers["service"] == "Take Quiz":
-        pass
+        clear_screen()
+        if user.is_admin == 1:
+            print("Admin users cannot take the quiz.")
+        else:
+            # Add your code here to implement the logic for taking the quiz
+            print("Take Quiz")
     elif answers["service"] == "View Scores":
         pass
     elif answers["service"] == "Admin Menu":
-        clear_screen()
-        admin_menu(user)
+        if user.is_admin == 1:
+            clear_screen()
+            admin_menu(user)
+        else:
+            clear_screen()
+            print("Only admin users can access the admin menu.")
     elif answers["service"] == "Exit":
         print("Exiting application...")
         exit()
 
 
 if __name__ == "__main__":
+    clear_screen()
     user = user_login_menu()
-    # print(f"Welcome, {user}!")
     while True:
-        clear_screen()
         main_menu(user)
