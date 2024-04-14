@@ -99,7 +99,9 @@ class Score:
     def instance_from_db(cls, row):
         """Return a Score instance from a row in Scores table"""
         if row:
-            return cls(row[1], row[2], row[0])
+            return cls(
+                row[1], row[2], row[3], row[4], id=row[0]
+            )
         return None
 
     @classmethod

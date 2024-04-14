@@ -1,14 +1,17 @@
 from models.__init__ import CURSOR, CONN
+<<<<<<< HEAD
 from models.score import Score
 from models.user import User
 from models.quiz import Quiz
+=======
+>>>>>>> development
 from models.answer import Answer
 
 
 class Question:
 
     # Class attribute that stores all the instances of the Questions
-    all = {}
+    all = []
 
     def __init__(self, content, quiz_id, id=None):
         self.id = id
@@ -121,3 +124,13 @@ class Question:
         rows = CURSOR.fetchall()
 
         return [Answer.instance_from_db_row(row) for row in rows]
+
+    def get_correct_answer(self):
+        """Get the correct answer for the question"""
+        sql = """
+        SELECT * FROM Answers WHERE question_id = ? AND is_correct = 1
+        """
+        CURSOR.execute(sql, (self.id,))
+        row = CURSOR.fetchone()
+
+        return Answer.instance_from_db_row(row) if row else None

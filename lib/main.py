@@ -3,8 +3,10 @@ import os
 
 from cli.admin_cli import admin_menu
 from cli.user_cli import user_login_menu
-from cli.score_cli import display_quiz_options, display_quiz_scores
+
+# from cli.score_cli import display_quiz_options, display_quiz_scores
 from helpers.user_helper import clear_screen
+from models.user import User
 
 # from cli.quiz_cli import quiz_menu
 
@@ -33,8 +35,8 @@ def main_menu(user):
             print("Take Quiz\n")
     elif answers["service"] == "View Scores":
         clear_screen()
-        print({user}, {user.id}, {user.is_admin})
-        display_quiz_scores(user)
+        # print({user}, {user.id}, {user.is_admin})
+        # display_quiz_scores(user)
         # display_quiz_options(user)
     elif answers["service"] == "Admin Menu":
         if user.is_admin == 1:
@@ -49,7 +51,7 @@ def main_menu(user):
 
 
 if __name__ == "__main__":
-    clear_screen() # Clear the screen
+    clear_screen()  # Clear the screen
     user = user_login_menu()
     while True:
         main_menu(user)
