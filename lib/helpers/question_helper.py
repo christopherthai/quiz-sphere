@@ -4,7 +4,7 @@ def exit_program():
     print("Goodbye!")
     exit()
 
-# We'll implement the department functions in this lesson
+# We'll implement the question functions in this lesson
 
 def list_questions():
     questions = Question.get_all()
