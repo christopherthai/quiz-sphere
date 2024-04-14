@@ -8,11 +8,16 @@ from sqlalchemy import create_engine
 # 로깅 레벨 설정
 logging.basicConfig(level=logging.ERROR)
 
-# 데이터베이스 경로 설정
-db_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'quiz_sphere_1.db')
+# 현재 파일의 절대 경로를 기반으로 상대 경로를 구성하여 모듈 경로를 추가
+current_path = os.path.dirname(os.path.abspath(__file__))
+base_path = os.path.abspath(os.path.join(current_path, '..', '..'))
+sys.path.append(base_path)
+
+# 데이터베이스 경로 동적 생성 및 데이터베이스 엔진 설정
+db_path = os.path.join(base_path, 'lib', 'data', 'quiz_sphere_1.db')
 engine = create_engine(f'sqlite:///{db_path}')
 
-# 필요한 모듈을 'lib/helpers' 폴더에서 임포트합니다.
+# 필요한 모듈을 'lib/helpers' 폴더에서 임포트
 from helpers.question_helper import get_all_subjects, get_questions_by_subject
 
 def quiz_flow():
