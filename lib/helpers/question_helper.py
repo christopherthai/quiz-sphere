@@ -1,0 +1,62 @@
+from lib.models.question import Question
+
+def exit_program():
+    print("Goodbye!")
+    exit()
+
+# We'll implement the department functions in this lesson
+
+def list_questions():
+    questions = Question.get_all()
+    for question in questions:
+        print(question)
+
+
+def find_question_by_name():
+    name = input("Enter the question's name: ")
+    question = Question.find_by_name(name)
+    print(question) if question else print(
+        f'Question {name} not found')
+
+
+def find_question_by_id():
+    #use a trailing underscore not to override the built-in id function
+    id_ = input("Enter the question's id: ")
+    question = Question.find_by_id(id_)
+    print(question) if question else print(f'Question {id_} not found')
+
+
+def create_question():
+    name = input("Enter the question's name: ")
+    location = input("Enter the question's location: ")
+    try:
+        question = Question.create(name, location)
+        print(f'Success: {question}')
+    except Exception as exc:
+        print("Error creating question: ", exc)
+
+
+def update_question():
+    id_ = input("Enter the question's id: ")
+    if question := Question.find_by_id(id_):
+        try:
+            name = input("Enter the question's new name: ")
+            question.name = name
+            location = input("Enter the question's new location: ")
+            question.location = location
+
+            question.update()
+            print(f'Success: {question}')
+        except Exception as exc:
+            print("Error updating question: ", exc)
+    else:
+        print(f'Question {id_} not found')
+
+
+def delete_question():
+    id_ = input("Enter the question's id: ")
+    if question := Question.find_by_id(id_):
+        question.delete()
+        print(f'Question {id_} deleted')
+    else:
+        print(f'Question {id_} not found')
