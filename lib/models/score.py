@@ -10,139 +10,155 @@ from answer import Answer
 class Score:
     all = {}
     
-    def __init__(self, score, date_taken, user_id, quiz_id):
+    def __init__(self, score, date_taken, user_id, quiz_id, id = None):
+        self.id = id
         self.score = score
         self.date_taken = date_taken
         self.user_id = user_id
         self.quiz_id = quiz_id
-        
+        type(self).all[score] = self
+    
+    # Method that returns representation of the object
+    def __repr__(self):
+        return f"<Score {self.id}: {self.score} for Quiz: {self.quiz_id}," 
+
+    #property method that returns the score    
     @property
     def score(self):
         return self._score
-
+    
+    #property method that sets the score value
     @score.setter
     def score(self, value):
         self._score = value
 
+    #property method that returns the date taken
     @property
     def date_taken(self):
         return self._date_taken
 
+    #property method that sets the date taken value
     @date_taken.setter
     def date_taken(self, value):
         self._date_taken = value
 
+    #property method that returns the user id
     @property
     def user_id(self):
         return self._user_id
 
+    #property method that sets the user id value
     @user_id.setter
     def user_id(self, value):
         self._user_id = value
 
+    #property method that returns the quiz id
     @property
     def quiz_id(self):
         return self._quiz_id
 
+    #property method that sets the quiz id value
     @quiz_id.setter
     def quiz_id(self, value):
         self._quiz_id = value
 
-    @staticmethod
-    def get_user_scores(user_id):
-        user_scores = []
-        query = select([Score, Quiz.name, Score.date_taken]).select_from(
-            Quiz.join(Score, Score.quiz_id == Quiz.id)
-        ).where(Score.user_id == user_id)
-        result = CURSOR.execute(query)
-        for row in result:
-            score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == row[Score.quiz_id])
-            score_result = CURSOR.execute(score_query).fetchone()
-            score = score_result[0] if score_result[0] is not None else 0
-            user_scores.append((score, row[Quiz.name], row[Score.date_taken], row[Score.quiz_id]))
-        return user_scores
-    
-    @staticmethod
-    def get_average_score(quiz_id):
-        score_query = select([func.avg(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
-        result = CURSOR.execute(score_query).fetchone()
-        average_score = result[0] if result[0] is not None else 0
-        return average_score
-
-    @staticmethod
-    def compare_with_average(quiz_id, user_score):
-        average_score = Score.get_average_score(quiz_id)
-        if user_score > average_score:
-            return f"Your score ({user_score}) is higher than the average score of {average_score}.", average_score, user_score
-        elif user_score < average_score:
-            return f"Your score ({user_score}) is lower than the average score of {average_score}.", average_score, user_score
-        else:
-            return f"Your score ({user_score}) is equal to the average score of {average_score}.", average_score, user_score
-
-    @staticmethod
-    def print_quiz_details(quiz_id):
-        query = select([Quiz.name, Score.date_taken, Question, Answer]).select_from(
-            Quiz.join(Question, Quiz.id == Question.quiz_id).join(Answer, Question.id == Answer.question_id)
-        ).where(Quiz.id == quiz_id)
-        result = CURSOR.execute(query)
-        quiz_info = result.fetchone()
-        print(f"Quiz: {quiz_info[Quiz.name]}")
-        print(f"Date Taken: {quiz_info[Score.date_taken]}\n")
-        for row in result:
-            print(f"Question: {row[Question.question_text]}")
-            print("Options:")
-            for answer_row in result:
-                is_correct = answer_row[Answer.is_correct]
-                option = answer_row[Answer.option_text]
-                print(f"{'[Correct]' if is_correct else '[Incorrect]'} {option}")
-            print()
-
-    @staticmethod
-    def get_scores_for_quiz(quiz_id):
-        score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
-        result = CURSOR.execute(score_query)
-        scores = [row[0] for row in result]
-        return scores
-    
-    @staticmethod
-    def plot_score_comparison(quiz_id, user_id):
-        all_scores = Score.get_scores_for_quiz(quiz_id)
-        user_score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id, Answer.user_id == user_id)
-        user_score_result = CURSOR.execute(user_score_query).fetchone()
-        user_score = user_score_result[0] if user_score_result[0] is not None else 0
-
-        plt.hist(all_scores, bins=10, alpha=0.5, label='All Scores')
-        plt.axvline(user_score, color='red', linestyle='dashed', linewidth=1, label='Your Score')
-        plt.xlabel('Score')
-        plt.ylabel('Frequency')
-        plt.title('Score Comparison')
-        plt.legend()
-        plt.show()
-
-    @staticmethod
-    def get_correct_answers_percentage(quiz_id):
-        query = select([
-            Question.id,
-            Question.question_text,
-            func.avg(Answer.is_correct).label('percentage_correct')
-        ]).select_from(
-            Question.join(Score, Question.id == Score.quiz_id)
-        ).where(
-            Score.quiz_id == quiz_id
-        ).group_by(
-            Question.id
+    @classmethod
+    def create_table(cls):
+        """Create a new table to persist the attributes of the Score instance"""
+        sql = """
+        CREATE TABLE IF NOT EXISTS Users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            quiz_id INTEGER NOT NULL,
+            score INTEGER NOT NULL,
+            date_taken DATE NOT NULL
         )
-        result = CURSOR.execute(query)
-        return result.fetchall()
+        """
 
-    @staticmethod
-    def get_percentage_correct_list(quiz_id):
-        result = Score.get_correct_answers_percentage(quiz_id)
-        percentage_correct_list = []
-        for row in result:
-            percentage_correct_list.append({
-                'question_number': row[Question.id],
-                'question_text': row[Question.question_text],
-                'percentage_correct': row['percentage_correct']
-            })
-        return percentage_correct_list
+        CURSOR.execute(sql)  # Execute the SQL statement
+        CONN.commit()  # Commit the changes to the database
+
+    @classmethod
+    def drop_table(cls):
+        """Drop the table that persists the attributes of the Score instance"""
+        sql = "DROP TABLE IF EXISTS Scores"
+        CURSOR.execute(sql)  # Execute the SQL statement
+        CONN.commit()  # Commit the changes to the database
+        
+    def save(self):
+        """Insert a new record into the Scores table with the attributes of the Score instance"""
+        sql = """
+        INSERT INTO Scores (id, score, date_taken, quiz_id, user_id) VALUES (?, ?, ?, ?, ?)
+        """
+        CURSOR.execute(sql, (self.id, self.score. self.date_taken, self.quiz_id, self.user_id))  # Execute the SQL statement
+        CONN.commit()
+
+        self.id = CURSOR.lastrowid  # Get the id of the last inserted row
+        type(self).all[
+            self.score
+        ] = self  # Add the User instance to the all dictionary
+
+    def update(self):
+        """Update the record in the Scores table with the attributes of the Score instance"""
+        sql = """
+        UPDATE Scores SET user_id = ?, quiz_id = ?, date_taken = ?, score = ? WHERE id = ?
+        """
+        CURSOR.execute(
+            sql, (self.score, self.date_taken, self.quiz_id, self.user_id, self.id)
+        )  # Execute the SQL statement
+        CONN.commit()  # Commit the changes to the database
+
+    def delete(self):
+        """Delete the record in the Scores table with the attributes of the Score instance"""
+        sql = """
+        DELETE FROM Scores WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
+        CONN.commit()  # Commit the changes to the database
+
+    @classmethod
+    def create(cls, score, date_taken, quiz_id, User_id, id):
+        """Create a new instance of the Score class"""
+        score = cls(score, date_taken, quiz_id, User_id, id)  # Create a new Score instance
+        score.save()  # Save the User instance to the database
+        return score  # Return the User instance
+
+    @classmethod
+    def instance_from_db(cls, row):
+        """Return a Score instance from a row in Scores table"""
+        if row:
+            return cls(row[1], row[2], row[0])
+        return None
+
+        
+        
+    
+    
+    @classmethod
+    def get_all(cls):
+        """Return all records from the Scores table"""
+        sql = """
+        SELECT * FROM Scores
+        """
+        CURSOR.execute(sql)  # Execute the SQL statement
+        rows = CURSOR.fetchall()  # Returns all rows
+        return [
+            cls.instance_from_db(row) for row in rows
+        ]  # Create a User instance for each row
+        
+    @classmethod
+    def find_by_score_id(cls, id):
+        """Return the record from the Scores table with the given id"""
+        sql = """
+        SELECT * FROM Users WHERE username = ?
+        """
+        CURSOR.execute(sql, (id,))  # Execute the SQL statement
+        row = CURSOR.fetchone()  # Returns the first row
+        return (
+            cls.instance_from_db(row) if row else None
+        )  # Return a User instance if row is not None
+        
+   
+
+        
+        
