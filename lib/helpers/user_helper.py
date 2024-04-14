@@ -1,4 +1,5 @@
 import inquirer
+import os
 from models.user import User
 from models.quiz import Quiz
 
@@ -133,3 +134,9 @@ def delete_user(user_id):
         print(f"User {user.username} deleted successfully.")
     else:
         print("User not found.")
+
+
+def clear_screen():
+    # Use 'cls' for Windows and 'clear' for macOS and Unix/Linux
+    command = "cls" if os.name == "nt" else "clear"
+    os.system(command)

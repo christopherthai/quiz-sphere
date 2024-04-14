@@ -1,5 +1,5 @@
 import inquirer
-from helpers.user_helper import list_users, delete_user
+from helpers.user_helper import list_users, delete_user, clear_screen
 
 
 def admin_menu(user):
@@ -19,6 +19,7 @@ def admin_menu(user):
     elif answer["action"] == "List Quizzes":
         pass
     elif answer["action"] == "Return to Main Menu":
+        clear_screen()
         main_menu(user)
 
 
@@ -45,4 +46,5 @@ def user_management_menu():
         user_id = input("Enter the user ID to delete: ")
         delete_user(user_id)
     elif answer["action"] == "Exit":
+        clear_screen()
         admin_menu()

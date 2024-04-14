@@ -1,5 +1,5 @@
 import inquirer
-from helpers.user_helper import user_login, create_username
+from helpers.user_helper import user_login, create_username, clear_screen
 
 
 # Function that displays the user login menu
