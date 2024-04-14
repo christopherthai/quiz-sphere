@@ -1,4 +1,8 @@
 from models.__init__ import CURSOR, CONN
+from models.score import Score
+from models.quiz import Quiz
+from models.question import Question
+from models.answer import Answer
 
 
 class User:
@@ -37,27 +41,6 @@ class User:
         if value not in (0, 1):
             raise ValueError("Invalid value for is_admin")
         self._is_admin = value
-
-    @classmethod
-    def create_table(cls):
-        """Create a new table to persist the attributes of the User instance"""
-        sql = """
-        CREATE TABLE IF NOT EXISTS Users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL,
-            is_admin INTEGER NOT NULL
-        )
-        """
-
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
-
-    @classmethod
-    def drop_table(cls):
-        """Drop the table that persists the attributes of the User instance"""
-        sql = "DROP TABLE IF EXISTS Users"
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
 
     def save(self):
         """Insert a new record into the Users table with the attributes of the User instance"""
@@ -139,3 +122,39 @@ class User:
         return (
             cls.instance_from_db(row) if row else None
         )  # Return a User instance if row is not None
+
+    def get_all_scores(self):
+        """Return all the scores of the user"""
+        sql = """
+        SELECT * FROM Scores WHERE user_id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        rows = CURSOR.fetchall()
+        return [Score.instance_from_db(row) for row in rows]
+
+    def get_quiz_score(self, quiz):
+        """Return the score of the user in a particular quiz"""
+        sql = """
+        SELECT * FROM Scores WHERE user_id = ? AND quiz_id = ?
+        """
+        CURSOR.execute(sql, (self.id, quiz.id))
+        row = CURSOR.fetchone()
+        return Score.instance_from_db(row)
+
+    def get_all_quizzes(self):
+        """Return all the quizzes of the user"""
+        sql = """
+        SELECT * FROM Scores WHERE user_id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        rows = CURSOR.fetchall()
+        return [Quiz.find_by_id(row[2]) for row in rows]
+
+    def get_all_quizzes_and_scores(self):
+        """Return all the quizzes and scores of the user"""
+        sql = """
+        SELECT * FROM Scores WHERE user_id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        rows = CURSOR.fetchall()
+        return [(Quiz.find_by_id(row[2]), Score.instance_from_db(row)) for row in rows]

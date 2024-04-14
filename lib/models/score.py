@@ -2,6 +2,7 @@ from matplotlib import pyplot as plt
 from sqlalchemy import select, func
 
 from models.__init__ import CURSOR, CONN
+
 # from user import User
 # from quiz import Quiz
 # from question import Question
@@ -63,29 +64,6 @@ class Score:
     def quiz_id(self, value):
         self._quiz_id = value
 
-    @classmethod
-    def create_table(cls):
-        """Create a new table to persist the attributes of the Score instance"""
-        sql = """
-        CREATE TABLE IF NOT EXISTS Users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            quiz_id INTEGER NOT NULL,
-            score INTEGER NOT NULL,
-            date_taken DATE NOT NULL
-        )
-        """
-
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
-
-    @classmethod
-    def drop_table(cls):
-        """Drop the table that persists the attributes of the Score instance"""
-        sql = "DROP TABLE IF EXISTS Scores"
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
-
     def save(self):
         """Insert a new record into the Scores table with the attributes of the Score instance"""
         sql = """
@@ -130,7 +108,7 @@ class Score:
     def instance_from_db(cls, row):
         """Return a Score instance from a row in Scores table"""
         if row:
-            return cls(row[1], row[2], row[0])
+            return cls(row[1], row[2], row[3], row[4], id=row[0])
         return None
 
     @classmethod
@@ -146,16 +124,11 @@ class Score:
         ]  # Create a User instance for each row
 
     @classmethod
-    def find_by_score_id(cls, id):
+    def find_by_id(cls, id):
         """Return the record from the Scores table with the given id"""
         sql = """
-        SELECT * FROM Users WHERE username = ?
+        SELECT * FROM Scores WHERE id = ?
         """
-        CURSOR.execute(sql, (id,))  # Execute the SQL statement
-        row = CURSOR.fetchone()  # Returns the first row
-        return (
-            cls.instance_from_db(row) if row else None
-        )  # Return a User instance if row is not None
-        
-        
-    
+        CURSOR.execute(sql, (id,))
+        row = CURSOR.fetchone()
+        return cls.instance_from_db(row)
