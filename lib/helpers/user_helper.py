@@ -24,7 +24,7 @@ def user_login():
         print(f"Welcome, {user.username}!\n")
     else:
         clear_screen()
-        print("User not found.")
+        print("User not found.\n")
         user = user_login()  # Recursively call the function
 
     return user
@@ -114,22 +114,22 @@ def edit_user(username):
         username = answers["username"]  # Get the new username from the answers
         is_admin_input = answers["is_admin"]  # Get the is_admin from the answers
 
-        # Check if the new username already exists
-        if User.find_by_username(username):
-            clear_screen()
-            print("Username already exists.")
-            return edit_user(user_id)  # Recursively call the function
+        # # Check if the new username already exists
+        # if User.find_by_username(username):
+        #     print("Username already exists.")
+        #     return edit_user(username)  # Recursively call the function
 
         # Convert the is_admin input to a boolean
         is_admin = 1 if is_admin_input else 0
 
         user.username = username
         user.is_admin = is_admin
-        user.save()  # Save the changes to the database
+        user.update()  # Save the changes to the database
         clear_screen()
         print(f"User {user.username} updated successfully.\n")
     else:
-        print("User not found.")
+        clear_screen()
+        print("Username not found.\n")
 
 
 def delete_user(username):
