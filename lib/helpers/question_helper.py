@@ -11,26 +11,17 @@ def list_questions():
     for question in questions:
         print(question)
 
-
-def find_question_by_title():
-    title = input("Enter the question's title: ")
-    question = Question.find_by_title(title)
-    print(question) if question else print(
-        f'Question {title} not found')
-
-
 def find_question_by_id():
     #use a trailing underscore not to override the built-in id function
     id_ = input("Enter the question's id: ")
     question = Question.find_by_id(id_)
     print(question) if question else print(f'Question {id_} not found')
 
-
 def create_question():
-    title = input("Enter the question's title: ")
-    location = input("Enter the question's location: ")
+    content = input("Enter the question's content: ")
+    quiz_id = input("Enter the question's quiz_id: ")
     try:
-        question = Question.create(title, location)
+        question = Question.create(content, quiz_id)
         print(f'Success: {question}')
     except Exception as exc:
         print("Error creating question: ", exc)
@@ -40,10 +31,10 @@ def update_question():
     id_ = input("Enter the question's id: ")
     if question := Question.find_by_id(id_):
         try:
-            title = input("Enter the question's new title: ")
-            question.title = title
-            location = input("Enter the question's new location: ")
-            question.location = location
+            content = input("Enter the question's new content: ")
+            question.content = content
+            quiz_id = input("Enter the question's quiz_id: ")
+            question.quiz_id = quiz_id
 
             question.update()
             print(f'Success: {question}')
