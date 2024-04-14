@@ -1,4 +1,6 @@
 from models.__init__ import CURSOR, CONN
+from models.score import Score
+from models.question import Question
 
 
 class Quiz:
@@ -36,27 +38,6 @@ class Quiz:
     @description.setter
     def description(self, value):
         self._description = value
-
-    @classmethod
-    def create_table(cls):
-        """Create a new table to persist the attributes of the Quiz instance"""
-        sql = """
-        CREATE TABLE IF NOT EXISTS Quizzes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            description TEXT NOT NULL
-        )
-        """
-
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
-
-    @classmethod
-    def drop_table(cls):
-        """Drop the table that persists the attributes of the Quiz instance"""
-        sql = "DROP TABLE IF EXISTS Quizzes"
-        CURSOR.execute(sql)  # Execute the SQL statement
-        CONN.commit()  # Commit the changes to the database
 
     def save(self):
         """Save the instance of the Quiz to the database"""
@@ -102,7 +83,7 @@ class Quiz:
         if row is None:
             return None
 
-        return cls(row[1], row[2], id=row[0])
+        return cls(row[1], row[2], row[0])
 
     @classmethod
     def get_all(cls):
@@ -140,3 +121,51 @@ class Quiz:
         return (
             cls.instance_from_db_row(row) if row else None
         )  # Return the Quiz instance
+
+    def get_questions(self):
+        """Get all the questions for the quiz"""
+        sql = """
+        SELECT * FROM Questions WHERE quiz_id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        rows = CURSOR.fetchall()
+        return [Question.instance_from_db_row(row) for row in rows]
+
+    def get_questions_and_answers(self):
+        """Get all the questions and answers for the quiz"""
+        questions = self.get_questions()
+        for question in questions:
+            answers = question.get_answers()
+            question.answers = answers
+        return questions
+
+    def get_scores(self):
+        """Get all the scores for the quiz"""
+        sql = """
+        SELECT * FROM Scores WHERE quiz_id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        rows = CURSOR.fetchall()
+        return [Score.instance_from_db(row) for row in rows]
+
+    def get_average_score(self):
+        """Get the average score for the quiz"""
+        scores = self.get_scores()
+        total = 0
+        for score in scores:
+            total += score.score
+        return total / len(scores) if scores else 0
+
+    def print_quiz_details(self):
+        """Print the details of the quiz"""
+        print(f"Title: {self.title}")
+        print(f"Description: {self.description}")
+        print(f"Average Score: {self.get_average_score()}")
+        print("Questions:")
+        questions = self.get_questions_and_answers()
+        for question in questions:
+            print(f"Question: {question.content}")
+            print("Answers:")
+            for answer in question.answers:
+                print(f"Answer: {answer.content} - Correct: {answer.is_correct}")
+            print()
