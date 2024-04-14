@@ -2,6 +2,7 @@ import inquirer
 
 from cli.admin_cli import admin_menu
 from cli.user_cli import user_login_menu
+# from cli.quiz_cli import quiz_menu
 
 
 def main_menu(user):

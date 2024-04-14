@@ -1,5 +1,5 @@
 import inquirer
-from helpers.admin_helper import list_users, delete_user
+from helpers.user_helper import list_users, delete_user
 
 
 def admin_menu(user):
