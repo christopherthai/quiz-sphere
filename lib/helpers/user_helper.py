@@ -1,7 +1,6 @@
 import inquirer
 import os
 from models.user import User
-from models.quiz import Quiz
 
 
 # from models.score import Score
@@ -62,15 +61,17 @@ def create_username():
 def list_users():
     """List all users in the database"""
     users = User.get_all()  # Get all users from the database
+    print("List of Users:\n")
+    for user in users:
+        i = users.index(user) + 1  # Get the index of the user
+        print(f"{i}. {user.username}\n")  # Print the user's username
     return users
 
 
 def add_user():
     """Add a user to the database"""
     questions = [
-        inquirer.Text(
-            "username", message="Enter the username"
-        ),  # Ask for the username
+        inquirer.Text("username", message="Enter the username"),  # Ask for the username
         inquirer.Confirm(
             "is_admin", message="Is the user an admin?"
         ),  # Ask if the user is an admin
@@ -84,6 +85,7 @@ def add_user():
     # Check if the username already exists
     if User.find_by_username(username):
         clear_screen()
+        list_users()  # List all users in the database
         print("Username already exists.")
         return add_user()  # Recursively call the function
 
@@ -92,6 +94,7 @@ def add_user():
 
     user = User.create(username, is_admin)
     clear_screen()
+    list_users()  # List all users in the database
     print(f"User {user.username} created successfully.\n")
     return user
 
@@ -121,9 +124,11 @@ def edit_user(username):
         user.is_admin = is_admin
         user.update()  # Save the changes to the database
         clear_screen()
+        list_users()  # List all users in the database
         print(f"User {user.username} updated successfully.\n")
     else:
         clear_screen()
+        list_users()  # List all users in the database
         print("Username not found.\n")
 
 
@@ -132,9 +137,11 @@ def delete_user(username):
     user = User.find_by_username(username)  # Find the user by username
     if user:
         user.delete()  # Delete the user from the database
-        clear_screen() # Clear the screen
+        clear_screen()  # Clear the screen
+        list_users()  # List all users in the database
         print(f"User {user.username} deleted successfully.\n")
     else:
+        list_users()  # List all users in the database
         print("User not found.")
 
 

@@ -26,10 +26,10 @@ def main_menu(user):
     if answers["service"] == "Take Quiz":
         clear_screen()
         if user.is_admin == 1:
-            print("Admin users cannot take the quiz.")
+            print("Admin users cannot take the quiz.\n")
         else:
             # Add your code here to implement the logic for taking the quiz
-            print("Take Quiz")
+            print("Take Quiz\n")
     elif answers["service"] == "View Scores":
         pass
     elif answers["service"] == "Admin Menu":
