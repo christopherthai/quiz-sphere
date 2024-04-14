@@ -5,7 +5,7 @@ import inquirer
 import logging
 from sqlalchemy import create_engine
 
-# 로깅 레벨 설정
+# set logging level
 logging.basicConfig(level=logging.ERROR)
 
 # 현재 파일의 절대 경로를 기반으로 상대 경로를 구성하여 모듈 경로를 추가

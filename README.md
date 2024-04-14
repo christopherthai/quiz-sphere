@@ -28,7 +28,7 @@ QuizSphere is a quiz application where users can choose a wide variety of quizze
   - Create quiz
   - Create questions to quiz
   - Create list of answers to the questions
-  - Create score have quiz is finished
+  - Create score once quiz is finished
 
 - Read
 

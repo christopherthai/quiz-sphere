@@ -24,8 +24,6 @@ class User:
     # Property method that sets the username
     @username.setter
     def username(self, value):
-        if value in self.all:
-            raise ValueError("Username already exists")
         self._username = value
 
     # Property method that returns the is_admin value
@@ -91,10 +89,6 @@ class User:
         """
         CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
-
-        del type(self).all[self.id]  # Remove the User instance from the all dictionary
-
-        self.id = None  # Reset the id of the instance to None
 
     @classmethod
     def create(cls, username, is_admin):

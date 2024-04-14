@@ -1,48 +1,59 @@
 import inquirer
-from helpers.admin_helper import list_users, delete_user
+from helpers.user_helper import (
+    list_users,
+    delete_user,
+    add_user,
+    edit_user,
+    clear_screen,
+)
 
 
 def admin_menu(user):
+    """Admin menu for the application"""
     from main import main_menu
 
-    """Admin menu for the application"""
     questions = [
         inquirer.List(
             "action",
-            message="Admin Menu - choose an option:",
+            message="Admin Menu - choose an option",
             choices=["List Users", "List Quizzes", "Return to Main Menu"],
         ),
     ]
     answer = inquirer.prompt(questions)
     if answer["action"] == "List Users":
-        user_management_menu()
+        clear_screen()  # Clear the screen
+        list_users()  # Call the list_users function
+        users_management_menu(user)  # Call the users_management_menu function
     elif answer["action"] == "List Quizzes":
-        pass
+        clear_screen()  # Clear the screen
+        print("List Quizzes")
     elif answer["action"] == "Return to Main Menu":
-        main_menu(user)
+        clear_screen()  # Clear the screen
+        main_menu(user)  # Call the main_menu function
 
 
-def user_management_menu():
+def users_management_menu(user):
     """Manage users in the application"""
-
-    users = list_users()
-    for user in users:
-        print(f"Username: {user.username}")
 
     questions = [
         inquirer.List(
             "action",
-            message="User Management - choose an option:",
-            choices=["Add User", "Edit User", "Delete User", "Exit"],
+            message="User Management - choose an option",
+            choices=["Add User", "Edit User", "Delete User", "Return to Admin Menu"],
         ),
     ]
     answer = inquirer.prompt(questions)
     if answer["action"] == "Add User":
-        pass
+        add_user()
+        users_management_menu(user)  # Call the users_management_menu function
     elif answer["action"] == "Edit User":
-        pass
+        username = input("Enter the username to edit: ")
+        edit_user(username)
+        users_management_menu(user)
     elif answer["action"] == "Delete User":
-        user_id = input("Enter the user ID to delete: ")
-        delete_user(user_id)
-    elif answer["action"] == "Exit":
-        admin_menu()
+        username = input("Enter the username to delete: ")
+        delete_user(username)
+        users_management_menu(user)
+    elif answer["action"] == "Return to Admin Menu":
+        clear_screen()
+        admin_menu(user)
