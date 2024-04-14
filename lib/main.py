@@ -33,14 +33,9 @@ def main_menu(user):
             print("Take Quiz\n")
     elif answers["service"] == "View Scores":
         clear_screen()
-<<<<<<< HEAD
-        display_quiz_scores(user)
-        display_quiz_options(user)
-=======
         print({user}, {user.id}, {user.is_admin})
         display_quiz_scores(user)
         # display_quiz_options(user)
->>>>>>> 8b49486d836808f377b6c5340a4224287b770f67
     elif answers["service"] == "Admin Menu":
         if user.is_admin == 1:
             clear_screen()

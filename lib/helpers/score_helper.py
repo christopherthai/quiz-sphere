@@ -1,5 +1,5 @@
 from matplotlib import pyplot as plt
-from sqlalchemy import select, join, func
+from sqlalchemy import select, func
 
 from models.__init__ import CURSOR
 from models.user import User
@@ -13,7 +13,7 @@ def get_user_scores(user_id):
     """Get the users scores"""
     user_scores = []
     query = (
-        select([Score, Quiz.name, Score.date_taken])
+        select([Score, Quiz.title, Score.date_taken])
         .select_from(Quiz.join(Score, Score.quiz_id == Quiz.id))
         .where(Score.user_id == user_id)
     )
@@ -25,7 +25,7 @@ def get_user_scores(user_id):
         score_result = CURSOR.execute(score_query).fetchone()
         score = score_result[0] if score_result[0] is not None else 0
         user_scores.append(
-            (score, row[Quiz.name], row[Score.date_taken], row[Score.quiz_id])
+            (score, row[Quiz.title], row[Score.date_taken], row[Score.quiz_id])
         )
     return user_scores
 
@@ -64,7 +64,7 @@ def compare_with_average(quiz_id, user_score):
 def print_quiz_details(quiz_id):
     """Prints quiz details with incorrect and correct listed next to the question"""
     query = (
-        select([Quiz.name, Score.date_taken, Question, Answer])
+        select([Quiz.title, Score.date_taken, Question, Answer])
         .select_from(
             Quiz.join(Question, Quiz.id == Question.quiz_id).join(
                 Answer, Question.id == Answer.question_id
@@ -78,12 +78,12 @@ def print_quiz_details(quiz_id):
     print(f"Date Taken: {quiz_info[Score.date_taken]}\n")
     for row in result:
         print(f"Question: {row[Question.question_text]}")
-        print("Options:")
         for answer_row in result:
             is_correct = answer_row[Answer.is_correct]
             option = answer_row[Answer.option_text]
             print(f"{'[Correct]' if is_correct else '[Incorrect]'} {option}")
-        print()
+            
+    print()
 
 
 def get_scores_for_quiz(quiz_id):

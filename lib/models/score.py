@@ -1,19 +1,9 @@
-from matplotlib import pyplot as plt
-from sqlalchemy import select, func
-
 from models.__init__ import CURSOR, CONN
-<<<<<<< HEAD
-from models.user import User
-from models.quiz import Quiz
-from models.question import Question
-from models.answer import Answer
-=======
 # from user import User
 # from quiz import Quiz
 # from question import Question
 # from answer import Answer
 
->>>>>>> 8b49486d836808f377b6c5340a4224287b770f67
 
 class Score:
     all = {}
@@ -137,7 +127,7 @@ class Score:
     def instance_from_db(cls, row):
         """Return a Score instance from a row in Scores table"""
         if row:
-            return cls(row[1], row[2], row[0])
+            return cls(row[1], row[2], row[3], row[4], row[0])
         return None
 
     @classmethod

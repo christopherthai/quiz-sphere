@@ -1,5 +1,5 @@
-from helpers.score_helper import get_user_scores, get_average_score, compare_with_average, print_quiz_details
-
+from helpers.score_helper import get_user_scores, plot_score_comparison, get_average_score, compare_with_average, print_quiz_details
+import inquirer
 
 def display_quiz_scores(user):
     user_scores = get_user_scores(user.id)
@@ -14,8 +14,8 @@ def display_quiz_scores(user):
     choice = input("Enter your choice: ")
 
     if choice == "0":
-        print("Exiting...")
-        return
+        print("Exiting application...")
+        exit()
     try:
         choice = int(choice)
         if 1 <= choice <= len(user_scores):
@@ -28,24 +28,27 @@ def display_quiz_scores(user):
 
 
 def display_quiz_options(quiz_id):
-    print("\nOptions for the selected quiz:")
-    print("1. Plot score comparison graph for this quiz")
-    print("2. View quiz details")
-    print("3. View questions with correct/incorrect answers")
-    print("4. View percentage of correct answers for this quiz")
-    print("5. Back to main menu")
-    choice = input("Enter your choice: ")
+    questions = [
+        inquirer.List(
+            "action",
+            message="Options for the selected quiz:",
+            choices=["Plot score comparison graph", 
+                    "View quiz details", 
+                    "View percentage of correct answers",
+                    "Exit"
+                    ],
+        )
+    ]
+    answer = inquirer.prompt(questions)
 
-    if choice == "1":
-        plot_score_comparison(quiz_id, user.id)
+    if answer["action"] == "Plot score comparison graph":
+        plot_score_comparison(quiz_id)
         # Score.compare_with_average(quiz_id, self.user_score)
-    elif choice == "2":
+    elif answer["action"] == "View quiz details":
         print_quiz_details(quiz_id)
-    elif choice == "3":
-        view_questions_with_answers(quiz_id)
-    elif choice == "4":
+    elif answer["action"] == "View percentage of correct answers":
         view_percentage_correct(quiz_id)
-    elif choice == "5":
-        display_quiz_scores()
-    else:
-        print("Invalid choice. Please enter a valid option.")
+    elif answer["action"] == "Exit":
+        print("Exiting application...")
+        exit()
+    
