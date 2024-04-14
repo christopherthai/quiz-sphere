@@ -5,17 +5,15 @@ import inquirer
 import logging
 from sqlalchemy import create_engine
 
-# 로깅 레벨을 설정합니다.
+# 로깅 레벨 설정
 logging.basicConfig(level=logging.ERROR)
 
-# 데이터베이스 엔진을 생성합니다.
-engine = create_engine('sqlite:///quiz.db')
+# 데이터베이스 경로 설정
+db_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'quiz_sphere_1.db')
+engine = create_engine(f'sqlite:///{db_path}')
 
-# 현재 파일의 위치를 기준으로 상위 디렉토리 경로를 구합니다.
-base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.append(base_path)
-
-from lib.controllers.quiz_helper import get_all_subjects, get_questions_by_subject
+# 필요한 모듈을 'lib/helpers' 폴더에서 임포트합니다.
+from helpers.question_helper import get_all_subjects, get_questions_by_subject
 
 def quiz_flow():
     subjects = get_all_subjects()
@@ -58,30 +56,3 @@ def main_menu():
 
 if __name__ == '__main__':
     main_menu()
-
-
-
-
-
-
-# import inquirer
-# from quiz_controller import create_quiz, delete_quiz
-
-
-# def quiz_menu():
-#     questions = [
-#         inquirer.List(
-#             "action",
-#             message="Quiz management - select an option:",
-#             choices=["Create Quiz", "Delete Quiz", "Exit"],
-#         ),
-#     ]
-#     answer = inquirer.prompt(questions)
-#     if answer["action"] == "Create Quiz":
-#         title = input("Enter the title of the quiz: ")
-#         create_quiz(title)
-#     elif answer["action"] == "Delete Quiz":
-#         quiz_id = input("Enter the quiz ID to delete: ")
-#         delete_quiz(quiz_id)
-#     elif answer["action"] == "Exit":
-#         return
