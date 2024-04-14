@@ -22,7 +22,7 @@ def admin_menu(user):
     answer = inquirer.prompt(questions)
     if answer["action"] == "List Users":
         clear_screen()  # Clear the screen
-        user_management_menu()  # Call the user_management_menu function
+        users_management_menu()  # Call the users_management_menu function
     elif answer["action"] == "List Quizzes":
         clear_screen()  # Clear the screen
         print("List Quizzes")
@@ -31,7 +31,7 @@ def admin_menu(user):
         main_menu(user)  # Call the main_menu function
 
 
-def user_management_menu():
+def users_management_menu():
     """Manage users in the application"""
 
     users = list_users()
@@ -50,15 +50,15 @@ def user_management_menu():
     answer = inquirer.prompt(questions)
     if answer["action"] == "Add User":
         add_user()
-        user_management_menu()
+        users_management_menu()
     elif answer["action"] == "Edit User":
         username = input("Enter the username to edit: ")
         edit_user(username)
-        user_management_menu()
+        users_management_menu()
     elif answer["action"] == "Delete User":
         username = input("Enter the username to delete: ")
         delete_user(username)
-        user_management_menu()
+        users_management_menu()
     elif answer["action"] == "Return to Admin Menu":
         clear_screen()
         admin_menu(user)
