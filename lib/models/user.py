@@ -158,3 +158,18 @@ class User:
         CURSOR.execute(sql, (self.id,))
         rows = CURSOR.fetchall()
         return [(Quiz.find_by_id(row[2]), Score.instance_from_db(row)) for row in rows]
+
+    def print_quiz_details(self):
+        """Print the details of the quizzes and scores of the user"""
+        quizzes_and_scores = self.get_all_quizzes_and_scores()
+        for quiz, score in quizzes_and_scores:
+            print(f"Quiz: {quiz.title}")
+            print(f"Score: {score.score}")
+            print(f"Date taken: {score.date_taken}")
+            print(f"Average score: {quiz.get_average_score()}")
+            questions = quiz.get_questions_and_answers()
+            for question in questions:
+                print(f"Question: {question.content}")
+                for answer in question.answers:
+                    print(f"Answer: {answer.content}")
+            print("\n")

@@ -1,8 +1,6 @@
 from models.__init__ import CURSOR, CONN
 from models.score import Score
-from models.quiz import User
 from models.question import Question
-from models.answer import Answer
 
 
 class Quiz:
@@ -140,3 +138,34 @@ class Quiz:
             answers = question.get_answers()
             question.answers = answers
         return questions
+
+    def get_scores(self):
+        """Get all the scores for the quiz"""
+        sql = """
+        SELECT * FROM Scores WHERE quiz_id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        rows = CURSOR.fetchall()
+        return [Score.instance_from_db(row) for row in rows]
+
+    def get_average_score(self):
+        """Get the average score for the quiz"""
+        scores = self.get_scores()
+        total = 0
+        for score in scores:
+            total += score.score
+        return total / len(scores) if scores else 0
+
+    def print_quiz_details(self):
+        """Print the details of the quiz"""
+        print(f"Title: {self.title}")
+        print(f"Description: {self.description}")
+        print(f"Average Score: {self.get_average_score()}")
+        print("Questions:")
+        questions = self.get_questions_and_answers()
+        for question in questions:
+            print(f"Question: {question.content}")
+            print("Answers:")
+            for answer in question.answers:
+                print(f"Answer: {answer.content} - Correct: {answer.is_correct}")
+            print()

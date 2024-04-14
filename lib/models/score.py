@@ -3,11 +3,6 @@ from sqlalchemy import select, func
 
 from models.__init__ import CURSOR, CONN
 
-# from user import User
-# from quiz import Quiz
-# from question import Question
-# from answer import Answer
-
 
 class Score:
     all = {}
