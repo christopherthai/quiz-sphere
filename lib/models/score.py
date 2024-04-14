@@ -1,9 +1,9 @@
-from matplotlib import pyplot as plt
-from sqlalchemy import select, func
-
 from models.__init__ import CURSOR, CONN
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e9f875590c11de2db6063ef0b268b916bbd91854
 class Score:
     all = {}
 
@@ -91,10 +91,10 @@ class Score:
         CONN.commit()  # Commit the changes to the database
 
     @classmethod
-    def create(cls, score, date_taken, quiz_id, User_id, id):
+    def create(cls, score, date_taken, quiz_id, user_id, id):
         """Create a new instance of the Score class"""
         score = cls(
-            score, date_taken, quiz_id, User_id, id
+            score, date_taken, quiz_id, user_id, id
         )  # Create a new Score instance
         score.save()  # Save the User instance to the database
         return score  # Return the User instance
@@ -103,7 +103,7 @@ class Score:
     def instance_from_db(cls, row):
         """Return a Score instance from a row in Scores table"""
         if row:
-            return cls(row[1], row[2], row[3], row[4], id=row[0])
+            return cls(row[1], row[2], row[0])
         return None
 
     @classmethod
