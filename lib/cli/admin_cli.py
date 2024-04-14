@@ -50,7 +50,7 @@ def users_management_menu():
     answer = inquirer.prompt(questions)
     if answer["action"] == "Add User":
         add_user()
-        users_management_menu()
+        users_management_menu()  # Call the users_management_menu function
     elif answer["action"] == "Edit User":
         username = input("Enter the username to edit: ")
         edit_user(username)
