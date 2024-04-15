@@ -40,6 +40,16 @@ def update_question():
 #     quiz = Quiz.find_by_id(selected_quiz_id)
 
 
-def list_questions_of_the_quiz(selected_quiz_id):
+def list_questions_and_answers_of_the_quiz(selected_quiz_id):
     """List all questions of the selected quiz"""
     quiz = Quiz.find_by_id(selected_quiz_id)
+    questions_and_answers = quiz.get_questions_and_answers()
+
+    for question in questions_and_answers:
+        print(f"Question: {question.content}")
+        print("Answers:")
+        for answer in question.answers:
+            print(f"Answer: {answer.content} - Correct: {answer.is_correct}")
+        print()
+
+    return questions_and_answers
