@@ -1,6 +1,7 @@
 from models.__init__ import CURSOR, CONN
 from models.score import Score
 from models.question import Question
+from models.answer import Answer
 
 
 class Quiz:
@@ -8,10 +9,10 @@ class Quiz:
     # Class attribute that stores all the instances of the Quiz
     all = {}
 
-    def __init_(self, title, description, id=None):
-        self.id = id
+    def __init__(self, title, description, id=None):
         self.title = title
         self.description = description
+        self.id = id
         type(self).all[title] = self
 
     # Method that returns representation of the object
@@ -25,8 +26,6 @@ class Quiz:
 
     @title.setter
     def title(self, value):
-        if value in self.all:
-            raise ValueError("Title already exists")
         self._title = value
 
     # Property method that returns the description
@@ -66,10 +65,6 @@ class Quiz:
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
-        del type(self).all[self.id]  # Remove the instance from the all dictionary
-
-        self.id = None
-
     @classmethod
     def create(cls, title, description):
         """Create a new instance of the Quiz"""
@@ -80,10 +75,8 @@ class Quiz:
     @classmethod
     def instance_from_db_row(cls, row):
         """Create a new instance of the Quiz from a database row"""
-        if row is None:
-            return None
-
-        return cls(row[1], row[2], row[0])
+        if row:
+            return cls(row[1], row[2], row[0])
 
     @classmethod
     def get_all(cls):
@@ -129,7 +122,9 @@ class Quiz:
         """
         CURSOR.execute(sql, (self.id,))
         rows = CURSOR.fetchall()
-        return [Question.instance_from_db_row(row) for row in rows]
+        return [
+            Question.instance_from_db_row(row) for row in rows
+        ]  # Return a list of Question instances
 
     def get_questions_and_answers(self):
         """Get all the questions and answers for the quiz"""
@@ -137,7 +132,7 @@ class Quiz:
         for question in questions:
             answers = question.get_answers()
             question.answers = answers
-        return questions
+        return questions  # Return a list of Question instances
 
     def get_scores(self):
         """Get all the scores for the quiz"""
@@ -146,7 +141,9 @@ class Quiz:
         """
         CURSOR.execute(sql, (self.id,))
         rows = CURSOR.fetchall()
-        return [Score.instance_from_db(row) for row in rows]
+        return [
+            Score.instance_from_db(row) for row in rows
+        ]  # Return a list of Score instances
 
     def get_average_score(self):
         """Get the average score for the quiz"""
@@ -154,7 +151,7 @@ class Quiz:
         total = 0
         for score in scores:
             total += score.score
-        return total / len(scores) if scores else 0
+        return total / len(scores) if scores else 0  # Return the average score
 
     def print_quiz_details(self):
         """Print the details of the quiz"""
@@ -178,3 +175,14 @@ class Quiz:
                 print(f"Your Answer: {user_answer} - Correct: {question.answer_is_correct(user_answer)}")
             
             print()
+
+    def delete_specific_question_and_answers(self, question_id):
+        """Delete a specific question and its answers from the quiz"""
+        question = Question.find_by_id(question_id)
+        if question:
+            answers = question.get_answers()
+            for answer in answers:
+                answer.delete()
+            question.delete()
+        else:
+            print(f"Question {question_id} not found")

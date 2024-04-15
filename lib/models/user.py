@@ -128,9 +128,11 @@ class User:
         sql = """
         SELECT * FROM Scores WHERE user_id = ?
         """
-        CURSOR.execute(sql, (self.id,))
-        rows = CURSOR.fetchall()
-        return [Score.instance_from_db(row) for row in rows]
+        CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
+        rows = CURSOR.fetchall()  # Returns all rows
+        return [
+            Score.instance_from_db(row) for row in rows
+        ]  # Return a Score instance for each row
 
     def get_quiz_score(self, quiz):
         """Return the score of the user in a particular quiz"""
@@ -139,25 +141,29 @@ class User:
         """
         CURSOR.execute(sql, (self.id, quiz.id))
         row = CURSOR.fetchone()
-        return Score.instance_from_db(row)
+        return Score.instance_from_db(row)  # Return a Score instance
 
     def get_all_quizzes(self):
         """Return all the quizzes of the user"""
         sql = """
         SELECT * FROM Scores WHERE user_id = ?
         """
-        CURSOR.execute(sql, (self.id,))
-        rows = CURSOR.fetchall()
-        return [Quiz.find_by_id(row[2]) for row in rows]
+        CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
+        rows = CURSOR.fetchall()  # Returns all rows
+        return [
+            Quiz.find_by_id(row[2]) for row in rows
+        ]  # Return a Quiz instance for each row
 
     def get_all_quizzes_and_scores(self):
         """Return all the quizzes and scores of the user"""
         sql = """
         SELECT * FROM Scores WHERE user_id = ?
         """
-        CURSOR.execute(sql, (self.id,))
-        rows = CURSOR.fetchall()
-        return [(Quiz.find_by_id(row[2]), Score.instance_from_db(row)) for row in rows]
+        CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
+        rows = CURSOR.fetchall()  # Returns all rows
+        return [
+            (Quiz.find_by_id(row[2]), Score.instance_from_db(row)) for row in rows
+        ]  # Return a tuple of Quiz and Score instance for each row
 
     def print_quiz_details(self):
         """Print the details of the quizzes and scores of the user"""

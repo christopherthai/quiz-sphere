@@ -1,14 +1,21 @@
 from models.__init__ import CURSOR, CONN
+<<<<<<< HEAD
 from models.score import Score
 from models.user import User
 from models.quiz import Quiz
+=======
+>>>>>>> development
 from models.answer import Answer
 
 
 class Question:
 
     # Class attribute that stores all the instances of the Questions
+<<<<<<< HEAD
     all = {} 
+=======
+    all = {} #change from list to dictionary
+>>>>>>> development
 
     def __init__(self, content, quiz_id, id=None):
         self.id = id
@@ -120,4 +127,35 @@ class Question:
         CURSOR.execute(sql, (self.id,))
         rows = CURSOR.fetchall()
 
+<<<<<<< HEAD
         return [Answer.instance_from_db_row(row) for row in rows]
+=======
+        return [
+            Answer.instance_from_db_row(row) for row in rows
+        ]  # Return a list of Answer instances
+
+    def get_correct_answer(self):
+        """Get the correct answer for the question"""
+        sql = """
+        SELECT * FROM Answers WHERE question_id = ? AND is_correct = 1
+        """
+        CURSOR.execute(sql, (self.id,))
+        row = CURSOR.fetchone()
+
+        return (
+            Answer.instance_from_db_row(row) if row else None
+        )  # Return the Answer instance
+
+    def add_answer(self, content, is_correct):
+        """Add an answer to the question"""
+        answer = Answer.create(content, self.id, is_correct)
+        return answer
+
+    def delete_specific_answer(self, answer_id):
+        """Delete a specific answer from the question"""
+        answer = Answer.find_by_id(answer_id)
+        if answer:
+            answer.delete()
+        else:
+            print(f"Answer {answer_id} not found")
+>>>>>>> development

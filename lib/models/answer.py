@@ -1,5 +1,8 @@
 from models.__init__ import CURSOR, CONN
 
+import sqlite3
+DB_PATH = 'lib/data/quiz_sphere_1.db'
+
 
 class Answer:
 
@@ -16,6 +19,15 @@ class Answer:
     # Method that returns representation of the object
     def __repr__(self):
         return f"<Answer {self.id} : {self.content} : {self.is_correct} : {self.question_id}>"
+    
+    @staticmethod #추가
+    def get_answers_for_question(question_id):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT content, is_correct FROM answers WHERE question_id = ?", (question_id,))
+        answer_rows = cursor.fetchall()
+        conn.close()
+        return [Answer(question_id, *row) for row in answer_rows]
 
     # Property method that returns the content
     @property
