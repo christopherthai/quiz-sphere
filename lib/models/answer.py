@@ -90,10 +90,6 @@ class Answer:
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
-        del type(self).all[self.id]  # Remove the instance from the all dictionary
-
-        self.id = None
-
     @classmethod
     def create(cls, content, is_correct, question_id):
         """Create a new instance of the Answer"""

@@ -39,7 +39,7 @@ def edit_quiz(quiz_id):
 def delete_quiz(quiz_id):
     """Delete a quiz from the database"""
     quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
-    quiz.delete()  # Delete the quiz
+    quiz.delete_quiz_question_and_answers()  # Delete the quiz, its questions, and answers from the database
     clear_screen()
     list_quizzes()  # List all quizzes
     print(f"Quiz: {quiz.title} deleted successfully.\n")  # Print a success message
@@ -85,7 +85,9 @@ def list_quizzes():
 def list_specific_quiz(quiz_id):
     """List a specific quiz in the database"""
     quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
-    print(f"Quiz: {quiz.title}\nDescription: {quiz.description}\n")  # Print the quiz's title and description
+    print(
+        f"Quiz: {quiz.title}\nDescription: {quiz.description}\n"
+    )  # Print the quiz's title and description
     return quiz
 
 

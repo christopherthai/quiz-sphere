@@ -1,11 +1,13 @@
 from models.__init__ import CURSOR, CONN
+
 # from models.score import Score
 # from models.user import User
 # from models.quiz import Quiz
 from models.answer import Answer
 
 import sqlite3
-DB_PATH = 'lib/data/quiz_sphere_2.db'
+
+DB_PATH = "lib/data/quiz_sphere_2.db"
 
 
 class Question:
@@ -23,11 +25,14 @@ class Question:
     def __repr__(self):
         return f"<Question {self.id}:{self.content}:{self.quiz_id}>"
 
-    @staticmethod #추가
+    @staticmethod  # 추가
     def get_random_questions(limit=10):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT id, content, quiz_id FROM questions ORDER BY RANDOM() LIMIT ?", (limit,))
+        cursor.execute(
+            "SELECT id, content, quiz_id FROM questions ORDER BY RANDOM() LIMIT ?",
+            (limit,),
+        )
         question_rows = cursor.fetchall()
         conn.close()
         return [Question(*row) for row in question_rows]
@@ -79,10 +84,6 @@ class Question:
         """
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
-
-        del type(self).all[self.id]  # Remove the instance from the all dictionary
-
-        self.id = None
 
     @classmethod
     def create(cls, content, quiz_id):
@@ -160,3 +161,10 @@ class Question:
             answer.delete()
         else:
             print(f"Answer {answer_id} not found")
+
+    def delete_question_and_answers(self):
+        """Delete the question and all its answers from the database"""
+        answers = self.get_answers()
+        for answer in answers:
+            answer.delete()
+        self.delete()

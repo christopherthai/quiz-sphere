@@ -166,23 +166,21 @@ class Quiz:
             # for answer in question.answers:
             #     print(f"Answer: {answer.content} - Correct: {answer.is_correct}")
             # print()
-            #Changed this so it will only print the user answer.  Not all answers.   
+            # Changed this so it will only print the user answer.  Not all answers.
             print("Your Answer:")
             user_answer = question.get_answers(self)
             for user_answer in question.answers:
-            
-                    # Print user's answer to the question
-                print(f"Your Answer: {user_answer} - Correct: {question.answer_is_correct(user_answer)}")
-            
+
+                # Print user's answer to the question
+                print(
+                    f"Your Answer: {user_answer} - Correct: {question.answer_is_correct(user_answer)}"
+                )
+
             print()
 
-    def delete_specific_question_and_answers(self, question_id):
-        """Delete a specific question and its answers from the quiz"""
-        question = Question.find_by_id(question_id)
-        if question:
-            answers = question.get_answers()
-            for answer in answers:
-                answer.delete()
-            question.delete()
-        else:
-            print(f"Question {question_id} not found")
+    def delete_quiz_question_and_answers(self):
+        """Delete the quiz, its questions, and answers from the database"""
+        questions = self.get_questions()
+        for question in questions:
+            question.delete_question_and_answers()
+        self.delete()

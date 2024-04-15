@@ -14,11 +14,8 @@ from models.score import Score
 def get_user_scores(user):
     """Get the users scores"""
 
-    
-
     quizzes_scores = user.get_all_quizzes_and_scores()
-    
-        
+
     return quizzes_scores
 
 
@@ -29,8 +26,8 @@ def get_average_scores(quiz_id, user):
     quiz = Quiz.find_by_id(quiz_id)
 
     average_score = quiz.get_average_score()
-    user_score = user.get_quiz_score(quiz) 
-       
+    user_score = user.get_quiz_score(quiz)
+
     compare_with_average(user_score, average_score)
 
 
@@ -54,40 +51,39 @@ def compare_with_average(average_score, user_score):
             average_score,
             user_score,
         )
-    
+
 
 def print_quiz_details_user(quiz_id, user):
     """Prints quiz details with incorrect and correct listed next to the question"""
     result = user.print_quiz_details(quiz_id)
-    
+
     return result
 
 
-def get_scores_for_quiz(quiz_id):
+def get_scores_for_quiz(quiz):
     """Returns the scores for a given quiz"""
     # score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
     # result = CURSOR.execute(score_query)
     # scores = [row[0] for row in result]
-    scores = get_scores(Quiz(quiz_id))
+    scores = quiz.get_scores()
     return scores
 
 
 def plot_score_comparison(quiz, user):
     """Plots results of users score against other users scores"""
     all_scores = get_scores_for_quiz(quiz)
-    
+
     all_scores = [score.score for score in all_scores]
 
-
-    user_score = user.get_quiz_score(quiz).score
+    user_score = user.get_quiz_score(quiz)
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
     plt.axvline(
-        x=user_score,  # Pass the score value instead of the Score object
+        x=user_score.score,  # Pass the score value instead of the Score object
         color="red",
         linestyle="dashed",
         linewidth=1,
-        label="Your Score"
+        label="Your Score",
     )
     plt.xlabel("Score")
     plt.ylabel("Frequency")
