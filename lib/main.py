@@ -31,6 +31,7 @@ def main_menu(user):
         clear_screen()
         if user.is_admin == 1:
             print("Admin users cannot take the quiz.\n")
+            main_menu(user)
         else:
             # Add your code here to implement the logic for taking the quiz
             quiz_menu(user)
