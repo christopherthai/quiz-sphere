@@ -2,7 +2,7 @@ import random
 import sqlite3
 import inquirer
 
-DB_PATH = 'lib/data/quiz_sphere_1.db'
+DB_PATH = 'lib/data/quiz_sphere_2.db'
 
 def get_questions():
     conn = None
