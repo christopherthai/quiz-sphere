@@ -132,3 +132,16 @@ class Question:
         return (
             Answer.instance_from_db_row(row) if row else None
         )  # Return the Answer instance
+
+    def add_answer(self, content, is_correct):
+        """Add an answer to the question"""
+        answer = Answer.create(content, self.id, is_correct)
+        return answer
+
+    def delete_specific_answer(self, answer_id):
+        """Delete a specific answer from the question"""
+        answer = Answer.find_by_id(answer_id)
+        if answer:
+            answer.delete()
+        else:
+            print(f"Answer {answer_id} not found")

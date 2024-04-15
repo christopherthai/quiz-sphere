@@ -1,33 +1,24 @@
-from lib.models.question import Question
+from models.question import Question
+from models.quiz import Quiz
 
-def exit_program():
-    print("Goodbye!")
-    exit()
-
-# We'll implement the question functions in this lesson
-
-def list_questions():
-    questions = Question.get_all()
-    for question in questions:
-        print(question)
 
 def find_question_by_id():
-    #use a trailing underscore not to override the built-in id function
+    # use a trailing underscore not to override the built-in id function
     id_ = input("Enter the question's id: ")
     question = Question.find_by_id(id_)
-    print(question) if question else print(f'Question {id_} not found')
+    print(question) if question else print(f"Question {id_} not found")
 
-def create_question():
+
+def add_question(selected_quiz_id):
+    """Add a question to the database"""
     content = input("Enter the question's content: ")
-    quiz_id = input("Enter the question's quiz_id: ")
-    try:
-        question = Question.create(content, quiz_id)
-        print(f'Success: {question}')
-    except Exception as exc:
-        print("Error creating question: ", exc)
+    quiz_id = selected_quiz_id
+    question = Question.create(content, quiz_id)
+    print(f"Question: {question} created successfully")
 
 
 def update_question():
+    """Edit a question in the database"""
     id_ = input("Enter the question's id: ")
     if question := Question.find_by_id(id_):
         try:
@@ -37,17 +28,20 @@ def update_question():
             question.quiz_id = quiz_id
 
             question.update()
-            print(f'Success: {question}')
+            print(f"Success: {question}")
         except Exception as exc:
             print("Error updating question: ", exc)
     else:
-        print(f'Question {id_} not found')
+        print(f"Question {id_} not found")
 
 
-def delete_question():
-    id_ = input("Enter the question's id: ")
-    if question := Question.find_by_id(id_):
-        question.delete()
-        print(f'Question {id_} deleted')
-    else:
-        print(f'Question {id_} not found')
+# def delete_question(selected_quiz_id):
+#     """Delete a question from the database"""
+#     quiz = Quiz.find_by_id(selected_quiz_id)
+
+
+def list_questions_of_the_quiz(selected_quiz_id):
+    """List all questions of the selected quiz"""
+    questions = Question.find
+    for question in questions:
+        print(question)

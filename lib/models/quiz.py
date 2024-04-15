@@ -1,6 +1,7 @@
 from models.__init__ import CURSOR, CONN
 from models.score import Score
 from models.question import Question
+from models.answer import Answer
 
 
 class Quiz:
@@ -165,3 +166,14 @@ class Quiz:
             for answer in question.answers:
                 print(f"Answer: {answer.content} - Correct: {answer.is_correct}")
             print()
+
+    def delete_specific_question_and_answers(self, question_id):
+        """Delete a specific question and its answers from the quiz"""
+        question = Question.find_by_id(question_id)
+        if question:
+            answers = question.get_answers()
+            for answer in answers:
+                answer.delete()
+            question.delete()
+        else:
+            print(f"Question {question_id} not found")

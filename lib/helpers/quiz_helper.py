@@ -62,7 +62,7 @@ def list_quizzes_and_select_quiz():
         inquirer.Text(
             "quiz_id",
             message="Enter the number of the Quiz you want to select",
-            validate=lambda _, x: x.isdigit() # Check if the input is a number
+            validate=lambda _, x: x.isdigit()  # Check if the input is a number
             and 1 <= int(x) <= len(quiz_options),  # Validate the input
         )
     ]
@@ -80,6 +80,13 @@ def list_quizzes():
         i = quizzes.index(quiz) + 1  # Get the index of the quiz
         print(f"{i}. {quiz.title}\n")  # Print the quiz's title
     return quizzes
+
+
+def list_specific_quiz(quiz_id):
+    """List a specific quiz in the database"""
+    quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
+    print(f"Quiz: {quiz.title}\nDescription: {quiz.description}\n")  # Print the quiz's title and description
+    return quiz
 
 
 def get_quiz(quiz_id):
