@@ -96,20 +96,7 @@ def plot_score_comparison(quiz_id, user_id):
 
 # def get_correct_answers_percentage(quiz_id):
 #     """Gets the percentage of correct answers for a given question on a quiz"""
-#     query = (
-#         select(
-#             [
-#                 Question.id,
-#                 Question.question_text,
-#                 func.avg(Answer.is_correct).label("percentage_correct"),
-#             ]
-#         )
-#         .select_from(Question.join(Score, Question.id == Score.quiz_id))
-#         .where(Score.quiz_id == quiz_id)
-#         .group_by(Question.id)
-#     )
-#     result = CURSOR.execute(query)
-#     return result.fetchall()
+#     ans_percentage = 
 
 
 # def get_percentage_correct_list(quiz_id):
