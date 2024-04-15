@@ -1,4 +1,4 @@
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 from sqlalchemy import select, func
 
 from models.__init__ import CURSOR
