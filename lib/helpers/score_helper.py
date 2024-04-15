@@ -26,15 +26,9 @@ def get_average_scores(quiz_id, user):
     quiz = Quiz.find_by_id(quiz_id)
 
     average_score = quiz.get_average_score()
-<<<<<<< HEAD
     user_score = user.get_quiz_score(quiz) 
     
     return user_score, average_score
-=======
-    user_score = user.get_quiz_score(quiz)
-
-    compare_with_average(user_score, average_score)
->>>>>>> development
 
 
 def compare_with_average(average_score, user_score):
@@ -82,23 +76,12 @@ def plot_score_comparison(quiz, user):
 
     all_scores = [score.score for score in all_scores]
 
-<<<<<<< HEAD
 
-=======
->>>>>>> development
-    user_score = user.get_quiz_score(quiz)
+    user_score = user.get_quiz_score(quiz).score
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
     plt.axvline(
-<<<<<<< HEAD
         user_score, color="red", linestyle="dashed", linewidth=1, label="Your Score"
-=======
-        x=user_score.score,  # Pass the score value instead of the Score object
-        color="red",
-        linestyle="dashed",
-        linewidth=1,
-        label="Your Score",
->>>>>>> development
     )
     plt.xlabel("Score")
     plt.ylabel("Frequency")
