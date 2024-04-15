@@ -6,11 +6,10 @@ def exit_program():
 
 # We'll implement the answer functions in this lesson
 
-def list_questions():
+def list_answers():
     answers = Answer.get_all()
     for answer in answers:
         print(answer)
-        # 질문에 관련된 답변만 보이게 해야한다
 
 
 def find_answer_by_id():

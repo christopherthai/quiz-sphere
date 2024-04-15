@@ -1,56 +1,65 @@
 import random
 import sqlite3
+import inquirer
+
+DB_PATH = 'lib/data/quiz_sphere_1.db'
 
 def get_questions():
-    conn = sqlite3.connect('quiz_db.sqlite')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM questions ORDER BY RANDOM() LIMIT 10")
-    questions = cursor.fetchall()
-    conn.close()
+    conn = None
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM questions ORDER BY RANDOM() LIMIT 10")
+        questions = cursor.fetchall()
+    except sqlite3.Error as error:
+        print("Database error:", error)
+        questions = []
+    finally:
+        if conn:
+            conn.close()
     return questions
 
 def start_quiz():
     questions = get_questions()
     score = 0
     for question in questions:
-        print(question[1])
+        print(question[1])  # assuming question[1] is the question text
         answer = input("Your answer: ")
-        if answer.lower() == question[2].lower():
+        if answer.lower() == question[2].lower():  # assuming question[2] is the correct answer
             print("Correct!")
             score += 1
         else:
-            print("Wrong!.")
+            print("Wrong!")
     print(f"Your score is {score}.")
-    submit = input("Submit score? (y/n): ")
-    if submit.lower() == 'y':
+    submit = inquirer.confirm("Submit score?", default=True)
+    if submit:
         submit_score(score)
-        main_menu()
     else:
-        retry = input("Do it again? (y/n): ")
-        if retry.lower() == 'y':
+        retry = inquirer.confirm("Do it again?", default=False)
+        if retry:
             start_quiz()
         else:
             main_menu()
 
 def submit_score(score):
-    conn = sqlite3.connect('quiz_db.sqlite')
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO scores (score) VALUES (?)", (score,))
-    conn.commit()
-    conn.close()
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO scores (score) VALUES (?)", (score,))
+        conn.commit()
+    except sqlite3.Error as error:
+        print("Failed to insert data into sqlite table", error)
+    finally:
+        conn.close()
 
 def main_menu():
-    print("1. Quiz Start")
-    print("2. End")
-    choice = input("Select: ")
-    if choice == '1':
+    choices = ['Quiz Start', 'End']
+    choice = inquirer.list_input("Select:", choices=choices)
+    if choice == 'Quiz Start':
         start_quiz()
-    elif choice == '2':
+    elif choice == 'End':
         print("Exit Program.")
         exit()
-    else:
-        print("Wrong choice.")
-        main_menu()
 
 if __name__ == "__main__":
     main_menu()

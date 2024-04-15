@@ -1,7 +1,6 @@
 import inquirer
 from lib.models.quiz import Quiz
 
-
 def create_quiz(title):
     print(f"Quiz titled '{title}' created successfully.")
 

@@ -5,7 +5,7 @@ from models.answer import Answer
 class Question:
 
     # Class attribute that stores all the instances of the Questions
-    all = []
+    all = {} #change from list to dictionary
 
     def __init__(self, content, quiz_id, id=None):
         self.id = id
