@@ -1,15 +1,20 @@
-import random
-import sqlite3
+# import random
+# import sqlite3
 import inquirer
 
-DB_PATH = 'lib/data/quiz_sphere_1.db'
+from helpers.quiz_helper import list_quizzes, list_quizzes_and_select_quiz
+from helpers.user_helper import clear_screen
+from helpers.question_helper import list_questions_of_the_quiz
+
+DB_PATH = "data/quiz_sphere_1.db"
+
 
 def get_questions():
     conn = None
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM questions ORDER BY RANDOM() LIMIT 10")
+        cursor.execute("SELECT * FROM Questions ORDER BY RANDOM() LIMIT 10")
         questions = cursor.fetchall()
     except sqlite3.Error as error:
         print("Database error:", error)
@@ -19,13 +24,16 @@ def get_questions():
             conn.close()
     return questions
 
-def start_quiz():
+
+def start_quiz(selected_quiz_id):
     questions = get_questions()
     score = 0
     for question in questions:
         print(question[1])  # assuming question[1] is the question text
         answer = input("Your answer: ")
-        if answer.lower() == question[2].lower():  # assuming question[2] is the correct answer
+        if (
+            answer.lower() == question[2].lower()
+        ):  # assuming question[2] is the correct answer
             print("Correct!")
             score += 1
         else:
@@ -41,6 +49,7 @@ def start_quiz():
         else:
             main_menu()
 
+
 def submit_score(score):
     try:
         conn = sqlite3.connect(DB_PATH)
@@ -52,37 +61,24 @@ def submit_score(score):
     finally:
         conn.close()
 
-def main_menu():
-    choices = ['Quiz Start', 'End']
+
+def quiz_menu(user):
+    from main import main_menu
+    list_quizzes()
+    choices = ["Select Quiz", "Return to Admin Menu"]
     choice = inquirer.list_input("Select:", choices=choices)
-    if choice == 'Quiz Start':
-        start_quiz()
-    elif choice == 'End':
-        print("Exit Program.")
-        exit()
+    if choice == "Select Quiz":
+        selected_quiz_id = list_quizzes_and_select_quiz()
+        # start_quiz(selected_quiz_id)
+        list_questions_of_the_quiz(selected_quiz_id)
+        quiz_menu(user)
+    elif choice == "Return to Admin Menu":
+        clear_screen()
+        main_menu(user)
+
 
 if __name__ == "__main__":
-    main_menu()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    quiz_menu()
 
 
 # # import sys
@@ -94,7 +90,6 @@ if __name__ == "__main__":
 
 # from models.question import Question
 # from models.answer import Answer
-
 
 
 # def quiz_flow():
