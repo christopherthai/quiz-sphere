@@ -42,6 +42,4 @@ def update_question():
 
 def list_questions_of_the_quiz(selected_quiz_id):
     """List all questions of the selected quiz"""
-    questions = Question.find
-    for question in questions:
-        print(question)
+    quiz = Quiz.find_by_id(selected_quiz_id)

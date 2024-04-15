@@ -1,4 +1,7 @@
 from models.__init__ import CURSOR, CONN
+# from models.score import Score
+# from models.user import User
+# from models.quiz import Quiz
 from models.answer import Answer
 
 import sqlite3
@@ -8,7 +11,7 @@ DB_PATH = 'lib/data/quiz_sphere_2.db'
 class Question:
 
     # Class attribute that stores all the instances of the Questions
-    all = {} #change from list to dictionary
+    all = []
 
     def __init__(self, content, quiz_id, id=None):
         self.id = id
@@ -129,7 +132,9 @@ class Question:
         CURSOR.execute(sql, (self.id,))
         rows = CURSOR.fetchall()
 
-        return [Answer.instance_from_db_row(row) for row in rows]
+        return [
+            Answer.instance_from_db_row(row) for row in rows
+        ]  # Return a list of Answer instances
 
     def get_correct_answer(self):
         """Get the correct answer for the question"""
@@ -139,4 +144,19 @@ class Question:
         CURSOR.execute(sql, (self.id,))
         row = CURSOR.fetchone()
 
-        return Answer.instance_from_db_row(row) if row else None
+        return (
+            Answer.instance_from_db_row(row) if row else None
+        )  # Return the Answer instance
+
+    def add_answer(self, content, is_correct):
+        """Add an answer to the question"""
+        answer = Answer.create(content, self.id, is_correct)
+        return answer
+
+    def delete_specific_answer(self, answer_id):
+        """Delete a specific answer from the question"""
+        answer = Answer.find_by_id(answer_id)
+        if answer:
+            answer.delete()
+        else:
+            print(f"Answer {answer_id} not found")

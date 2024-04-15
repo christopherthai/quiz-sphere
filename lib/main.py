@@ -3,8 +3,9 @@ import os
 
 from cli.admin_cli import admin_menu
 from cli.user_cli import user_login_menu
+from cli.quiz_cli import quiz_menu
 
-# from cli.score_cli import display_quiz_options, display_quiz_scores
+from cli.score_cli import scores_menu
 from helpers.user_helper import clear_screen
 from models.user import User
 
@@ -32,11 +33,10 @@ def main_menu(user):
             print("Admin users cannot take the quiz.\n")
         else:
             # Add your code here to implement the logic for taking the quiz
-            print("Take Quiz\n")
+            quiz_menu(user)
     elif answers["service"] == "View Scores":
         clear_screen()
-        # print({user}, {user.id}, {user.is_admin})
-        # display_quiz_scores(user)
+        scores_menu(user)
         # display_quiz_options(user)
     elif answers["service"] == "Admin Menu":
         if user.is_admin == 1:

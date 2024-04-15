@@ -7,7 +7,7 @@ DB_PATH = 'lib/data/quiz_sphere_2.db'
 class Answer:
 
     # Class attribute that stores all the instances of the Answer
-    all = {}
+    all = []
 
     def __init__(self, content, is_correct, question_id, id=None):
         self.id = id

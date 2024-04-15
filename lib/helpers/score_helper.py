@@ -8,39 +8,33 @@ from models.question import Question
 from models.answer import Answer
 from models.score import Score
 
-from models.user import get_all_quizzes_and_scores, get_quiz_score
-from models.quiz import get_average_score, print_quiz_details, get_scores
+# from models.user import get_all_quizzes_and_scores, get_quiz_score
 
 
-
-def get_user_scores(user_id):
+def get_user_scores(user):
     """Get the users scores"""
+
     user_scores = []
-    
-    quiz_scores = get_all_quizzes_and_scores(User(user_id))
-    
-    # Assuming quiz_scores returns a list of tuples in the format (Quiz, Score)
-    for quiz, score in quiz_scores:
-        user_scores.append((score, quiz.title, score.date_taken, quiz.id))
-    
-        
-    return user_scores
+
+    quizzes_scores = user.get_all_quizzes_and_scores()
+    for quiz, score in quizzes_scores:
+        print(f"Quiz: {quiz}, Score: {score}")
 
 
-def get_average_scores(quiz_id):
+def get_average_scores(quiz_id, user):
     """Get average score from all users for given quiz"""
     # score_query = select([func.avg(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
     # result = CURSOR.execute(score_query).fetchone()
+    quiz = Quiz.find_by_id(quiz_id)
 
-    result = get_average_score(Quiz(quiz_id))
-    
-    average_score = result[0] if result[0] is not None else 0
-    return average_score
+    average_score = quiz.get_average_score()
+    user_score = user.get_quiz_score(quiz) 
+       
+    compare_with_average(user_score, average_score)
 
 
-def compare_with_average(quiz_id, user_score):
+def compare_with_average(average_score, user_score):
     """Compares users average with all other users average"""
-    average_score = Score.get_average_scores(quiz_id)
     if user_score > average_score:
         return (
             f"Your score ({user_score}) is higher than the average score of {average_score}.",
@@ -59,28 +53,28 @@ def compare_with_average(quiz_id, user_score):
             average_score,
             user_score,
         )
+    return average_score
 
-
-def print_quiz_details_user(quiz_id):
+def print_quiz_details_user(quiz_id, user):
     """Prints quiz details with incorrect and correct listed next to the question"""
-    result = print_quiz_details(Quiz(quiz_id))
+    result = user.print_quiz_details(quiz_id)
     
     return result
 
 
-def get_scores_for_quiz(quiz_id):
+def get_scores_for_quiz(quiz):
     """Returns the scores for a given quiz"""
     # score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
     # result = CURSOR.execute(score_query)
     # scores = [row[0] for row in result]
-    scores = get_scores(Quiz(quiz_id))
+    scores = quiz.get_scores()
     return scores
 
 
-def plot_score_comparison(quiz_id, user_id):
+def plot_score_comparison(quiz_id, user):
     """Plots results of users score against other users scores"""
     all_scores = get_scores_for_quiz(quiz_id)
-    
+
     user_score = get_quiz_score(User(user_id))
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
@@ -96,7 +90,7 @@ def plot_score_comparison(quiz_id, user_id):
 
 # def get_correct_answers_percentage(quiz_id):
 #     """Gets the percentage of correct answers for a given question on a quiz"""
-#     ans_percentage = 
+#     ans_percentage =
 
 
 # def get_percentage_correct_list(quiz_id):
