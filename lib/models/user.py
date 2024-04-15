@@ -142,6 +142,7 @@ class User:
         CURSOR.execute(sql, (self.id, quiz.id))
         row = CURSOR.fetchone()
         return Score.instance_from_db(row)  # Return a Score instance
+        
 
     def get_all_quizzes(self):
         """Return all the quizzes of the user"""
@@ -153,7 +154,6 @@ class User:
         return [
             Quiz.find_by_id(row[2]) for row in rows
         ]  # Return a Quiz instance for each row
-
 
     def get_all_quizzes_and_scores(self):
         """Return all the quizzes and scores of the user"""
@@ -185,6 +185,3 @@ class User:
 
             # Print whether the user's answer is correct
             print(f"Correct: {question.answer_is_correct(user_answer)}")
-            
-
-

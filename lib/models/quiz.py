@@ -4,6 +4,7 @@ from models.question import Question
 from models.answer import Answer
 
 
+
 class Quiz:
 
     # Class attribute that stores all the instances of the Quiz
@@ -145,13 +146,21 @@ class Quiz:
             Score.instance_from_db(row) for row in rows
         ]  # Return a list of Score instances
 
+    # def get_average_score(self):
+    #     """Get the average score for the quiz"""
+    #     scores = self.get_scores()
+    #     total = 0
+    #     for score in scores:
+    #         total += score.score
+    #     return total / len(scores) if scores else 0  # Return the average score
+    
     def get_average_score(self):
         """Get the average score for the quiz"""
         scores = self.get_scores()
-        total = 0
-        for score in scores:
-            total += score.score
-        return total / len(scores) if scores else 0  # Return the average score
+        if not scores:
+            return 0  # Return 0 if there are no scores for the quiz
+        total = sum(score.score for score in scores)
+        return total / len(scores)
 
     def print_quiz_details(self):
         """Print the details of the quiz"""
@@ -166,23 +175,21 @@ class Quiz:
             # for answer in question.answers:
             #     print(f"Answer: {answer.content} - Correct: {answer.is_correct}")
             # print()
-            #Changed this so it will only print the user answer.  Not all answers.   
+            # Changed this so it will only print the user answer.  Not all answers.
             print("Your Answer:")
             user_answer = question.get_answers(self)
             for user_answer in question.answers:
-            
-                    # Print user's answer to the question
-                print(f"Your Answer: {user_answer} - Correct: {question.answer_is_correct(user_answer)}")
-            
+
+                # Print user's answer to the question
+                print(
+                    f"Your Answer: {user_answer} - Correct: {question.answer_is_correct(user_answer)}"
+                )
+
             print()
 
-    def delete_specific_question_and_answers(self, question_id):
-        """Delete a specific question and its answers from the quiz"""
-        question = Question.find_by_id(question_id)
-        if question:
-            answers = question.get_answers()
-            for answer in answers:
-                answer.delete()
-            question.delete()
-        else:
-            print(f"Question {question_id} not found")
+    def delete_quiz_question_and_answers(self):
+        """Delete the quiz, its questions, and answers from the database"""
+        questions = self.get_questions()
+        for question in questions:
+            question.delete_question_and_answers()
+        self.delete()

@@ -17,11 +17,11 @@ from helpers.quiz_helper import (
     list_quizzes_and_select_quiz,
 )
 
-# from helpers.question_helper import (
-#     add_question,
-#     edit_question,
-#     delete_question,
-# )
+from helpers.question_helper import (
+    add_question,
+    delete_question,
+    list_questions_and_select_question,
+)
 
 
 def admin_menu(user):
@@ -92,7 +92,7 @@ def quizzes_management_menu(user):
         quizzes_management_menu(user)  # Call the quizzes_management_menu function
     elif answer["action"] == "Edit Quiz":
         selected_quiz_id = list_quizzes_and_select_quiz()
-        edit_quiz(selected_quiz_id)
+        edit_quiz_menu(user)
         quizzes_management_menu(user)
     elif answer["action"] == "Delete Quiz":
         selected_quiz_id = list_quizzes_and_select_quiz()
@@ -134,8 +134,6 @@ def edit_quiz_menu(user):
 def questions_management_menu(selected_quiz_id, user):
     """Manage questions in the quiz"""
 
-    list_specific_quiz(selected_quiz_id)
-
     questions = [
         inquirer.List(
             "action",
@@ -159,7 +157,7 @@ def questions_management_menu(selected_quiz_id, user):
         # # edit_question(selected_question_id)
         questions_management_menu(selected_quiz_id, user)
     elif answer["action"] == "Delete Question":
-        selected_question_id = list_questions_and_select_question()
+        selected_question_id = list_questions_and_select_question(selected_quiz_id)
         delete_question(selected_question_id)
         questions_management_menu(selected_quiz_id, user)
     elif answer["action"] == "Return to Edit Quiz Menu":

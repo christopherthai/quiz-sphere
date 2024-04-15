@@ -14,11 +14,8 @@ from models.score import Score
 def get_user_scores(user):
     """Get the users scores"""
 
-    
-
     quizzes_scores = user.get_all_quizzes_and_scores()
-    
-        
+
     return quizzes_scores
 
 
@@ -30,36 +27,37 @@ def get_average_scores(quiz_id, user):
 
     average_score = quiz.get_average_score()
     user_score = user.get_quiz_score(quiz) 
-       
-    compare_with_average(user_score, average_score)
+    
+    return user_score, average_score
 
 
 def compare_with_average(average_score, user_score):
+    user_score_value = user_score.score
     """Compares users average with all other users average"""
-    if user_score > average_score:
+    if user_score_value > average_score:
         return (
-            f"Your score ({user_score}) is higher than the average score of {average_score}.",
+            f"Your score ({user_score_value}) is higher than the average score of {average_score}.",
             average_score,
-            user_score,
+            user_score_value,
         )
-    elif user_score < average_score:
+    elif user_score_value < average_score:
         return (
-            f"Your score ({user_score}) is lower than the average score of {average_score}.",
+            f"Your score ({user_score_value}) is lower than the average score of {average_score}.",
             average_score,
-            user_score,
+            user_score_value,
         )
     else:
         return (
-            f"Your score ({user_score}) is equal to the average score of {average_score}.",
+            f"Your score ({user_score_value}) is equal to the average score of {average_score}.",
             average_score,
-            user_score,
+            user_score_value,
         )
-    return average_score
+
 
 def print_quiz_details_user(quiz_id, user):
     """Prints quiz details with incorrect and correct listed next to the question"""
     result = user.print_quiz_details(quiz_id)
-    
+
     return result
 
 
@@ -72,11 +70,14 @@ def get_scores_for_quiz(quiz):
     return scores
 
 
-def plot_score_comparison(quiz_id, user):
+def plot_score_comparison(quiz, user):
     """Plots results of users score against other users scores"""
-    all_scores = get_scores_for_quiz(quiz_id)
+    all_scores = get_scores_for_quiz(quiz)
 
-    user_score = get_quiz_score(User(user_id))
+    all_scores = [score.score for score in all_scores]
+
+
+    user_score = user.get_quiz_score(quiz).score
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
     plt.axvline(
