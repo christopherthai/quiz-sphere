@@ -7,7 +7,14 @@ from helpers.user_helper import (
     clear_screen,
 )
 
-from helpers.quiz_helper import list_quizzes
+from helpers.quiz_helper import (
+    list_quizzes,
+    delete_quiz,
+    add_quiz,
+    edit_quiz,
+    get_quiz,
+    list_quizzes_and_select_quiz,
+)
 
 
 def admin_menu(user):
@@ -28,7 +35,8 @@ def admin_menu(user):
         users_management_menu(user)  # Call the users_management_menu function
     elif answer["action"] == "List Quizzes":
         clear_screen()  # Clear the screen
-        list_quizzes()
+        list_quizzes()  # Call the list_quizzes function
+        quizzes_management_menu(user)
     elif answer["action"] == "Return to Main Menu":
         clear_screen()  # Clear the screen
         main_menu(user)  # Call the main_menu function
@@ -56,6 +64,33 @@ def users_management_menu(user):
         username = input("Enter the username to delete: ")
         delete_user(username)
         users_management_menu(user)
+    elif answer["action"] == "Return to Admin Menu":
+        clear_screen()
+        admin_menu(user)
+
+
+def quizzes_management_menu(user):
+    """Manage quizzes in the application"""
+
+    questions = [
+        inquirer.List(
+            "action",
+            message="Quiz Management - choose an option",
+            choices=["Add Quiz", "Edit Quiz", "Delete Quiz", "Return to Admin Menu"],
+        ),
+    ]
+    answer = inquirer.prompt(questions)
+    if answer["action"] == "Add Quiz":
+        add_quiz()
+        quizzes_management_menu(user)  # Call the quizzes_management_menu function
+    elif answer["action"] == "Edit Quiz":
+        selected_quiz_id = list_quizzes_and_select_quiz()
+        edit_quiz(selected_quiz_id)
+        quizzes_management_menu(user)
+    elif answer["action"] == "Delete Quiz":
+        selected_quiz_id = list_quizzes_and_select_quiz()
+        delete_quiz(selected_quiz_id)
+        quizzes_management_menu(user)
     elif answer["action"] == "Return to Admin Menu":
         clear_screen()
         admin_menu(user)

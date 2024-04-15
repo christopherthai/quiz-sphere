@@ -25,8 +25,6 @@ class Quiz:
 
     @title.setter
     def title(self, value):
-        if value in self.all:
-            raise ValueError("Title already exists")
         self._title = value
 
     # Property method that returns the description
@@ -65,10 +63,6 @@ class Quiz:
         """
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
-
-        del type(self).all[self.id]  # Remove the instance from the all dictionary
-
-        self.id = None
 
     @classmethod
     def create(cls, title, description):

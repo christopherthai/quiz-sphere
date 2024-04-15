@@ -1,10 +1,4 @@
 from models.__init__ import CURSOR, CONN
-<<<<<<< HEAD
-from models.score import Score
-from models.user import User
-from models.quiz import Quiz
-=======
->>>>>>> development
 from models.answer import Answer
 
 
