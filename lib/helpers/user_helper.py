@@ -163,7 +163,8 @@ def list_users_and_select_user():
         inquirer.Text(
             "user_id",
             message="Enter the number of the User you want to select",
-            validate=lambda _, x: x.isdigit() and 1 <= int(x) <= len(user_options),
+            validate=lambda _, x: x.isdigit()  # Check if the input is a number
+            and 1 <= int(x) <= len(user_options),  # Validate the input
         ),
     ]
     answers = inquirer.prompt(questions)

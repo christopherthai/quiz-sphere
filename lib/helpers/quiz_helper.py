@@ -62,7 +62,7 @@ def list_quizzes_and_select_quiz():
         inquirer.Text(
             "quiz_id",
             message="Enter the number of the Quiz you want to select",
-            validate=lambda _, x: x.isdigit()
+            validate=lambda _, x: x.isdigit() # Check if the input is a number
             and 1 <= int(x) <= len(quiz_options),  # Validate the input
         )
     ]
