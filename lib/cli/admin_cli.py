@@ -5,7 +5,7 @@ from helpers.user_helper import (
     add_user,
     edit_user,
     clear_screen,
-    list_users_and_select_user
+    list_users_and_select_user,
 )
 
 from helpers.quiz_helper import (
@@ -95,3 +95,27 @@ def quizzes_management_menu(user):
     elif answer["action"] == "Return to Admin Menu":
         clear_screen()
         admin_menu(user)
+
+
+def editing_quiz_menu(user):
+    """Manage editing the quiz"""
+
+    questions = [
+        inquirer.List(
+            "action",
+            message="Editing Quiz Menu- choose an option",
+            choices=["Edit Quiz Content", "Edit Questions to Quiz", "Return to Quizzes Management Menu"],
+        ),
+    ]
+    answer = inquirer.prompt(questions)
+    if answer["action"] == "Edit Quiz Content":
+        selected_quiz_id = list_quizzes_and_select_quiz()
+        edit_quiz(selected_quiz_id)
+        editing_quiz_menu(user)
+    elif answer["action"] == "Edit Questions to Quiz":
+        selected_quiz_id = list_quizzes_and_select_quiz()
+        edit_quiz(selected_quiz_id)
+        quizzes_management_menu(user)
+    elif answer["action"] == "Return to Quizzes Management Menu":
+        clear_screen()
+        quizzes_management_menu(user)
