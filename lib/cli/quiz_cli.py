@@ -4,7 +4,7 @@ import inquirer
 
 from helpers.quiz_helper import list_quizzes, list_quizzes_and_select_quiz
 from helpers.user_helper import clear_screen
-from helpers.question_helper import list_questions_of_the_quiz
+from helpers.question_helper import list_questions_and_answers_of_the_quiz
 
 DB_PATH = "data/quiz_sphere_1.db"
 
@@ -66,11 +66,12 @@ def quiz_menu(user):
     from main import main_menu
     list_quizzes()
     choices = ["Select Quiz", "Return to Admin Menu"]
-    choice = inquirer.list_input("Select:", choices=choices)
+    choice = inquirer.list_input("Select", choices=choices)
     if choice == "Select Quiz":
         selected_quiz_id = list_quizzes_and_select_quiz()
         # start_quiz(selected_quiz_id)
-        list_questions_of_the_quiz(selected_quiz_id)
+        question_and_answers = list_questions_and_answers_of_the_quiz(selected_quiz_id)
+        quiz_flow(question_and_answers)
         quiz_menu(user)
     elif choice == "Return to Admin Menu":
         clear_screen()

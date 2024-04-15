@@ -155,7 +155,6 @@ class User:
             Quiz.find_by_id(row[2]) for row in rows
         ]  # Return a Quiz instance for each row
 
-
     def get_all_quizzes_and_scores(self):
         """Return all the quizzes and scores of the user"""
         sql = """
@@ -186,6 +185,3 @@ class User:
 
             # Print whether the user's answer is correct
             print(f"Correct: {question.answer_is_correct(user_answer)}")
-            
-
-
