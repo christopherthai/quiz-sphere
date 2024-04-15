@@ -1,21 +1,11 @@
 from models.__init__ import CURSOR, CONN
-<<<<<<< HEAD
-from models.score import Score
-from models.user import User
-from models.quiz import Quiz
-=======
->>>>>>> development
 from models.answer import Answer
 
 
 class Question:
 
     # Class attribute that stores all the instances of the Questions
-<<<<<<< HEAD
-    all = {} 
-=======
     all = {} #change from list to dictionary
->>>>>>> development
 
     def __init__(self, content, quiz_id, id=None):
         self.id = id
@@ -127,9 +117,6 @@ class Question:
         CURSOR.execute(sql, (self.id,))
         rows = CURSOR.fetchall()
 
-<<<<<<< HEAD
-        return [Answer.instance_from_db_row(row) for row in rows]
-=======
         return [
             Answer.instance_from_db_row(row) for row in rows
         ]  # Return a list of Answer instances
@@ -158,4 +145,3 @@ class Question:
             answer.delete()
         else:
             print(f"Answer {answer_id} not found")
->>>>>>> development
