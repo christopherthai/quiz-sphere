@@ -125,7 +125,7 @@ def get_formatted_date():
 def quiz_menu(user):
     from main import main_menu
     list_quizzes()
-    choices = ["Select Quiz", "Return to Admin Menu"]
+    choices = ["Select Quiz", "Return to Main Menu"]
     choice = inquirer.list_input("Select", choices=choices)
     if choice == "Select Quiz":
         selected_quiz_id = list_quizzes_and_select_quiz()
@@ -133,7 +133,7 @@ def quiz_menu(user):
         question_and_answers = list_questions_and_answers_of_the_quiz(selected_quiz_id)
         quiz_flow(question_and_answers, selected_quiz_id, user)
         quiz_menu(user)
-    elif choice == "Return to Admin Menu":
+    elif choice == "Return to Main Menu":
         clear_screen()
         main_menu(user)
 

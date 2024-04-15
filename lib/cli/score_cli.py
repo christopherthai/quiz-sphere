@@ -1,9 +1,11 @@
 from helpers.score_helper import get_user_scores, get_average_scores, plot_score_comparison, compare_with_average, print_quiz_details_user
+from helpers.user_helper import clear_screen
 import inquirer
 from models.quiz import Quiz
 
 
 def scores_menu(user):
+    from main import main_menu
     user_scores = get_user_scores(user)
 
     user_scores = [(quiz, score) for quiz, score in user_scores]
@@ -16,12 +18,12 @@ def scores_menu(user):
 
     print("\nOptions:")
     print("Enter the id of the quiz to see more options")
-    print("0. Exit")
+    print("0. Return to Main Menu\n")
     choice = input("Enter your choice: ")
 
     if choice == "0":
-        print("Exiting application...")
-        exit()
+        clear_screen()
+        main_menu(user)
     try:
         choice = int(choice)
         if choice > 0 and choice <= len(user_scores):
