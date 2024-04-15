@@ -173,26 +173,6 @@ class User:
         print(f"Score: {score.score}")
         print(f"Date taken: {score.date_taken}")
         print(f"Average score: {quiz.get_average_score()}")
-<<<<<<< HEAD
-        questions = quiz.get_questions_and_answers()
-        for question in questions:
-            print(f"Question: {question.content}")
-            for answer in question.answers:
-                print(f"Answer: {answer.content}")
-        print("\n")
-
-    # @classmethod
-    # def get_all_quizzes_and_scores(cls, user_id):
-    #     """Return all quizzes and scores for a given user"""
-    #     sql = """
-    #     SELECT Quizzes.title, Scores.score
-    #     FROM Quizzes
-    #     JOIN Scores ON Quizzes.id = Scores.quiz_id
-    #     WHERE Scores.user_id = ?
-    #     """
-    #     CURSOR.execute(sql, (user_id,))
-    #     return CURSOR.fetchall()
-=======
 
         questions = quiz.get_questions_and_answers()
         for question in questions:
@@ -204,7 +184,3 @@ class User:
 
             # Print whether the user's answer is correct
             print(f"Correct: {question.answer_is_correct(user_answer)}")
-            
-
-
->>>>>>> development
