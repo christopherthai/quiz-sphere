@@ -162,7 +162,7 @@ class User:
         CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
         rows = CURSOR.fetchall()  # Returns all rows
         return [
-            (Quiz.find_by_id(row[2]), Score.instance_from_db(row)) for row in rows
+            (Quiz.find_by_id(row[4]), Score.instance_from_db(row)) for row in rows
         ]  # Return a tuple of Quiz and Score instance for each row
 
     def print_quiz_details(self):
@@ -179,3 +179,15 @@ class User:
                 for answer in question.answers:
                     print(f"Answer: {answer.content}")
             print("\n")
+
+    # @classmethod
+    # def get_all_quizzes_and_scores(cls, user_id):
+    #     """Return all quizzes and scores for a given user"""
+    #     sql = """
+    #     SELECT Quizzes.title, Scores.score
+    #     FROM Quizzes
+    #     JOIN Scores ON Quizzes.id = Scores.quiz_id
+    #     WHERE Scores.user_id = ?
+    #     """
+    #     CURSOR.execute(sql, (user_id,))
+    #     return CURSOR.fetchall()

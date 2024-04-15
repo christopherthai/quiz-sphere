@@ -2,7 +2,7 @@ from helpers.score_helper import get_user_scores, plot_score_comparison, compare
 import inquirer
 
 def display_quiz_scores(user):
-    user_scores = get_user_scores(user.id)
+    user_scores = get_user_scores(user)
 
     print("Your scores on each quiz:")
     for idx, (score, quiz_name, date_taken, quiz_id) in enumerate(user_scores, 1):
@@ -20,7 +20,7 @@ def display_quiz_scores(user):
         choice = int(choice)
         if 1 <= choice <= len(user_scores):
             quiz_id = user_scores[choice - 1][3]
-            display_quiz_options(quiz_id)
+            # display_quiz_options(quiz_id)
         else:
             print("Invalid choice. Please enter a valid option.")
     except ValueError:
