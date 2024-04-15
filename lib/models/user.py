@@ -173,6 +173,7 @@ class User:
         print(f"Score: {score.score}")
         print(f"Date taken: {score.date_taken}")
         print(f"Average score: {quiz.get_average_score()}")
+<<<<<<< HEAD
         questions = quiz.get_questions_and_answers()
         for question in questions:
             print(f"Question: {question.content}")
@@ -191,3 +192,19 @@ class User:
     #     """
     #     CURSOR.execute(sql, (user_id,))
     #     return CURSOR.fetchall()
+=======
+
+        questions = quiz.get_questions_and_answers()
+        for question in questions:
+            print(f"\nQuestion: {question.content}")
+
+            # Get the user's answer for the current question
+            user_answer = question.get_answers()
+            print(f"Your Answer: {user_answer}")
+
+            # Print whether the user's answer is correct
+            print(f"Correct: {question.answer_is_correct(user_answer)}")
+            
+
+
+>>>>>>> development

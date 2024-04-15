@@ -32,9 +32,10 @@ def display_quiz_scores(user):
             print("Invalid choice. Please enter a valid option.")
     except ValueError:
         print("Invalid choice. Please enter a valid option.")
+        
 
 
-def display_quiz_options(quiz_id, user):
+def display_quiz_options (quiz_id, user):
     from main import main_menu
 
     questions = [
@@ -53,8 +54,16 @@ def display_quiz_options(quiz_id, user):
 
     if answer["action"] == "Plot score comparison graph":
         plot_score_comparison(quiz_id, user)
+<<<<<<< HEAD
     elif answer["action"] == "View quiz details":
         print_quiz_details_user(quiz_id, user)
+=======
+        # Score.compare_with_average(quiz_id, self.user_score)
+    elif answer["action"] == "View quiz details":
+        print_quiz_details_user(quiz_id, user)
+    # elif answer["action"] == "View percentage of correct answers":
+    #     view_percentage_correct(quiz_id)
+>>>>>>> development
     elif answer["action"] == "Exit":
         print("Exiting to Main Menu...")
         main_menu(user)
