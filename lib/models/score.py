@@ -1,5 +1,6 @@
 from models.__init__ import CURSOR, CONN
 
+
 class Score:
     all = {}
 
@@ -99,9 +100,7 @@ class Score:
     def instance_from_db(cls, row):
         """Return a Score instance from a row in Scores table"""
         if row:
-            return cls(
-                row[1], row[2], row[3], row[4], id=row[0]
-            )
+            return cls(row[1], row[2], row[3], row[4], id=row[0])
         return None
 
     @classmethod
@@ -124,4 +123,4 @@ class Score:
         """
         CURSOR.execute(sql, (id,))
         row = CURSOR.fetchone()
-        return cls.instance_from_db(row)
+        return cls.instance_from_db(row)  # Returns the first row

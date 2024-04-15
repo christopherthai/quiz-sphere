@@ -117,7 +117,9 @@ class Question:
         CURSOR.execute(sql, (self.id,))
         rows = CURSOR.fetchall()
 
-        return [Answer.instance_from_db_row(row) for row in rows]
+        return [
+            Answer.instance_from_db_row(row) for row in rows
+        ]  # Return a list of Answer instances
 
     def get_correct_answer(self):
         """Get the correct answer for the question"""
@@ -127,4 +129,6 @@ class Question:
         CURSOR.execute(sql, (self.id,))
         row = CURSOR.fetchone()
 
-        return Answer.instance_from_db_row(row) if row else None
+        return (
+            Answer.instance_from_db_row(row) if row else None
+        )  # Return the Answer instance

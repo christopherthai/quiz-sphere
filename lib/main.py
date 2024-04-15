@@ -53,5 +53,8 @@ def main_menu(user):
 if __name__ == "__main__":
     clear_screen()  # Clear the screen
     user = user_login_menu()
+    all_scores = user.get_all_scores()
+    for score in all_scores:
+        print(score.score)
     while True:
         main_menu(user)

@@ -7,6 +7,8 @@ from helpers.user_helper import (
     clear_screen,
 )
 
+from helpers.quiz_helper import list_quizzes
+
 
 def admin_menu(user):
     """Admin menu for the application"""
@@ -26,7 +28,7 @@ def admin_menu(user):
         users_management_menu(user)  # Call the users_management_menu function
     elif answer["action"] == "List Quizzes":
         clear_screen()  # Clear the screen
-        print("List Quizzes")
+        list_quizzes()
     elif answer["action"] == "Return to Main Menu":
         clear_screen()  # Clear the screen
         main_menu(user)  # Call the main_menu function
