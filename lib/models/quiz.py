@@ -165,7 +165,16 @@ class Quiz:
         questions = self.get_questions_and_answers()
         for question in questions:
             print(f"Question: {question.content}")
-            print("Answers:")
-            for answer in question.answers:
-                print(f"Answer: {answer.content} - Correct: {answer.is_correct}")
+            # print("Answers:")
+            # for answer in question.answers:
+            #     print(f"Answer: {answer.content} - Correct: {answer.is_correct}")
+            # print()
+            #Changed this so it will only print the user answer.  Not all answers.   
+            print("Your Answer:")
+            user_answer = question.get_answers(self)
+            for user_answer in question.answers:
+            
+                    # Print user's answer to the question
+                print(f"Your Answer: {user_answer} - Correct: {question.answer_is_correct(user_answer)}")
+            
             print()
