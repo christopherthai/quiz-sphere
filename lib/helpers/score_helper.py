@@ -54,7 +54,7 @@ def compare_with_average(average_score, user_score):
             average_score,
             user_score,
         )
-    return average_score
+    
 
 def print_quiz_details_user(quiz_id, user):
     """Prints quiz details with incorrect and correct listed next to the question"""
@@ -72,15 +72,22 @@ def get_scores_for_quiz(quiz):
     return scores
 
 
-def plot_score_comparison(quiz_id, user):
+def plot_score_comparison(quiz, user):
     """Plots results of users score against other users scores"""
-    all_scores = get_scores_for_quiz(quiz_id)
+    all_scores = get_scores_for_quiz(quiz)
+    
+    all_scores = [score.score for score in all_scores]
 
-    user_score = get_quiz_score(User(user_id))
+
+    user_score = user.get_quiz_score(quiz).score
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
     plt.axvline(
-        user_score, color="red", linestyle="dashed", linewidth=1, label="Your Score"
+        x=user_score,  # Pass the score value instead of the Score object
+        color="red",
+        linestyle="dashed",
+        linewidth=1,
+        label="Your Score"
     )
     plt.xlabel("Score")
     plt.ylabel("Frequency")
