@@ -30,29 +30,30 @@ def get_average_scores(quiz_id, user):
 
     average_score = quiz.get_average_score()
     user_score = user.get_quiz_score(quiz) 
-       
-    compare_with_average(user_score, average_score)
+    
+    return user_score, average_score
 
 
 def compare_with_average(average_score, user_score):
+    user_score_value = user_score.score
     """Compares users average with all other users average"""
-    if user_score > average_score:
+    if user_score_value > average_score:
         return (
-            f"Your score ({user_score}) is higher than the average score of {average_score}.",
+            f"Your score ({user_score_value}) is higher than the average score of {average_score}.",
             average_score,
-            user_score,
+            user_score_value,
         )
-    elif user_score < average_score:
+    elif user_score_value < average_score:
         return (
-            f"Your score ({user_score}) is lower than the average score of {average_score}.",
+            f"Your score ({user_score_value}) is lower than the average score of {average_score}.",
             average_score,
-            user_score,
+            user_score_value,
         )
     else:
         return (
-            f"Your score ({user_score}) is equal to the average score of {average_score}.",
+            f"Your score ({user_score_value}) is equal to the average score of {average_score}.",
             average_score,
-            user_score,
+            user_score_value,
         )
     
 
@@ -79,15 +80,11 @@ def plot_score_comparison(quiz, user):
     all_scores = [score.score for score in all_scores]
 
 
-    user_score = user.get_quiz_score(quiz).score
+    user_score = user.get_quiz_score(quiz)
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
     plt.axvline(
-        x=user_score,  # Pass the score value instead of the Score object
-        color="red",
-        linestyle="dashed",
-        linewidth=1,
-        label="Your Score"
+        user_score, color="red", linestyle="dashed", linewidth=1, label="Your Score"
     )
     plt.xlabel("Score")
     plt.ylabel("Frequency")

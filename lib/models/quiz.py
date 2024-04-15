@@ -4,6 +4,7 @@ from models.question import Question
 from models.answer import Answer
 
 
+
 class Quiz:
 
     # Class attribute that stores all the instances of the Quiz
@@ -145,13 +146,21 @@ class Quiz:
             Score.instance_from_db(row) for row in rows
         ]  # Return a list of Score instances
 
+    # def get_average_score(self):
+    #     """Get the average score for the quiz"""
+    #     scores = self.get_scores()
+    #     total = 0
+    #     for score in scores:
+    #         total += score.score
+    #     return total / len(scores) if scores else 0  # Return the average score
+    
     def get_average_score(self):
         """Get the average score for the quiz"""
         scores = self.get_scores()
-        total = 0
-        for score in scores:
-            total += score.score
-        return total / len(scores) if scores else 0  # Return the average score
+        if not scores:
+            return 0  # Return 0 if there are no scores for the quiz
+        total = sum(score.score for score in scores)
+        return total / len(scores)
 
     def print_quiz_details(self):
         """Print the details of the quiz"""
