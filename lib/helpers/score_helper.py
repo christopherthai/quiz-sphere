@@ -9,22 +9,16 @@ from models.answer import Answer
 from models.score import Score
 
 # from models.user import get_all_quizzes_and_scores, get_quiz_score
-# from models.quiz import get_average_score, print_quiz_details, get_scores
-
 
 
 def get_user_scores(user):
     """Get the users scores"""
-    # user_scores = []
-    
-    quiz_scores = user.get_all_quizzes_and_scores()
-    
-    # Assuming quiz_scores returns a list of tuples in the format (Quiz, Score)
-    # for quiz, score in quiz_scores:
-    #     user_scores.append((score, quiz.title, score.date_taken, quiz.id))
-    
-        
-    return quiz_scores
+
+    user_scores = []
+
+    quizzes_scores = user.get_all_quizzes_and_scores()
+    for quiz, score in quizzes_scores:
+        print(f"Quiz: {quiz}, Score: {score}")
 
 
 def get_average_scores(quiz_id, user):
@@ -80,8 +74,8 @@ def get_scores_for_quiz(quiz):
 def plot_score_comparison(quiz_id, user):
     """Plots results of users score against other users scores"""
     all_scores = get_scores_for_quiz(quiz_id)
-    
-    user_score = user.get_quiz_score()
+
+    user_score = get_quiz_score(User(user_id))
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
     plt.axvline(
@@ -96,7 +90,7 @@ def plot_score_comparison(quiz_id, user):
 
 # def get_correct_answers_percentage(quiz_id):
 #     """Gets the percentage of correct answers for a given question on a quiz"""
-#     ans_percentage = 
+#     ans_percentage =
 
 
 # def get_percentage_correct_list(quiz_id):

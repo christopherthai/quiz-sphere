@@ -36,9 +36,8 @@ def main_menu(user):
             quiz_menu(user)
     elif answers["service"] == "View Scores":
         clear_screen()
-        # print({user}, {user.id}, {user.is_admin})
         scores_menu(user)
-        
+        # display_quiz_options(user)
     elif answers["service"] == "Admin Menu":
         if user.is_admin == 1:
             clear_screen()
