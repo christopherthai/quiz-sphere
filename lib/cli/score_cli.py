@@ -5,11 +5,13 @@ def display_quiz_scores(user):
     user_scores = get_user_scores(user)
 
     print("Your scores on each quiz:")
-    for idx, (score, quiz_name, date_taken, quiz_id) in enumerate(user_scores, 1):
-        print(f"{idx}. Quiz: {quiz_name}, Score: {score}, Date Taken: {date_taken}")
+    # for idx, (score, quiz_title, date_taken, quiz_id) in enumerate(user_scores, 1):
+    #     print(f"{idx}. Quiz: {quiz_title}, Score: {score}, Date Taken: {date_taken}")
+    for quiz, score in user_scores:
+        print(f"{quiz.id} Quiz: {quiz.title}, Score: {score.score}")
 
     print("\nOptions:")
-    print("Enter the number of the quiz to see more options")
+    print("Enter the id of the quiz to see more options")
     print("0. Exit")
     choice = input("Enter your choice: ")
 
@@ -36,7 +38,7 @@ def display_quiz_options(quiz_id, user):
             message="Options for the selected quiz:",
             choices=["Plot score comparison graph", 
                     "View quiz details", 
-                    "View percentage of correct answers",
+                    # "View percentage of correct answers",
                     "Exit"
                     ],
         )
@@ -48,8 +50,8 @@ def display_quiz_options(quiz_id, user):
         # Score.compare_with_average(quiz_id, self.user_score)
     elif answer["action"] == "View quiz details":
         print_quiz_details_user(quiz_id)
-    elif answer["action"] == "View percentage of correct answers":
-        view_percentage_correct(quiz_id)
+    # elif answer["action"] == "View percentage of correct answers":
+    #     view_percentage_correct(quiz_id)
     elif answer["action"] == "Exit":
         print("Exiting to Main Menu...")
         main_menu(user)

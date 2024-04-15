@@ -5,7 +5,11 @@ from cli.admin_cli import admin_menu
 from cli.user_cli import user_login_menu
 from cli.quiz_cli import quiz_menu
 
+<<<<<<< HEAD
 from cli.score_cli import display_quiz_options, display_quiz_scores
+=======
+from cli.score_cli import scores_menu
+>>>>>>> development
 from helpers.user_helper import clear_screen
 from models.user import User
 
@@ -36,8 +40,14 @@ def main_menu(user):
             quiz_menu(user)
     elif answers["service"] == "View Scores":
         clear_screen()
+<<<<<<< HEAD
         display_quiz_scores(user)
         # display_quiz_options(user)
+=======
+        # print({user}, {user.id}, {user.is_admin})
+        scores_menu(user)
+        
+>>>>>>> development
     elif answers["service"] == "Admin Menu":
         if user.is_admin == 1:
             clear_screen()

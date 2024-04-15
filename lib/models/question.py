@@ -1,14 +1,22 @@
 from models.__init__ import CURSOR, CONN
+<<<<<<< HEAD
+from models.answer import Answer
+=======
 # from models.score import Score
 # from models.user import User
 # from models.quiz import Quiz
 # from models.answer import Answer
+>>>>>>> development
 
 
 class Question:
 
     # Class attribute that stores all the instances of the Questions
+<<<<<<< HEAD
+    all = {} #change from list to dictionary
+=======
     all = {}
+>>>>>>> development
 
     def __init__(self, content, quiz_id, id=None):
         self.id = id

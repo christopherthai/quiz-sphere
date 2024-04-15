@@ -154,6 +154,7 @@ class User:
             Quiz.find_by_id(row[2]) for row in rows
         ]  # Return a Quiz instance for each row
 
+
     def get_all_quizzes_and_scores(self):
         """Return all the quizzes and scores of the user"""
         sql = """
@@ -179,6 +180,7 @@ class User:
                 for answer in question.answers:
                     print(f"Answer: {answer.content}")
             print("\n")
+<<<<<<< HEAD
 
     # @classmethod
     # def get_all_quizzes_and_scores(cls, user_id):
@@ -191,3 +193,7 @@ class User:
     #     """
     #     CURSOR.execute(sql, (user_id,))
     #     return CURSOR.fetchall()
+=======
+            
+
+>>>>>>> development
