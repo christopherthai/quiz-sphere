@@ -9,108 +9,73 @@ from models.answer import Answer
 from models.score import Score
 
 # from models.user import get_all_quizzes_and_scores, get_quiz_score
-<<<<<<< HEAD
 
 
 def get_user_scores(user):
     """Get the users scores"""
 
-    user_scores = []
+    user_scores = user.get_all_quizzes_and_scores()
 
-    quizzes_scores = user.get_all_quizzes_and_scores()
-    for quiz, score in quizzes_scores:
-        print(f"Quiz: {quiz}, Score: {score}")
-=======
-# from models.quiz import get_average_score, print_quiz_details, get_scores
+    return user_scores
 
 
-
-def get_user_scores(user):
-    """Get the users scores"""
-    # user_scores = []
-    
-    quiz_scores = user.get_all_quizzes_and_scores()
-    
-    # Assuming quiz_scores returns a list of tuples in the format (Quiz, Score)
-    # for quiz, score in quiz_scores:
-    #     user_scores.append((score, quiz.title, score.date_taken, quiz.id))
-    
-        
-    return quiz_scores
->>>>>>> development
-
-
-def get_average_scores(quiz):
+def get_average_scores(quiz_id, user):
     """Get average score from all users for given quiz"""
     # score_query = select([func.avg(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
     # result = CURSOR.execute(score_query).fetchone()
 
-<<<<<<< HEAD
-    result = get_average_score(Quiz(quiz_id))
+    quiz = Quiz.find_by_id(quiz_id)
 
-=======
-    result = quiz.get_average_score()
-    
->>>>>>> development
-    average_score = result[0] if result[0] is not None else 0
-    return average_score
+    user_score_on_quiz = user.get_quiz_score(quiz)
+    average_score_of_quiz = quiz.get_average_score()
+
+    compare_with_average(user_score_on_quiz, average_score_of_quiz)
 
 
-def compare_with_average(score):
+def compare_with_average(user_score_on_quiz, average_score_of_quiz):
     """Compares users average with all other users average"""
-    average_score = score.get_average_scores()
-    # if user_score > average_score:
-    #     return (
-    #         f"Your score ({user_score}) is higher than the average score of {average_score}.",
-    #         average_score,
-    #         user_score,
-    #     )
-    # elif user_score < average_score:
-    #     return (
-    #         f"Your score ({user_score}) is lower than the average score of {average_score}.",
-    #         average_score,
-    #         user_score,
-    #     )
-    # else:
-    #     return (
-    #         f"Your score ({user_score}) is equal to the average score of {average_score}.",
-    #         average_score,
-    #         user_score,
-    #     )
-    return average_score
 
-def print_quiz_details_user(quiz):
+    if user_score > average_score:
+        return (
+            f"Your score ({user_score}) is higher than the average score of {average_score}.",
+            average_score,
+            user_score,
+        )
+    elif user_score < average_score:
+        return (
+            f"Your score ({user_score}) is lower than the average score of {average_score}.",
+            average_score,
+            user_score,
+        )
+    else:
+        return (
+            f"Your score ({user_score}) is equal to the average score of {average_score}.",
+            average_score,
+            user_score,
+        )
+
+
+def print_quiz_details_user(quiz_id, user):
     """Prints quiz details with incorrect and correct listed next to the question"""
-<<<<<<< HEAD
-    result = print_quiz_details(Quiz(quiz_id))
+    result = user.print_quiz_details(quiz_id)
 
-=======
-    result = quiz.print_quiz_details()
-    
->>>>>>> development
     return result
 
 
-def get_scores_for_quiz(quiz):
+def get_scores_for_quiz(quiz_id):
     """Returns the scores for a given quiz"""
     # score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
     # result = CURSOR.execute(score_query)
     # scores = [row[0] for row in result]
-    scores = quiz.get_scores()
+    scores = get_scores(Quiz(quiz_id))
     return scores
 
 
-def plot_score_comparison(quiz_id, user):
-    from models.user import get_quiz_score
+def plot_score_comparison(quiz_id, user_id):
     """Plots results of users score against other users scores"""
     all_scores = get_scores_for_quiz(quiz_id)
-<<<<<<< HEAD
 
     user_score = get_quiz_score(User(user_id))
-=======
-    
-    user_score = user.get_quiz_score()
->>>>>>> development
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
     plt.axvline(

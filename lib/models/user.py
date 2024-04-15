@@ -154,7 +154,6 @@ class User:
             Quiz.find_by_id(row[2]) for row in rows
         ]  # Return a Quiz instance for each row
 
-
     def get_all_quizzes_and_scores(self):
         """Return all the quizzes and scores of the user"""
         sql = """
@@ -166,21 +165,20 @@ class User:
             (Quiz.find_by_id(row[4]), Score.instance_from_db(row)) for row in rows
         ]  # Return a tuple of Quiz and Score instance for each row
 
-    def print_quiz_details(self):
+    def print_quiz_details(self, quiz_id):
         """Print the details of the quizzes and scores of the user"""
-        quizzes_and_scores = self.get_all_quizzes_and_scores()
-        for quiz, score in quizzes_and_scores:
-            print(f"Quiz: {quiz.title}")
-            print(f"Score: {score.score}")
-            print(f"Date taken: {score.date_taken}")
-            print(f"Average score: {quiz.get_average_score()}")
-            questions = quiz.get_questions_and_answers()
-            for question in questions:
-                print(f"Question: {question.content}")
-                for answer in question.answers:
-                    print(f"Answer: {answer.content}")
-            print("\n")
-<<<<<<< HEAD
+        quiz = Quiz.find_by_id(quiz_id)
+        score = self.get_quiz_score(quiz)
+        print(f"Quiz: {quiz.title}")
+        print(f"Score: {score.score}")
+        print(f"Date taken: {score.date_taken}")
+        print(f"Average score: {quiz.get_average_score()}")
+        questions = quiz.get_questions_and_answers()
+        for question in questions:
+            print(f"Question: {question.content}")
+            for answer in question.answers:
+                print(f"Answer: {answer.content}")
+        print("\n")
 
     # @classmethod
     # def get_all_quizzes_and_scores(cls, user_id):
@@ -193,7 +191,3 @@ class User:
     #     """
     #     CURSOR.execute(sql, (user_id,))
     #     return CURSOR.fetchall()
-=======
-            
-
->>>>>>> development
