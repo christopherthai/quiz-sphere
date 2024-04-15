@@ -142,6 +142,7 @@ class User:
         CURSOR.execute(sql, (self.id, quiz.id))
         row = CURSOR.fetchone()
         return Score.instance_from_db(row)  # Return a Score instance
+        
 
     def get_all_quizzes(self):
         """Return all the quizzes of the user"""
