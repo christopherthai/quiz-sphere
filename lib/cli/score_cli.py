@@ -1,4 +1,4 @@
-from helpers.score_helper import get_user_scores, plot_score_comparison, get_average_score, compare_with_average, print_quiz_details
+from helpers.score_helper import get_user_scores, plot_score_comparison, compare_with_average, print_quiz_details_user
 import inquirer
 
 def display_quiz_scores(user):
@@ -27,7 +27,9 @@ def display_quiz_scores(user):
         print("Invalid choice. Please enter a valid option.")
 
 
-def display_quiz_options(quiz_id):
+def display_quiz_options(quiz_id, user):
+    from main import main_menu
+
     questions = [
         inquirer.List(
             "action",
@@ -45,10 +47,11 @@ def display_quiz_options(quiz_id):
         plot_score_comparison(quiz_id)
         # Score.compare_with_average(quiz_id, self.user_score)
     elif answer["action"] == "View quiz details":
-        print_quiz_details(quiz_id)
+        print_quiz_details_user(quiz_id)
     elif answer["action"] == "View percentage of correct answers":
         view_percentage_correct(quiz_id)
     elif answer["action"] == "Exit":
-        print("Exiting application...")
-        exit()
+        print("Exiting to Main Menu...")
+        main_menu(user)
+        
     
