@@ -70,6 +70,7 @@ def list_users():
 
 def add_user():
     """Add a user to the database"""
+
     questions = [
         inquirer.Text("username", message="Enter the username"),  # Ask for the username
         inquirer.Confirm(
@@ -86,7 +87,7 @@ def add_user():
     if User.find_by_username(username):
         clear_screen()
         list_users()  # List all users in the database
-        print("Username already exists.")
+        print("Username already exists.\n")
         return add_user()  # Recursively call the function
 
     # Convert the is_admin input to a boolean
@@ -95,13 +96,13 @@ def add_user():
     user = User.create(username, is_admin)
     clear_screen()
     list_users()  # List all users in the database
-    print(f"User {user.username} created successfully.\n")
+    print(f"User: {user.username} created successfully.\n")
     return user
 
 
-def edit_user(username):
+def edit_user(user_id):
     """Edit a user in the database"""
-    user = User.find_by_username(username)  # Find the user by username
+    user = User.find_by_id(user_id)  # Find the user by its ID
     if user:
         questions = [
             inquirer.Text(
@@ -125,24 +126,53 @@ def edit_user(username):
         user.update()  # Save the changes to the database
         clear_screen()
         list_users()  # List all users in the database
-        print(f"User {user.username} updated successfully.\n")
+        print(f"User: {user.username} updated successfully.\n")
     else:
         clear_screen()
         list_users()  # List all users in the database
         print("Username not found.\n")
 
 
-def delete_user(username):
+def delete_user(user_id):
     """Delete a user from the database"""
-    user = User.find_by_username(username)  # Find the user by username
+    user = User.find_by_id(user_id)  # Find the user by its ID
     if user:
         user.delete()  # Delete the user from the database
         clear_screen()  # Clear the screen
         list_users()  # List all users in the database
-        print(f"User {user.username} deleted successfully.\n")
+        print(f"User: {user.username} deleted successfully.\n")
     else:
         list_users()  # List all users in the database
         print("User not found.")
+
+
+def list_users_and_select_user():
+    """List all users and prompt the user to select a user"""
+    users = User.get_all()
+    user_options = [(user.username, user.id) for user in users]
+
+    clear_screen()
+    print("List of Users:\n")
+
+    # Display the users
+    for i, option in enumerate(user_options, start=1):
+        print(f"{i}. {option[0]}\n")
+
+    # Prompt the user to select a user
+    questions = [
+        inquirer.Text(
+            "user_id",
+            message="Enter the number of the User you want to select",
+            validate=lambda _, x: x.isdigit() and 1 <= int(x) <= len(user_options),
+        ),
+    ]
+    answers = inquirer.prompt(questions)
+    user_id = user_options[int(answers["user_id"]) - 1][1]  # Get the user ID
+
+    user = next((user for user in users if user.id == user_id), None)
+    if user is None:
+        print("User not found.")
+    return user_id
 
 
 def clear_screen():

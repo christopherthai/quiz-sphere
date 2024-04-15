@@ -9,25 +9,27 @@ from models.answer import Answer
 from models.score import Score
 
 
-def get_user_scores(user_id):
-    """Get the users scores"""
-    user_scores = []
-    query = (
-        select([Score, Quiz.title, Score.date_taken])
-        .select_from(Quiz.join(Score, Score.quiz_id == Quiz.id))
-        .where(Score.user_id == user_id)
-    )
-    result = CURSOR.execute(query)
-    for row in result:
-        score_query = select([func.sum(Answer.is_correct)]).where(
-            Answer.quiz_id == row[Score.quiz_id]
-        )
-        score_result = CURSOR.execute(score_query).fetchone()
-        score = score_result[0] if score_result[0] is not None else 0
-        user_scores.append(
-            (score, row[Quiz.title], row[Score.date_taken], row[Score.quiz_id])
-        )
-    return user_scores
+# def get_user_scores(user_id):
+#     """Get the users scores"""
+#     user_scores = []
+#     query = (
+#         select([Score, Quiz.title, Score.date_taken])
+#         .select_from(Quiz.join(Score, Score.quiz_id == Quiz.id))
+#         .where(Score.user_id == user_id)
+#     )
+#     result = CURSOR.execute(query)
+#     for row in result:
+#         score_query = select([func.sum(Answer.is_correct)]).where(
+#             Answer.quiz_id == row[Score.quiz_id]
+#         )
+#         score_result = CURSOR.execute(score_query).fetchone()
+#         score = score_result[0] if score_result[0] is not None else 0
+#         user_scores.append(
+#             (score, row[Quiz.title], row[Score.date_taken], row[Score.quiz_id])
+#         )
+#         all_scores = user.get_all_scores()
+#         for score in all_scores:
+#     return user_scores
 
 
 def get_average_score(quiz_id):
