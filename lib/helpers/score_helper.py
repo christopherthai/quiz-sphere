@@ -89,6 +89,12 @@ def plot_score_comparison(quiz, user):
     plt.legend()
     plt.show()
 
+def submit_score(score, date_taken, quiz_id, user_id):
+        """Add a score to the database"""
+        score = Score.create(score, date_taken, quiz_id, user_id)
+        print("Score was submitted successfully.\n")
+        return score
+
 
 # def get_correct_answers_percentage(quiz_id):
 #     """Gets the percentage of correct answers for a given question on a quiz"""

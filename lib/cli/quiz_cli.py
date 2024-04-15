@@ -5,6 +5,8 @@ import inquirer
 from helpers.quiz_helper import list_quizzes, list_quizzes_and_select_quiz
 from helpers.user_helper import clear_screen
 from helpers.question_helper import list_questions_and_answers_of_the_quiz
+from helpers.score_helper import submit_score
+from datetime import datetime
 
 DB_PATH = "data/quiz_sphere_1.db"
 
@@ -48,11 +50,11 @@ def start_quiz(selected_quiz_id):
         else:
             quiz_menu()
 
-def quiz_flow():
+def quiz_flow(questions_and_answers, selected_quiz_id, user):
     """ Starts the quiz flow after selecting a quiz. """
     clear_screen()
-    selected_quiz_id = list_quizzes_and_select_quiz()
-    questions_and_answers = list_questions_and_answers_of_the_quiz(selected_quiz_id)
+    # selected_quiz_id = list_quizzes_and_select_quiz()
+    # questions_and_answers = list_questions_and_answers_of_the_quiz(selected_quiz_id)
     total_questions = len(questions_and_answers)
     score = 0
 
@@ -75,32 +77,37 @@ def quiz_flow():
 
     clear_screen()
     print(f"Your final score is {score}/{total_questions * 20}.")
-    handle_score_submission(score, selected_quiz_id)
+    handle_score_submission(questions_and_answers, score, selected_quiz_id, user)
 
-def handle_score_submission(score, selected_quiz_id):
+def handle_score_submission(questions_and_answers, score, selected_quiz_id, user):
     if score < 60:
-        retry = inquirer.confirm("Your score is below 60. Do you want to take it again?", default=True)
+        retry = inquirer.confirm(
+            "Your score is below 60. Do you want to take it again?", default=True
+        )
         if retry:
-            quiz_flow(selected_quiz_id)  # Pass the quiz ID to restart the same quiz
+            quiz_flow(questions_and_answers, selected_quiz_id, user)  # Pass the quiz ID to restart the same quiz
         else:
-            return_to_main_menu()
+            quiz_menu(user)
     else:
         submit = inquirer.confirm("Submit score?", default=True)
         if submit:
-            submit_score(score)
-        return_to_main_menu()
+            submit_score(score, get_formatted_date(), selected_quiz_id, user.id)
+        quiz_menu(user)
 
-def submit_score(score):
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO Scores (score) VALUES (?)", (score,))
-        conn.commit()
-    except sqlite3.Error as error:
-        print("Failed to insert data into sqlite table", error)
-    finally:
-        if conn:
-            conn.close()
+def get_formatted_date():
+    return datetime.now().strftime("%Y-%m-%d")
+
+# def submit_score(score):
+#     try:
+#         conn = sqlite3.connect(DB_PATH)
+#         cursor = conn.cursor()
+#         cursor.execute("INSERT INTO Scores (score) VALUES (?)", (score,))
+#         conn.commit()
+#     except sqlite3.Error as error:
+#         print("Failed to insert data into sqlite table", error)
+#     finally:
+#         if conn:
+#             conn.close()
 
 
 # def submit_score(score):
@@ -124,7 +131,7 @@ def quiz_menu(user):
         selected_quiz_id = list_quizzes_and_select_quiz()
         # start_quiz(selected_quiz_id)
         question_and_answers = list_questions_and_answers_of_the_quiz(selected_quiz_id)
-        quiz_flow(question_and_answers)
+        quiz_flow(question_and_answers, selected_quiz_id, user)
         quiz_menu(user)
     elif choice == "Return to Admin Menu":
         clear_screen()

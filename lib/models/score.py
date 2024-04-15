@@ -62,12 +62,12 @@ class Score:
         INSERT INTO Scores (id, score, date_taken, quiz_id, user_id) VALUES (?, ?, ?, ?, ?)
         """
         CURSOR.execute(
-            sql, (self.id, self.score.self.date_taken, self.quiz_id, self.user_id)
-        )  # Execute the SQL statement
+            sql, (self.id, self.score, self.date_taken, self.quiz_id, self.user_id)
+        )
         CONN.commit()
 
-        self.id = CURSOR.lastrowid  # Get the id of the last inserted row
-        type(self).all[self.score] = self  # Add the User instance to the all dictionary
+        self.id = CURSOR.lastrowid   # Get the id of the last inserted row
+        type(self).all[self.score] = self  # Add the Score instance to the all dictionary 
 
     def update(self):
         """Update the record in the Scores table with the attributes of the Score instance"""
@@ -88,13 +88,11 @@ class Score:
         CONN.commit()  # Commit the changes to the database
 
     @classmethod
-    def create(cls, score, date_taken, quiz_id, user_id, id):
+    def create(cls, score, date_taken, quiz_id, user_id):
         """Create a new instance of the Score class"""
-        score = cls(
-            score, date_taken, quiz_id, user_id, id
-        )  # Create a new Score instance
-        score.save()  # Save the User instance to the database
-        return score  # Return the User instance
+        score = cls(score, date_taken, quiz_id, user_id)
+        score.save()
+        return score
 
     @classmethod
     def instance_from_db(cls, row):
