@@ -6,8 +6,12 @@ from helpers.score_helper import (
 )
 import inquirer
 
+<<<<<<< HEAD
 
 def display_quiz_scores(user):
+=======
+def scores_menu(user):
+>>>>>>> development
     user_scores = get_user_scores(user)
 
     user_scores = [(quiz, score) for quiz, score in user_scores]
