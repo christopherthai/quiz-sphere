@@ -5,6 +5,7 @@ from helpers.user_helper import (
     add_user,
     edit_user,
     clear_screen,
+    list_users_and_select_user
 )
 
 from helpers.quiz_helper import (
@@ -57,12 +58,12 @@ def users_management_menu(user):
         add_user()
         users_management_menu(user)  # Call the users_management_menu function
     elif answer["action"] == "Edit User":
-        username = input("Enter the username to edit: ")
-        edit_user(username)
+        user_id = list_users_and_select_user()
+        edit_user(user_id)
         users_management_menu(user)
     elif answer["action"] == "Delete User":
-        username = input("Enter the username to delete: ")
-        delete_user(username)
+        user_id = list_users_and_select_user()
+        delete_user(user_id)
         users_management_menu(user)
     elif answer["action"] == "Return to Admin Menu":
         clear_screen()

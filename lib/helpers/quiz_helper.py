@@ -4,6 +4,10 @@ from helpers.user_helper import clear_screen
 
 
 def add_quiz():
+
+    clear_screen()
+    list_quizzes()  # List all quizzes in the database
+
     """Add a quiz to the database"""
     title = input("Enter the title of the quiz: ")  # Ask for the title of the quiz
     description = input(
@@ -13,7 +17,7 @@ def add_quiz():
     quiz = Quiz.create(title, description)  # Create the quiz
     clear_screen()
     list_quizzes()  # List all quizzes
-    print(f"Quiz {quiz.title} created successfully.\n")  # Print a success message
+    print(f"Quiz: {quiz.title} created successfully.\n")  # Print a success message
 
 
 def edit_quiz(quiz_id):
@@ -29,7 +33,7 @@ def edit_quiz(quiz_id):
     quiz.update()  # Update the quiz
     clear_screen()
     list_quizzes()  # List all quizzes
-    print(f"Quiz {quiz.title} updated successfully.\n")  # Print a success message
+    print(f"Quiz: {quiz.title} updated successfully.\n")  # Print a success message
 
 
 def delete_quiz(quiz_id):
@@ -38,7 +42,7 @@ def delete_quiz(quiz_id):
     quiz.delete()  # Delete the quiz
     clear_screen()
     list_quizzes()  # List all quizzes
-    print(f"Quiz {quiz.title} deleted successfully.\n")  # Print a success message
+    print(f"Quiz: {quiz.title} deleted successfully.\n")  # Print a success message
 
 
 def list_quizzes_and_select_quiz():
