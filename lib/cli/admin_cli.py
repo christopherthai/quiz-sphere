@@ -20,6 +20,7 @@ from helpers.quiz_helper import (
 from helpers.question_helper import (
     add_question,
     delete_question,
+    list_questions,
     list_questions_and_select_question,
 )
 
@@ -92,7 +93,8 @@ def quizzes_management_menu(user):
         quizzes_management_menu(user)  # Call the quizzes_management_menu function
     elif answer["action"] == "Edit Quiz":
         selected_quiz_id = list_quizzes_and_select_quiz()
-        edit_quiz_menu(user)
+        clear_screen()
+        edit_quiz_menu(user, selected_quiz_id)
         quizzes_management_menu(user)
     elif answer["action"] == "Delete Quiz":
         selected_quiz_id = list_quizzes_and_select_quiz()
@@ -103,8 +105,10 @@ def quizzes_management_menu(user):
         admin_menu(user)
 
 
-def edit_quiz_menu(user):
+def edit_quiz_menu(user, selected_quiz_id):
     """Manage editing the quiz"""
+
+    list_specific_quiz(selected_quiz_id)  # List the specific quiz
 
     questions = [
         inquirer.List(
@@ -119,15 +123,17 @@ def edit_quiz_menu(user):
     ]
     answer = inquirer.prompt(questions)
     if answer["action"] == "Edit Quiz Content":
-        selected_quiz_id = list_quizzes_and_select_quiz()
         edit_quiz(selected_quiz_id)
-        edit_quiz_menu(user)
+        edit_quiz_menu(user, selected_quiz_id)
     elif answer["action"] == "Edit Questions to Quiz":
-        selected_quiz_id = list_quizzes_and_select_quiz()
+        clear_screen()
+        list_specific_quiz(selected_quiz_id)
+        list_questions(selected_quiz_id)
         questions_management_menu(selected_quiz_id, user)
-        edit_quiz_menu(user)
+        edit_quiz_menu(user, selected_quiz_id)
     elif answer["action"] == "Return to Quizzes Management Menu":
         clear_screen()
+        list_quizzes()  # Call the list_quizzes function
         quizzes_management_menu(user)
 
 
@@ -158,8 +164,8 @@ def questions_management_menu(selected_quiz_id, user):
         questions_management_menu(selected_quiz_id, user)
     elif answer["action"] == "Delete Question":
         selected_question_id = list_questions_and_select_question(selected_quiz_id)
-        delete_question(selected_question_id)
+        delete_question(selected_question_id, selected_quiz_id)
         questions_management_menu(selected_quiz_id, user)
     elif answer["action"] == "Return to Edit Quiz Menu":
         clear_screen()
-        edit_quiz_menu(user)
+        edit_quiz_menu(user, selected_quiz_id)

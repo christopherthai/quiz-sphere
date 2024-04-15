@@ -1,6 +1,8 @@
 import inquirer
 from models.question import Question
 from models.quiz import Quiz
+from helpers.user_helper import clear_screen
+from helpers.quiz_helper import list_specific_quiz
 
 
 def find_question_by_id():
@@ -15,7 +17,10 @@ def add_question(selected_quiz_id):
     content = input("Enter the question's content: ")
     quiz_id = selected_quiz_id
     question = Question.create(content, quiz_id)
-    print(f"Question: {question} created successfully")
+    clear_screen()
+    list_specific_quiz(selected_quiz_id)
+    list_questions(selected_quiz_id)
+    print("Question created successfully")
 
 
 def update_question():
@@ -36,11 +41,27 @@ def update_question():
         print(f"Question {id_} not found")
 
 
-def delete_question(selected_question_id):
+def delete_question(selected_question_id, selected_quiz_id):
     """Delete a question from the database"""
     question = Question.find_by_id(selected_question_id)
     question.delete_question_and_answers()
-    print(f"Question {selected_question_id} deleted successfully")
+    clear_screen()
+    list_questions(selected_quiz_id)
+    print("Question deleted successfully\n")
+
+
+def list_questions(selected_quiz_id):
+    """List all questions of the selected quiz"""
+
+    quiz = Quiz.find_by_id(selected_quiz_id)
+    questions = quiz.get_questions()
+
+    print("List of Questions:\n")
+
+    for question in questions:
+        print(f"{questions.index(question) + 1}. {question.content}\n")
+
+    return questions
 
 
 def list_questions_and_answers_of_the_quiz(selected_quiz_id):
@@ -60,6 +81,7 @@ def list_questions_and_answers_of_the_quiz(selected_quiz_id):
 
 def list_questions_and_select_question(selected_quiz_id):
     """List all questions of the selected quiz and prompt the user to select a question"""
+    clear_screen()
     questions = list_questions_and_answers_of_the_quiz(selected_quiz_id)
     question_options = [(question.content, question.id) for question in questions]
 
@@ -71,7 +93,7 @@ def list_questions_and_select_question(selected_quiz_id):
     questions = [
         inquirer.Text(
             "question_id",
-            message="Enter the question's id:",
+            message="Enter the question's id",
             validate=lambda _, response: response.isdigit()
             and 1 <= int(response) <= len(question_options),
         )
