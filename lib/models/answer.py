@@ -1,7 +1,7 @@
 from models.__init__ import CURSOR, CONN
 
 import sqlite3
-DB_PATH = 'lib/data/quiz_sphere_1.db'
+DB_PATH = 'lib/data/quiz_sphere_2.db'
 
 
 class Answer:

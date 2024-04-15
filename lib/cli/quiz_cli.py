@@ -1,5 +1,5 @@
 # import random
-# import sqlite3
+import sqlite3
 import inquirer
 
 from helpers.quiz_helper import list_quizzes, list_quizzes_and_select_quiz
@@ -47,7 +47,7 @@ def start_quiz(selected_quiz_id):
         if retry:
             start_quiz()
         else:
-            main_menu()
+            quiz_menu()
 
 
 def submit_score(score):
@@ -80,3 +80,5 @@ def quiz_menu(user):
 
 if __name__ == "__main__":
     quiz_menu()
+
+

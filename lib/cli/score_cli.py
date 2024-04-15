@@ -5,6 +5,7 @@ from helpers.score_helper import (
     print_quiz_details_user,
 )
 import inquirer
+from models.quiz import Quiz
 
 
 def scores_menu(user):
@@ -39,11 +40,14 @@ def scores_menu(user):
 def display_quiz_options(quiz_id, user):
     from main import main_menu
 
+    quiz = Quiz.find_by_id(quiz_id)
+
     questions = [
         inquirer.List(
             "action",
             message="Options for the selected quiz:",
             choices=[
+                "Compare to average score",
                 "Plot score comparison graph",
                 "View quiz details",
                 # "View percentage of correct answers",
@@ -53,8 +57,10 @@ def display_quiz_options(quiz_id, user):
     ]
     answer = inquirer.prompt(questions)
 
+    if answer["action"] == "Compare to average score":
+        compare_with_average(quiz_id, user)
     if answer["action"] == "Plot score comparison graph":
-        plot_score_comparison(quiz_id, user)
+        plot_score_comparison(quiz, user)
         # Score.compare_with_average(quiz_id, self.user_score)
     elif answer["action"] == "View quiz details":
         print_quiz_details_user(quiz_id, user)
