@@ -1,7 +1,7 @@
 from helpers.score_helper import get_user_scores, plot_score_comparison, compare_with_average, print_quiz_details_user
 import inquirer
 
-def display_quiz_scores(user):
+def scores_menu(user):
     user_scores = get_user_scores(user)
 
     print("Your scores on each quiz:")

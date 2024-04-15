@@ -14,11 +14,12 @@ from models.score import Score
 def get_user_scores(user):
     """Get the users scores"""
 
-    user_scores = []
+    
 
     quizzes_scores = user.get_all_quizzes_and_scores()
-    for quiz, score in quizzes_scores:
-        print(f"Quiz: {quiz}, Score: {score}")
+    
+        
+    return quizzes_scores
 
 
 def get_average_scores(quiz_id, user):
