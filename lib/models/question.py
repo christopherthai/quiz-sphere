@@ -4,6 +4,9 @@ from models.__init__ import CURSOR, CONN
 # from models.quiz import Quiz
 from models.answer import Answer
 
+import sqlite3
+DB_PATH = 'lib/data/quiz_sphere_2.db'
+
 
 class Question:
 
@@ -19,6 +22,15 @@ class Question:
     # Method that returns representation of the object
     def __repr__(self):
         return f"<Question {self.id}:{self.content}:{self.quiz_id}>"
+
+    @staticmethod #추가
+    def get_random_questions(limit=10):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, content, quiz_id FROM questions ORDER BY RANDOM() LIMIT ?", (limit,))
+        question_rows = cursor.fetchall()
+        conn.close()
+        return [Question(*row) for row in question_rows]
 
     # Property method that returns the title
     @property
