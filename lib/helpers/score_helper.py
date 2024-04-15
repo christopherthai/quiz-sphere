@@ -27,43 +27,43 @@ def get_user_scores(user):
     return quiz_scores
 
 
-def get_average_scores(quiz):
+def get_average_scores(quiz_id, user):
     """Get average score from all users for given quiz"""
     # score_query = select([func.avg(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
     # result = CURSOR.execute(score_query).fetchone()
+    quiz = Quiz.find_by_id(quiz_id)
 
-    result = quiz.get_average_score()
-    
-    average_score = result[0] if result[0] is not None else 0
-    return average_score
+    average_score = quiz.get_average_score()
+    user_score = user.get_quiz_score(quiz) 
+       
+    compare_with_average(user_score, average_score)
 
 
-def compare_with_average(score):
+def compare_with_average(average_score, user_score):
     """Compares users average with all other users average"""
-    average_score = score.get_average_scores()
-    # if user_score > average_score:
-    #     return (
-    #         f"Your score ({user_score}) is higher than the average score of {average_score}.",
-    #         average_score,
-    #         user_score,
-    #     )
-    # elif user_score < average_score:
-    #     return (
-    #         f"Your score ({user_score}) is lower than the average score of {average_score}.",
-    #         average_score,
-    #         user_score,
-    #     )
-    # else:
-    #     return (
-    #         f"Your score ({user_score}) is equal to the average score of {average_score}.",
-    #         average_score,
-    #         user_score,
-    #     )
+    if user_score > average_score:
+        return (
+            f"Your score ({user_score}) is higher than the average score of {average_score}.",
+            average_score,
+            user_score,
+        )
+    elif user_score < average_score:
+        return (
+            f"Your score ({user_score}) is lower than the average score of {average_score}.",
+            average_score,
+            user_score,
+        )
+    else:
+        return (
+            f"Your score ({user_score}) is equal to the average score of {average_score}.",
+            average_score,
+            user_score,
+        )
     return average_score
 
-def print_quiz_details_user(quiz):
+def print_quiz_details_user(quiz_id, user):
     """Prints quiz details with incorrect and correct listed next to the question"""
-    result = quiz.print_quiz_details()
+    result = user.print_quiz_details(quiz_id)
     
     return result
 
@@ -78,7 +78,6 @@ def get_scores_for_quiz(quiz):
 
 
 def plot_score_comparison(quiz_id, user):
-    from models.user import get_quiz_score
     """Plots results of users score against other users scores"""
     all_scores = get_scores_for_quiz(quiz_id)
     

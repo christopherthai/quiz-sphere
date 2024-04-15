@@ -166,19 +166,24 @@ class User:
             (Quiz.find_by_id(row[4]), Score.instance_from_db(row)) for row in rows
         ]  # Return a tuple of Quiz and Score instance for each row
 
-    def print_quiz_details(self):
+    def print_quiz_details(self, quiz_id):
         """Print the details of the quizzes and scores of the user"""
-        quizzes_and_scores = self.get_all_quizzes_and_scores()
-        for quiz, score in quizzes_and_scores:
-            print(f"Quiz: {quiz.title}")
-            print(f"Score: {score.score}")
-            print(f"Date taken: {score.date_taken}")
-            print(f"Average score: {quiz.get_average_score()}")
-            questions = quiz.get_questions_and_answers()
-            for question in questions:
-                print(f"Question: {question.content}")
-                for answer in question.answers:
-                    print(f"Answer: {answer.content}")
-            print("\n")
+        quiz = Quiz.find_by_id(quiz_id)
+        score = self.get_quiz_score(quiz)
+        print(f"Quiz: {quiz.title}")
+        print(f"Score: {score.score}")
+        print(f"Date taken: {score.date_taken}")
+        print(f"Average score: {quiz.get_average_score()}")
+
+        questions = quiz.get_questions_and_answers()
+        for question in questions:
+            print(f"\nQuestion: {question.content}")
+
+            # Get the user's answer for the current question
+            user_answer = question.get_answers()
+            print(f"Your Answer: {user_answer}")
+
+            # Print whether the user's answer is correct
+            print(f"Correct: {question.answer_is_correct(user_answer)}")
             
 
