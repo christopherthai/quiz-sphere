@@ -1,4 +1,4 @@
-# from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 from sqlalchemy import select, func
 
 from models.__init__ import CURSOR
@@ -26,8 +26,8 @@ def get_average_scores(quiz_id, user):
     quiz = Quiz.find_by_id(quiz_id)
 
     average_score = quiz.get_average_score()
-    user_score = user.get_quiz_score(quiz) 
-    
+    user_score = user.get_quiz_score(quiz)
+
     return user_score, average_score
 
 
@@ -76,7 +76,6 @@ def plot_score_comparison(quiz, user):
 
     all_scores = [score.score for score in all_scores]
 
-
     user_score = user.get_quiz_score(quiz).score
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
@@ -89,11 +88,12 @@ def plot_score_comparison(quiz, user):
     plt.legend()
     plt.show()
 
-def submit_score(score, date_taken, quiz_id, user_id):
-        """Add a score to the database"""
-        score = Score.create(score, date_taken, quiz_id, user_id)
-        # print("Score was submitted successfully.\n")
-        return score
+
+def submit_score(score, date_taken, user_id, quiz_id):
+    """Add a score to the database"""
+    score = Score.create(score, date_taken, user_id, quiz_id)
+    # print("Score was submitted successfully.\n")
+    return score
 
 
 # def get_correct_answers_percentage(quiz_id):

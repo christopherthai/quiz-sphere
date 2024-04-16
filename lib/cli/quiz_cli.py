@@ -102,7 +102,7 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
     else:
         submit = inquirer.confirm("Submit score?", default=True)
         if submit:
-            submit_score(score, get_formatted_date(), selected_quiz_id, user.id)
+            submit_score(score, get_formatted_date(), user.id, selected_quiz_id)
             print("Score was submitted successfully.\n")
             input ("Press Enter to continue...")
         quiz_menu(user)
