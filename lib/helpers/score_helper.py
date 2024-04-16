@@ -1,4 +1,4 @@
-# from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 from sqlalchemy import select, func
 
 from models.__init__ import CURSOR
@@ -27,7 +27,7 @@ def get_average_scores(quiz_id, user):
 
     average_score = quiz.get_average_score()
     user_score = user.get_quiz_score(quiz) 
-    
+    print(average_score)
     return user_score, average_score
 
 

@@ -167,6 +167,7 @@ class Quiz:
     def get_average_score(self):
         """Get the average score for the quiz"""
         scores = self.get_scores()
+        print(scores)
         if not scores: # If there are no scores for the quiz
             return 0  # Return 0 if there are no scores for the quiz
         total = sum(score.score for score in scores) # Calculate the total score
