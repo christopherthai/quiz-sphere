@@ -89,10 +89,22 @@ def plot_score_comparison(quiz, user):
     plt.show()
 
 
-def submit_score(score, date_taken, user_id, quiz_id):
+def submit_score(score, date_taken, user, quiz_id):
     """Add a score to the database"""
-    score = Score.create(score, date_taken, user_id, quiz_id)
-    # print("Score was submitted successfully.\n")
+    quiz = Quiz.find_by_id(quiz_id)
+    if user.get_quiz_score(quiz):
+        return update_score(score, date_taken, user, quiz_id)
+    score = Score.create(score, date_taken, user.id, quiz_id)
+    return score
+
+
+def update_score(score_value, date_taken, user, quiz_id):
+    """Update a score in the database"""
+    quiz = Quiz.find_by_id(quiz_id)
+    score = user.get_quiz_score(quiz)  # score instance
+    score.score = score_value  # setting the score value
+    score.date_taken = date_taken
+    score.update()
     return score
 
 
