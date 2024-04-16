@@ -55,25 +55,55 @@ def get_scores_for_quiz(quiz):
     scores = quiz.get_scores()
     return scores
 
-#Plots histogram with users score against other scores
+# #Plots histogram with users score against other scores
+# def plot_score_comparison(quiz, user):
+#     """Plots results of users score against other users scores"""
+#     all_scores = get_scores_for_quiz(quiz)
+
+#     all_scores = [score.score for score in all_scores]
+
+#     user_score = user.get_quiz_score(quiz).score
+
+#     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
+#     plt.axvline(
+#         user_score, color="red", linestyle="dashed", linewidth=1, label="Your Score"
+#     )
+#     plt.xlabel("Score")
+#     plt.ylabel("Frequency")
+#     plt.title("Score Comparison")
+#     plt.legend()
+#     plt.show()
+
+
 def plot_score_comparison(quiz, user):
     """Plots results of users score against other users scores"""
     all_scores = get_scores_for_quiz(quiz)
+    
+    # Extract scores and users
+    scores = [score.score for score in all_scores]
+    users = [score.id for score in all_scores]
 
-    all_scores = [score.score for score in all_scores]
-
+    # Get the user's score
     user_score = user.get_quiz_score(quiz).score
+    
+    average_score = sum(scores) / len(scores)
+    
 
-    plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
-    plt.axvline(
-        user_score, color="red", linestyle="dashed", linewidth=1, label="Your Score"
-    )
-    plt.xlabel("Score")
-    plt.ylabel("Frequency")
-    plt.title("Score Comparison")
+    # Create scatter plot
+    plt.figure(figsize=(10, 6))
+    plt.scatter(users, scores, color='blue', label='All Scores')
+    plt.scatter(user.id, user_score, color='red', label='Your Score')
+    plt.axhline(y=average_score, color='red', linestyle='--', linewidth=1, label='Average Grade')
+    
+    
+    plt.xlabel('User')
+    plt.ylabel('Grade')
+    plt.title('Score Comparison')
     plt.legend()
+    plt.xticks([], [])  # Rotate x-axis labels for better readability
+    plt.grid(True)  # Show grid lines
+    plt.tight_layout()  # Adjust layout to prevent clipping of labels
     plt.show()
-
 
 # Add a score to the database
 def submit_score(score, date_taken, user, quiz_id):
