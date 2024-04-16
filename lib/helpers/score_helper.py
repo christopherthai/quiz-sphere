@@ -76,7 +76,6 @@ def plot_score_comparison(quiz, user):
 
     all_scores = [score.score for score in all_scores]
 
-
     user_score = user.get_quiz_score(quiz).score
 
     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
@@ -89,11 +88,24 @@ def plot_score_comparison(quiz, user):
     plt.legend()
     plt.show()
 
-def submit_score(score, date_taken, quiz_id, user_id):
-        """Add a score to the database"""
-        score = Score.create(score, date_taken, quiz_id, user_id)
-        # print("Score was submitted successfully.\n")
-        return score
+
+def submit_score(score, date_taken, user, quiz_id):
+    """Add a score to the database"""
+    quiz = Quiz.find_by_id(quiz_id)
+    if user.get_quiz_score(quiz):
+        return update_score(score, date_taken, user, quiz_id)
+    score = Score.create(score, date_taken, user.id, quiz_id)
+    return score
+
+
+def update_score(score_value, date_taken, user, quiz_id):
+    """Update a score in the database"""
+    quiz = Quiz.find_by_id(quiz_id)
+    score = user.get_quiz_score(quiz)  # score instance
+    score.score = score_value  # setting the score value
+    score.date_taken = date_taken
+    score.update()
+    return score
 
 
 # def get_correct_answers_percentage(quiz_id):

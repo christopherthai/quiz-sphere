@@ -50,12 +50,13 @@ from datetime import datetime
 #         else:
 #             quiz_menu()
 
+
 def quiz_flow(questions_and_answers, selected_quiz_id, user):
     """Starts the quiz flow after selecting a quiz."""
     clear_screen()
     # selected_quiz_id = list_quizzes_and_select_quiz()
     # questions_and_answers = list_questions_and_answers_of_the_quiz(selected_quiz_id)
-    
+
     if len(questions_and_answers) > 10:
         questions_and_answers = random.sample(questions_and_answers, 10)
 
@@ -70,8 +71,10 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
         print(f"Question: {question.content}")
         answers = question.answers
         choices = [answer.content for answer in answers]
-        random.shuffle(choices) # shuffle answer randomly
-        correct_answer = next((answer.content for answer in answers if answer.is_correct), None)
+        random.shuffle(choices)  # shuffle answer randomly
+        correct_answer = next(
+            (answer.content for answer in answers if answer.is_correct), None
+        )
 
         answer = inquirer.list_input("Choose the correct answer", choices=choices)
 
@@ -102,9 +105,9 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
     else:
         submit = inquirer.confirm("Submit score?", default=True)
         if submit:
-            submit_score(score, get_formatted_date(), selected_quiz_id, user.id)
+            submit_score(score, get_formatted_date(), user, selected_quiz_id)
             print("Score was submitted successfully.\n")
-            input ("Press Enter to continue...")
+            input("Press Enter to continue...")
         quiz_menu(user)
 
 
