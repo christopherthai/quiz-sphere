@@ -9,11 +9,11 @@ from cli.score_cli import scores_menu
 from helpers.user_helper import clear_screen
 from models.user import User
 
-# from cli.quiz_cli import quiz_menu
-
 
 def main_menu(user):
     """Main menu for the application"""
+
+    # Set the questions to ask the user
     questions = [
         inquirer.List(
             "service",
@@ -26,6 +26,8 @@ def main_menu(user):
             ],
         ),
     ]
+
+    # Ask the user for the service to provide
     answers = inquirer.prompt(questions)
     if answers["service"] == "Take Quiz":
         clear_screen()
@@ -33,12 +35,10 @@ def main_menu(user):
             print("Admin users cannot take the quiz.\n")
             main_menu(user)
         else:
-            # Add your code here to implement the logic for taking the quiz
-            quiz_menu(user)
+            quiz_menu(user)  # Call the quiz_menu function
     elif answers["service"] == "View Scores":
         clear_screen()
-        scores_menu(user)
-        # display_quiz_options(user)
+        scores_menu(user)  # Call the scores_menu function
     elif answers["service"] == "Admin Menu":
         if user.is_admin == 1:
             clear_screen()
