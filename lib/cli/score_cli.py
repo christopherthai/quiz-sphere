@@ -1,11 +1,18 @@
-from helpers.score_helper import get_user_scores, get_average_scores, plot_score_comparison, compare_with_average
+from helpers.score_helper import (
+    get_user_scores,
+    get_average_scores,
+    plot_score_comparison,
+    compare_with_average,
+)
 from helpers.user_helper import clear_screen
 import inquirer
 from models.quiz import Quiz
 
-#Code and logic for the user's scores menu
+
+# Code and logic for the user's scores menu
 def scores_menu(user):
     from main import main_menu
+
     user_scores = get_user_scores(user)
 
     user_scores = [(quiz, score) for quiz, score in user_scores]
@@ -37,9 +44,9 @@ def scores_menu(user):
 def display_quiz_options(quiz_id, user):
 
     quiz = Quiz.find_by_id(quiz_id)
-    
+
     user_score, average_score = get_average_scores(quiz_id, user)
-    
+
     questions = [
         inquirer.List(
             "action",
@@ -54,8 +61,9 @@ def display_quiz_options(quiz_id, user):
     answer = inquirer.prompt(questions)
 
     if answer["action"] == "Compare to average score":
+        clear_screen()
         comparison_result = compare_with_average(average_score, user_score)
-        print(comparison_result[0])
+        print(f"{comparison_result[0]}\n")
         display_quiz_options(quiz_id, user)
     if answer["action"] == "Plot score comparison graph":
         plot_score_comparison(quiz, user)
