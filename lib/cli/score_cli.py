@@ -3,7 +3,7 @@ from helpers.user_helper import clear_screen
 import inquirer
 from models.quiz import Quiz
 
-
+#Code and logic for the user's scores menu
 def scores_menu(user):
     from main import main_menu
     user_scores = get_user_scores(user)
@@ -17,7 +17,7 @@ def scores_menu(user):
         )
 
     print("\nOptions:")
-    print("Enter the id of the quiz to see more options")
+    print("Enter the quiz # to see more options")
     print("0. Return to Main Menu\n")
     choice = input("Enter your choice: ")
 
@@ -35,7 +35,6 @@ def scores_menu(user):
 
 
 def display_quiz_options(quiz_id, user):
-    from main import main_menu
 
     quiz = Quiz.find_by_id(quiz_id)
     
@@ -62,5 +61,5 @@ def display_quiz_options(quiz_id, user):
         plot_score_comparison(quiz, user)
         display_quiz_options(quiz_id, user)
     elif answer["action"] == "Exit":
-        print("Exiting to Main Menu...")
+        print("Exiting to Scores Menu...")
         scores_menu(user)
