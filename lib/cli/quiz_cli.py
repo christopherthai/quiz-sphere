@@ -92,6 +92,7 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
         submit = inquirer.confirm("Submit score?", default=True)
         if submit:
             submit_score(score, get_formatted_date(), selected_quiz_id, user.id)
+            print("Score was submitted successfully.\n")
         quiz_menu(user)
 
 def get_formatted_date():
