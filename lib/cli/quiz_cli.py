@@ -55,13 +55,18 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
     clear_screen()
     # selected_quiz_id = list_quizzes_and_select_quiz()
     # questions_and_answers = list_questions_and_answers_of_the_quiz(selected_quiz_id)
+    
+    if len(questions_and_answers) > 10:
+        questions_and_answers = random.sample(questions_and_answers, 10)
+
     total_questions = len(questions_and_answers)
     score = 0
 
-    random.shuffle(questions_and_answers)
+    # random.shuffle(questions_and_answers)
 
     for question in questions_and_answers:
         clear_screen()
+
         print(f"Question: {question.content}")
         answers = question.answers
         choices = [answer.content for answer in answers]
