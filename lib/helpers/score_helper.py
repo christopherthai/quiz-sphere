@@ -27,7 +27,6 @@ def get_average_scores(quiz_id, user):
 
     average_score = quiz.get_average_score()
     user_score = user.get_quiz_score(quiz) 
-    print(average_score)
     return user_score, average_score
 
 

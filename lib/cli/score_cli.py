@@ -48,8 +48,6 @@ def display_quiz_options(quiz_id, user):
             choices=[
                 "Compare to average score",
                 "Plot score comparison graph",
-                "View quiz details",
-                # "View percentage of correct answers",
                 "Exit",
             ],
         )
@@ -59,13 +57,10 @@ def display_quiz_options(quiz_id, user):
     if answer["action"] == "Compare to average score":
         comparison_result = compare_with_average(average_score, user_score)
         print(comparison_result[0])
+        display_quiz_options(quiz_id, user)
     if answer["action"] == "Plot score comparison graph":
         plot_score_comparison(quiz, user)
-        # Score.compare_with_average(quiz_id, self.user_score)
-    elif answer["action"] == "View quiz details":
-        print_quiz_details_user(quiz_id, user)
-    # elif answer["action"] == "View percentage of correct answers":
-    #     view_percentage_correct(quiz_id)
+        display_quiz_options(quiz_id, user)
     elif answer["action"] == "Exit":
         print("Exiting to Main Menu...")
-        main_menu(user)
+        scores_menu(user)
