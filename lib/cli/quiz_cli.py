@@ -1,4 +1,4 @@
-# import random
+import random
 import sqlite3
 import inquirer
 
@@ -11,44 +11,44 @@ from datetime import datetime
 DB_PATH = "data/quiz_sphere_1.db"
 
 
-def get_questions():
-    conn = None
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Questions ORDER BY RANDOM() LIMIT 10")
-        questions = cursor.fetchall()
-    except sqlite3.Error as error:
-        print("Database error:", error)
-        questions = []
-    finally:
-        if conn:
-            conn.close()
-    return questions
+# def get_questions():
+#     conn = None
+#     try:
+#         conn = sqlite3.connect(DB_PATH)
+#         cursor = conn.cursor()
+#         cursor.execute("SELECT * FROM Questions ORDER BY RANDOM() LIMIT 10")
+#         questions = cursor.fetchall()
+#     except sqlite3.Error as error:
+#         print("Database error:", error)
+#         questions = []
+#     finally:
+#         if conn:
+#             conn.close()
+#     return questions
 
-def start_quiz(selected_quiz_id):
-    questions = get_questions()
-    score = 0
-    for question in questions:
-        print(question[1])  # assuming question[1] is the question text
-        answer = input("Your answer: ")
-        if (
-            answer.lower() == question[2].lower()
-        ):  # assuming question[2] is the correct answer
-            print("Correct!")
-            score += 1
-        else:
-            print("Wrong!")
-    print(f"Your score is {score}.")
-    submit = inquirer.confirm("Submit score?", default=True)
-    if submit:
-        submit_score(score)
-    else:
-        retry = inquirer.confirm("Do it again?", default=False)
-        if retry:
-            start_quiz()
-        else:
-            quiz_menu()
+# def start_quiz(selected_quiz_id):
+#     questions = get_questions()
+#     score = 0
+#     for question in questions:
+#         print(question[1])  # assuming question[1] is the question text
+#         answer = input("Your answer: ")
+#         if (
+#             answer.lower() == question[2].lower()
+#         ):  # assuming question[2] is the correct answer
+#             print("Correct!")
+#             score += 1
+#         else:
+#             print("Wrong!")
+#     print(f"Your score is {score}.")
+#     submit = inquirer.confirm("Submit score?", default=True)
+#     if submit:
+#         submit_score(score)
+#     else:
+#         retry = inquirer.confirm("Do it again?", default=False)
+#         if retry:
+#             start_quiz()
+#         else:
+#             quiz_menu()
 
 def quiz_flow(questions_and_answers, selected_quiz_id, user):
     """ Starts the quiz flow after selecting a quiz. """
@@ -93,6 +93,7 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
         if submit:
             submit_score(score, get_formatted_date(), selected_quiz_id, user.id)
             print("Score was submitted successfully.\n")
+            input ("Press Enter to continue...")
         quiz_menu(user)
 
 def get_formatted_date():
