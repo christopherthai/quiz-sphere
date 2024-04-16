@@ -1,4 +1,4 @@
-from helpers.score_helper import get_user_scores, get_average_scores, plot_score_comparison, compare_with_average, print_quiz_details_user
+from helpers.score_helper import get_user_scores, get_average_scores, plot_score_comparison, compare_with_average
 from helpers.user_helper import clear_screen
 import inquirer
 from models.quiz import Quiz
@@ -13,7 +13,7 @@ def scores_menu(user):
     print("Your scores on each quiz:")
     for quiz, score in user_scores:
         print(
-            f"{user_scores.index((quiz, score)) + 1}. Quiz: {quiz.title}, Score: {score.score}\n"
+            f"{user_scores.index((quiz, score)) + 1}. Quiz: {quiz.title} - Score: {score.score} - Date: {score.date_taken}\n"
         )
 
     print("\nOptions:")
