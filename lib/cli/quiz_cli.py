@@ -77,7 +77,7 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
 
         if answer == correct_answer:
             print("Correct!")
-            score += 20
+            score += 10
         else:
             print("Wrong! The correct answer was:", correct_answer)
 
