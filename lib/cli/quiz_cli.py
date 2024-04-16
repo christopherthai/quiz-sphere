@@ -51,7 +51,7 @@ DB_PATH = "data/quiz_sphere_1.db"
 #             quiz_menu()
 
 def quiz_flow(questions_and_answers, selected_quiz_id, user):
-    """ Starts the quiz flow after selecting a quiz. """
+    """Starts the quiz flow after selecting a quiz."""
     clear_screen()
     # selected_quiz_id = list_quizzes_and_select_quiz()
     # questions_and_answers = list_questions_and_answers_of_the_quiz(selected_quiz_id)
@@ -80,13 +80,16 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
     print(f"Your final score is {score}/{total_questions * 20}.")
     handle_score_submission(questions_and_answers, score, selected_quiz_id, user)
 
+
 def handle_score_submission(questions_and_answers, score, selected_quiz_id, user):
     if score < 60:
         retry = inquirer.confirm(
             "Your score is below 60. Do you want to take it again?", default=True
         )
         if retry:
-            quiz_flow(questions_and_answers, selected_quiz_id, user)  # Pass the quiz ID to restart the same quiz
+            quiz_flow(
+                questions_and_answers, selected_quiz_id, user
+            )  # Pass the quiz ID to restart the same quiz
         else:
             quiz_menu(user)
     else:
@@ -97,8 +100,10 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
             input ("Press Enter to continue...")
         quiz_menu(user)
 
+
 def get_formatted_date():
     return datetime.now().strftime("%Y-%m-%d")
+
 
 # def submit_score(score):
 #     try:
@@ -127,6 +132,7 @@ def get_formatted_date():
 
 def quiz_menu(user):
     from main import main_menu
+
     list_quizzes()
     choices = ["Select Quiz", "Return to Main Menu"]
     choice = inquirer.list_input("Select", choices=choices)
@@ -143,5 +149,3 @@ def quiz_menu(user):
 
 if __name__ == "__main__":
     quiz_menu()
-
-

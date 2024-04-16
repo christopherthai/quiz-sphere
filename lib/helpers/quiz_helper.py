@@ -32,7 +32,7 @@ def edit_quiz(quiz_id):
     quiz.description = description  # Set the new description
     quiz.update()  # Update the quiz
     clear_screen()
-    list_quizzes()  # List all quizzes
+    # list_quizzes()  # List all quizzes
     print(f"Quiz: {quiz.title} updated successfully.\n")  # Print a success message
 
 
