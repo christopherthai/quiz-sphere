@@ -8,7 +8,7 @@ from helpers.question_helper import list_questions_and_answers_of_the_quiz
 from helpers.score_helper import submit_score
 from datetime import datetime
 
-DB_PATH = "data/quiz_sphere_1.db"
+# DB_PATH = "data/quiz_sphere_1.db"
 
 
 # def get_questions():
@@ -58,6 +58,8 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
     total_questions = len(questions_and_answers)
     score = 0
 
+    random.shuffle(questions_and_answers)
+
     for question in questions_and_answers:
         clear_screen()
         print(f"Question: {question.content}")
@@ -77,7 +79,7 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
         input("Press Enter to continue...")
 
     clear_screen()
-    print(f"Your final score is {score}/{total_questions * 20}.")
+    print(f"Your final score is {score}/{total_questions * 10}.")
     handle_score_submission(questions_and_answers, score, selected_quiz_id, user)
 
 
