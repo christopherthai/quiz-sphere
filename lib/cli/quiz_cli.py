@@ -63,6 +63,7 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
         print(f"Question: {question.content}")
         answers = question.answers
         choices = [answer.content for answer in answers]
+        random.shuffle(choices) # shuffle answer randomly
         correct_answer = next((answer.content for answer in answers if answer.is_correct), None)
 
         answer = inquirer.list_input("Choose the correct answer", choices=choices)
