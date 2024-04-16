@@ -42,19 +42,21 @@ class User:
             raise ValueError("Invalid value for is_admin")
         self._is_admin = value
 
+    # Insert a new record into the Users table with the attributes of the User instance
     def save(self):
         """Insert a new record into the Users table with the attributes of the User instance"""
         sql = """
         INSERT INTO Users (username, is_admin) VALUES (?, ?)
         """
         CURSOR.execute(sql, (self.username, self.is_admin))  # Execute the SQL statement
-        CONN.commit()
+        CONN.commit() # Commit the changes to the database
 
         self.id = CURSOR.lastrowid  # Get the id of the last inserted row
         type(self).all[
             self.username
         ] = self  # Add the User instance to the all dictionary
 
+    # Update the record in the Users table with the attributes of the User instance
     def update(self):
         """Update the record in the Users table with the attributes of the User instance"""
         sql = """
@@ -65,6 +67,7 @@ class User:
         )  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
 
+    # Delete the record in the Users table with the attributes of the User instance
     def delete(self):
         """Delete the record in the Users table with the attributes of the User instance"""
         sql = """
@@ -73,6 +76,7 @@ class User:
         CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
         CONN.commit()  # Commit the changes to the database
 
+    # Class method that creates a new instance of the User class
     @classmethod
     def create(cls, username, is_admin):
         """Create a new instance of the User class"""
@@ -80,13 +84,15 @@ class User:
         user.save()  # Save the User instance to the database
         return user  # Return the User instance
 
+    # Class method that returns a User instance from a row in the Users table
     @classmethod
     def instance_from_db(cls, row):
         """Return a User instance from a row in the Users table"""
         if row:
-            return cls(row[1], row[2], row[0])
+            return cls(row[1], row[2], row[0]) # Create a User instance
         return None
 
+    # Class method that returns all records from the Users table
     @classmethod
     def get_all(cls):
         """Return all records from the Users table"""
@@ -99,6 +105,7 @@ class User:
             cls.instance_from_db(row) for row in rows
         ]  # Create a User instance for each row
 
+    # Class method that returns the record from the Users table with the given id
     @classmethod
     def find_by_id(cls, id):
         """Return the record from the Users table with the given id"""
@@ -111,6 +118,7 @@ class User:
             cls.instance_from_db(row) if row else None
         )  # Create a User instance if row is not None
 
+    # Class method that returns the record from the Users table with the given username
     @classmethod
     def find_by_username(cls, username):
         """Return the record from the Users table with the given username"""
@@ -123,6 +131,7 @@ class User:
             cls.instance_from_db(row) if row else None
         )  # Return a User instance if row is not None
 
+    # Instance method that returns all the scores of the user
     def get_all_scores(self):
         """Return all the scores of the user"""
         sql = """
@@ -134,16 +143,17 @@ class User:
             Score.instance_from_db(row) for row in rows
         ]  # Return a Score instance for each row
 
+    # Instance method that returns the score of the user in a particular quiz
     def get_quiz_score(self, quiz):
         """Return the score of the user in a particular quiz"""
         sql = """
         SELECT * FROM Scores WHERE user_id = ? AND quiz_id = ?
         """
-        CURSOR.execute(sql, (self.id, quiz.id))
-        row = CURSOR.fetchone()
+        CURSOR.execute(sql, (self.id, quiz.id)) # Execute the SQL statement
+        row = CURSOR.fetchone() # Returns the first row
         return Score.instance_from_db(row)  # Return a Score instance
-        
 
+    # Instance method that returns all the quizzes of the user
     def get_all_quizzes(self):
         """Return all the quizzes of the user"""
         sql = """
@@ -155,6 +165,7 @@ class User:
             Quiz.find_by_id(row[2]) for row in rows
         ]  # Return a Quiz instance for each row
 
+    # Instance method that returns all the quizzes and scores of the user
     def get_all_quizzes_and_scores(self):
         """Return all the quizzes and scores of the user"""
         sql = """
@@ -166,6 +177,7 @@ class User:
             (Quiz.find_by_id(row[4]), Score.instance_from_db(row)) for row in rows
         ]  # Return a tuple of Quiz and Score instance for each row
 
+    # Instance method that prints the details of the quizzes and scores of the user
     def print_quiz_details(self, quiz_id):
         """Print the details of the quizzes and scores of the user"""
         quiz = Quiz.find_by_id(quiz_id)

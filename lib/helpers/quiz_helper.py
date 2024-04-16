@@ -3,8 +3,9 @@ from models.quiz import Quiz
 from helpers.user_helper import clear_screen
 
 
+# Add a quiz to the database
 def add_quiz():
-
+    """Add a quiz to the database"""
     clear_screen()
     list_quizzes()  # List all quizzes in the database
 
@@ -20,6 +21,7 @@ def add_quiz():
     print(f"Quiz: {quiz.title} created successfully.\n")  # Print a success message
 
 
+# Edit a quiz in the database
 def edit_quiz(quiz_id):
     """Edit a quiz in the database"""
     quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
@@ -32,10 +34,11 @@ def edit_quiz(quiz_id):
     quiz.description = description  # Set the new description
     quiz.update()  # Update the quiz
     clear_screen()
-    list_quizzes()  # List all quizzes
+    # list_quizzes()  # List all quizzes
     print(f"Quiz: {quiz.title} updated successfully.\n")  # Print a success message
 
 
+# Delete a quiz from the database
 def delete_quiz(quiz_id):
     """Delete a quiz from the database"""
     quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
@@ -45,10 +48,11 @@ def delete_quiz(quiz_id):
     print(f"Quiz: {quiz.title} deleted successfully.\n")  # Print a success message
 
 
+# List all quizzes and prompt the user to select a quiz
 def list_quizzes_and_select_quiz():
     """List all quizzes and prompt the user to select a quiz"""
     quizzes = Quiz.get_all()
-    quiz_options = [(quiz.title, quiz.id) for quiz in quizzes]
+    quiz_options = [(quiz.title, quiz.id) for quiz in quizzes]  # Get the quiz options
 
     clear_screen()
     print("List of Quizzes:\n")
@@ -66,12 +70,15 @@ def list_quizzes_and_select_quiz():
             and 1 <= int(x) <= len(quiz_options),  # Validate the input
         )
     ]
+
+    # Ask the user to select a quiz
     answers = inquirer.prompt(questions)
     selected_quiz_id = quiz_options[int(answers["quiz_id"]) - 1][1]  # Get the quiz ID
 
     return selected_quiz_id
 
 
+# List all quizzes in the database
 def list_quizzes():
     """List all quizzes in the database"""
     quizzes = Quiz.get_all()  # Get all quizzes from the database
@@ -82,15 +89,18 @@ def list_quizzes():
     return quizzes
 
 
+# List a specific quiz in the database
 def list_specific_quiz(quiz_id):
     """List a specific quiz in the database"""
     quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
     print(
-        f"Quiz: {quiz.title}\nDescription: {quiz.description}\n"
-    )  # Print the quiz's title and description
+        f"Quiz: {quiz.title}\nDescription: {quiz.description}\n"  # Print the quiz's title and description
+    )
     return quiz
 
 
+# Get a quiz by its ID
 def get_quiz(quiz_id):
-    quiz = Quiz.find_by_id(quiz_id)
+    """Get a quiz by its ID"""
+    quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
     return quiz
