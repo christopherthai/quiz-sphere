@@ -8,7 +8,7 @@ from helpers.question_helper import list_questions_and_answers_of_the_quiz
 from helpers.score_helper import submit_score
 from datetime import datetime
 
-# DB_PATH = "data/quiz_sphere_1.db"
+# DB_PATH = "data/quiz_sphere_database.db"
 
 
 # def get_questions():

@@ -11,7 +11,7 @@ INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
 (110, 'World History', 'What was the main trading route between the East and West called in the Middle Ages?', 1);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(401, 'Spain', 1, 101),
+(401, 'British Empire', 1, 101),
 (402, 'France', 0, 101),
 (403, 'Germany', 0, 101),
 (404, 'Portugal', 0, 101),
