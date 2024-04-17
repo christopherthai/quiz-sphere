@@ -97,7 +97,7 @@ def list_questions_and_select_question(selected_quiz_id):
     questions = [
         inquirer.Text(
             "question_id",
-            message="Enter the question's id",
+            message="Enter the question's number you want to select",
             validate=lambda _, response: response.isdigit()  # Check if the input is a number
             and 1
             <= int(response)
