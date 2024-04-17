@@ -1,14 +1,7 @@
 from matplotlib import pyplot as plt
-from sqlalchemy import select, func
 
-from models.__init__ import CURSOR
-from models.user import User
 from models.quiz import Quiz
-from models.question import Question
-from models.answer import Answer
 from models.score import Score
-
-# from models.user import get_all_quizzes_and_scores, get_quiz_score
 
 
 def get_user_scores(user):

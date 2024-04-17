@@ -1,5 +1,4 @@
 import random
-import sqlite3
 import inquirer
 
 from helpers.quiz_helper import list_quizzes, list_quizzes_and_select_quiz

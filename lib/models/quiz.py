@@ -1,8 +1,6 @@
 from models.__init__ import CURSOR, CONN
 from models.score import Score
 from models.question import Question
-from models.answer import Answer
-
 
 
 class Quiz:
@@ -66,8 +64,8 @@ class Quiz:
         sql = """
         DELETE FROM Quizzes WHERE id = ?
         """
-        CURSOR.execute(sql, (self.id,)) # Execute the SQL statement
-        CONN.commit() # Commit the changes to the database
+        CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
+        CONN.commit()  # Commit the changes to the database
 
     # Class method that creates a new instance of the Quiz
     @classmethod
@@ -82,7 +80,7 @@ class Quiz:
     def instance_from_db_row(cls, row):
         """Create a new instance of the Quiz from a database row"""
         if row:
-            return cls(row[1], row[2], row[0]) # Create a new instance of the Quiz
+            return cls(row[1], row[2], row[0])  # Create a new instance of the Quiz
 
     # Class method that gets all the instances of the Quiz from the database
     @classmethod
@@ -95,7 +93,8 @@ class Quiz:
         rows = CURSOR.fetchall()  # Fetch all the rows from the database
 
         return [
-            cls.instance_from_db_row(row) for row in rows # Create a new instance of the Quiz for each row
+            cls.instance_from_db_row(row)
+            for row in rows  # Create a new instance of the Quiz for each row
         ]  # Return a list of Quiz instances
 
     # Class method that finds a Quiz instance by its id
@@ -108,7 +107,7 @@ class Quiz:
         CURSOR.execute(sql, (id,))
         row = CURSOR.fetchone()  # Fetch the first row from the result
         return (
-            cls.instance_from_db_row(row) if row else None # Return the Quiz instance
+            cls.instance_from_db_row(row) if row else None  # Return the Quiz instance
         )  # Return the Quiz instance
 
     # Class method that finds a Quiz instance by its title
@@ -130,8 +129,8 @@ class Quiz:
         sql = """
         SELECT * FROM Questions WHERE quiz_id = ?
         """
-        CURSOR.execute(sql, (self.id,)) # Execute the SQL statement
-        rows = CURSOR.fetchall() # Fetch all the rows from the database
+        CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
+        rows = CURSOR.fetchall()  # Fetch all the rows from the database
         return [
             Question.instance_from_db_row(row) for row in rows
         ]  # Return a list of Question instances
@@ -139,10 +138,10 @@ class Quiz:
     # Method that gets all the questions and answers for the quiz
     def get_questions_and_answers(self):
         """Get all the questions and answers for the quiz"""
-        questions = self.get_questions() # Get all the questions for the quiz
-        for question in questions: # Iterate over the questions
-            answers = question.get_answers() # Get all the answers for the question
-            question.answers = answers # Set the answers attribute of the question
+        questions = self.get_questions()  # Get all the questions for the quiz
+        for question in questions:  # Iterate over the questions
+            answers = question.get_answers()  # Get all the answers for the question
+            question.answers = answers  # Set the answers attribute of the question
         return questions  # Return a list of Question instances
 
     # Method that gets all the scores for the quiz
@@ -151,27 +150,26 @@ class Quiz:
         sql = """
         SELECT * FROM Scores WHERE quiz_id = ?
         """
-        CURSOR.execute(sql, (self.id,)) # Execute the SQL statement
-        rows = CURSOR.fetchall() # Fetch all the rows from the database
+        CURSOR.execute(sql, (self.id,))  # Execute the SQL statement
+        rows = CURSOR.fetchall()  # Fetch all the rows from the database
         return [
-            Score.instance_from_db(row) for row in rows # Return a list of Score instances
+            Score.instance_from_db(row)
+            for row in rows  # Return a list of Score instances
         ]  # Return a list of Score instances
 
     def get_average_score(self):
         """Get the average score for the quiz"""
         scores = self.get_scores()
-        
-        if not scores: # If there are no scores for the quiz
+
+        if not scores:  # If there are no scores for the quiz
             return 0  # Return 0 if there are no scores for the quiz
-        total = sum(score.score for score in scores) # Calculate the total score
-        return total / len(scores) # Return the average score
+        total = sum(score.score for score in scores)  # Calculate the total score
+        return total / len(scores)  # Return the average score
 
     # Method that deletes the quiz, its questions, and answers from the database
     def delete_quiz_question_and_answers(self):
         """Delete the quiz, its questions, and answers from the database"""
-        questions = self.get_questions() # Get all the questions for the quiz
-        for question in questions: # Iterate over the questions
-            question.delete_question_and_answers() # Delete the question and its answers
-        self.delete() # Delete the quiz
-    
-    
+        questions = self.get_questions()  # Get all the questions for the quiz
+        for question in questions:  # Iterate over the questions
+            question.delete_question_and_answers()  # Delete the question and its answers
+        self.delete()  # Delete the quiz
