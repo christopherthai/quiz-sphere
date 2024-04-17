@@ -62,7 +62,7 @@ def create_username():
     is_admin = 1 if is_admin_input else 0
 
     user = User.create(username, is_admin)  # Create a new user
-    print(f"User {user.username} created successfully.\n")
+    print(f"User: {user.username} created successfully.\n")
     return user
 
 
@@ -159,7 +159,7 @@ def delete_user(user_id):
 def list_users_and_select_user():
     """List all users and prompt the user to select a user"""
     users = User.get_all()  # Get all users from the database
-    user_options = [(user.username, user.id) for user in users]  # Get the user options
+    user_options = [(user.username, user.id) for user in users] # Create a list of user options in the format (username, user_id)
 
     clear_screen()
     print("List of Users:\n")
@@ -179,7 +179,7 @@ def list_users_and_select_user():
     ]
     # Ask the user to select a user
     answers = inquirer.prompt(questions)
-    user_id = user_options[int(answers["user_id"]) - 1][1]  # Get the user ID
+    user_id = user_options[int(answers["user_id"]) - 1][1]  # Get the user ID from the user options by the user option index
 
     # Find the user by the user ID
     user = next((user for user in users if user.id == user_id), None)
