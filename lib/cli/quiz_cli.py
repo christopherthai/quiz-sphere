@@ -45,11 +45,9 @@ input("Press Enter to continue...")
 ##########################################################################################################################################
 
 
-
 def quiz_flow(questions_and_answers, selected_quiz_id, user):
     """Starts the quiz flow after selecting a quiz."""
     clear_screen()
-
 
     if len(questions_and_answers) > 10:
         questions_and_answers = random.sample(questions_and_answers, 10)
@@ -87,7 +85,7 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
 
 def handle_score_submission(questions_and_answers, score, selected_quiz_id, user):
     if score < 60:
-##########################################################################################################################################
+        ##########################################################################################################################################
         from PIL import Image
 
         # open image file
@@ -123,7 +121,7 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
 
         clear_screen()
 
-##########################################################################################################################################
+        ##########################################################################################################################################
         retry = inquirer.confirm(
             "Your score is below 60. Do you want to take it again?", default=True
         )
@@ -135,8 +133,8 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
         else:
             quiz_menu(user)
     else:
-        
-##########################################################################################################################################
+
+        ##########################################################################################################################################
         from PIL import Image
 
         # open image file
@@ -172,7 +170,7 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
 
         clear_screen()
 
-##########################################################################################################################################
+        ##########################################################################################################################################
         submit = inquirer.confirm("Submit score?", default=True)
         if submit:
             submit_score(score, get_formatted_date(), user, selected_quiz_id)
@@ -181,8 +179,10 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
             clear_screen()
         quiz_menu(user)
 
+
 def get_formatted_date():
     return datetime.now().strftime("%Y-%m-%d")
+
 
 def quiz_menu(user):
     from main import main_menu
@@ -203,5 +203,3 @@ def quiz_menu(user):
 
 if __name__ == "__main__":
     quiz_menu()
-
-

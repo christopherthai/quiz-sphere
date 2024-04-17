@@ -46,6 +46,7 @@ def main_menu(user):
         else:
             clear_screen()
             print("Only admin users can access the admin menu.\n")
+            main_menu(user)
     elif answers["service"] == "Exit Application":
         print("Exiting application...")
         exit()
