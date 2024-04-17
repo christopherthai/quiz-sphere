@@ -1,5 +1,6 @@
 from models.user_answer import User_Answer
 
+
 # List all answers in the database
 def list_user_answers():
     """List all user answers in the database"""
@@ -14,6 +15,3 @@ def find_user_answer_by_id():
     id_ = input("Enter the answer's id: ")
     user_answer = User_Answer.find_by_id(id_)
     print(user_answer) if user_answer else print(f"Answer {id_} not found")
-
-
-

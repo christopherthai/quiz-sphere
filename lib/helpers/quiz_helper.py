@@ -5,16 +5,17 @@ from models.user import User
 from models.user_answer import User_Answer
 from helpers.user_helper import clear_screen
 
+
 class Color:
-    RED = '\033[91m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    BLUE = '\033[94m'
-    CYAN = '\033[96m'
-    WHITE = '\033[97m'
-    PURPLE = '\033[95m'
-    MAROON = '\033[91m'
-    RESET = '\033[0m'
+    RED = "\033[91m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    BLUE = "\033[94m"
+    CYAN = "\033[96m"
+    WHITE = "\033[97m"
+    PURPLE = "\033[95m"
+    MAROON = "\033[91m"
+    RESET = "\033[0m"
 
 
 # Add a quiz to the database
@@ -68,7 +69,7 @@ def delete_quiz(quiz_id):
 def list_quizzes_and_select_quiz():
     """List all quizzes and prompt the user to select a quiz"""
     quizzes = Quiz.get_all()
-    quiz_options = [(quiz.title, quiz.id) for quiz in quizzes]  # Get the quiz options
+    quiz_options = [(quiz.title, quiz.id) for quiz in quizzes] # Create a list of quiz options in the format (quiz_title, quiz_id)
 
     clear_screen()
     print("List of Quizzes:\n")
@@ -89,7 +90,7 @@ def list_quizzes_and_select_quiz():
 
     # Ask the user to select a quiz
     answers = inquirer.prompt(questions)
-    selected_quiz_id = quiz_options[int(answers["quiz_id"]) - 1][1]  # Get the quiz ID
+    selected_quiz_id = quiz_options[int(answers["quiz_id"]) - 1][1]  # Get the selected quiz ID from the quiz options by index
 
     return selected_quiz_id
 
@@ -121,6 +122,7 @@ def get_quiz(quiz_id):
     quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
     return quiz
 
+
 def print_quiz_details(quiz, user):
     user_score = User.get_quiz_score(user, quiz)
 
@@ -131,34 +133,35 @@ def print_quiz_details(quiz, user):
     print(f"Quiz Title: {quiz.title}".center(80))
     print(f"Date Taken: {user_score.date_taken} \n".center(80))
     print(f"Average Score: {quiz.get_average_score()}")
-    
+
     print(f"Your Score: {user_score.score} \n")
-    
+
     questions = quiz.get_questions_and_answers()
     for question in questions:
         print(f"{Color.BLUE}Question:{Color.RESET} {question.content}")
-        
+
         user_answer = question.get_user_answer()
         # Print the content of the user's answer if available
         if user_answer:
             answer = Answer.find_by_id(user_answer.user_answer)
-            is_correct = Color.GREEN + "Correct!" + Color.RESET if answer.is_correct else Color.RED + "Incorrect." + Color.RESET
+            is_correct = (
+                Color.GREEN + "Correct!" + Color.RESET
+                if answer.is_correct
+                else Color.RED + "Incorrect." + Color.RESET
+            )
             overall_percentage = calculate_percentage_correct_for_question(question.id)
             print(f"{is_correct}  Your answer was '{answer.content}'")
-            print(f"({Color.PURPLE}{overall_percentage}%{Color.RESET}) of users got this correct.")        
+            print(
+                f"({Color.PURPLE}{overall_percentage}%{Color.RESET}) of users got this correct."
+            )
         else:
             print("No answer provided")
-            
-            
+
         print("*" * 80)
         print()
 
 
-
-
-
-        
-#Calculate % of correct answers from user answer for question
+# Calculate % of correct answers from user answer for question
 def calculate_percentage_correct_for_question(question_id):
     """Calculate the percentage of correct answers for a question"""
     # Retrieve all user answers for the given question
@@ -169,13 +172,15 @@ def calculate_percentage_correct_for_question(question_id):
 
     total_answers = len(user_answers)
     # Retrieve the is_correct values for the user_answer_ids
-    is_correct_values = [Answer.find_by_id(answer_id).is_correct for answer_id in user_answers]
-    
+    is_correct_values = [
+        Answer.find_by_id(answer_id).is_correct for answer_id in user_answers
+    ]
+
     correct_answers = sum(is_correct_values)
 
     # Calculate the percentage of correct answers
-    percentage_correct = (correct_answers / total_answers) * 100 if total_answers > 0 else 0.0
+    percentage_correct = (
+        (correct_answers / total_answers) * 100 if total_answers > 0 else 0.0
+    )
 
     return percentage_correct
-
-

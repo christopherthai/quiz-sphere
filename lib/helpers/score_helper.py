@@ -14,11 +14,8 @@ from models.score import Score
 def get_user_scores(user):
     """Get the users scores"""
 
-    
-
     quizzes_scores = user.get_all_quizzes_and_scores()
-    
-        
+
     return quizzes_scores
 
 
@@ -29,8 +26,8 @@ def get_average_scores(quiz_id, user):
     quiz = Quiz.find_by_id(quiz_id)
 
     average_score = quiz.get_average_score()
-    user_score = user.get_quiz_score(quiz) 
-    
+    user_score = user.get_quiz_score(quiz)
+
     return user_score, average_score
 
 
@@ -55,12 +52,12 @@ def compare_with_average(average_score, user_score):
             average_score,
             user_score_value,
         )
-    
+
 
 def print_quiz_details_user(quiz_id, user):
     """Prints quiz details with incorrect and correct listed next to the question"""
     result = user.print_quiz_details(quiz_id)
-    
+
     return result
 
 
