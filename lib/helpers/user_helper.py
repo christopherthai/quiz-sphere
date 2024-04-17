@@ -62,7 +62,7 @@ def create_username():
     is_admin = 1 if is_admin_input else 0
 
     user = User.create(username, is_admin)  # Create a new user
-    print(f"User {user.username} created successfully.\n")
+    print(f"User: {user.username} created successfully.\n")
     return user
 
 
