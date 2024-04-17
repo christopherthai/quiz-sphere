@@ -8,14 +8,21 @@ from helpers.question_helper import list_specific_question
 # Add an answer to the database
 def add_answer(selected_question_id):
     """Add an answer to the database"""
+    clear_screen()
+    list_specific_question(selected_question_id)
+    list_answers(selected_question_id)  # List all answers in the database
     content = input("Enter the answer's content: ")
-    is_correct = input("Enter the answer's is_correct: ")
+    is_correct = input("Is this the new correct answer? (y/n): ")
+    while is_correct.lower() not in ["y", "n"]:
+        print("Invalid input. Please enter 'y' or 'n'.\n")
+        is_correct = input("Is this the new correct answer? (y/n): ")
+    is_correct = 1 if is_correct.lower() == "y" else 0
     question_id = selected_question_id  # Get the question_id from the selected question
     answer = Answer.create(content, is_correct, question_id)  # Create the answer
     clear_screen()
     list_specific_question(selected_question_id)
     list_answers(selected_question_id)
-    print("Answer created successfully")
+    print("Answer created successfully\n")
 
     return answer
 
@@ -24,12 +31,15 @@ def add_answer(selected_question_id):
 def edit_answer(selected_answer_id):
     """Edit an answer in the database"""
     answer = Answer.find_by_id(selected_answer_id)  # Find the answer by its ID
-    content = input("Enter the new content: ")  # Ask the user to enter the new content
-    is_correct = input("Enter the new is_correct (yes/no): ")
-    while is_correct.lower() not in ["yes", "no"]:
-        print("Invalid input. Please enter 'yes' or 'no'.")
-        is_correct = input("Enter the new is_correct (yes/no): ")
-    answer.update(content, is_correct)  # Update the content of the answer
+    content_value = input("Enter the new content: ")  # Ask the user to enter the new content
+    is_correct = input("Is this the new correct answer? (y/n): ")
+    while is_correct.lower() not in ["y", "n"]:
+        print("Invalid input. Please enter 'y' or 'n'.\n")
+        is_correct = input("Is this the new correct answer? (y/n): ")
+    is_correct = 1 if is_correct.lower() == "y" else 0
+    answer.content = content_value  # Set the new content
+    answer.is_correct = is_correct  # Set the new is_correct
+    answer.update()  # Update the answer in the database
     clear_screen()
     list_specific_question(answer.question_id)
     list_answers(answer.question_id)
@@ -59,12 +69,13 @@ def list_answers(selected_question_id):
     for answer in answers:
         print(f"{answers.index(answer) + 1}. {answer.content}\n")
 
-    return answers
-
 
 def list_answers_and_select_answer(selected_question_id):
     """List all answers of the selected question and prompt the user to select an answer"""
-    answers = list_answers(selected_question_id)
+    clear_screen()
+    list_specific_question(selected_question_id)
+    question = Question.find_by_id(selected_question_id)
+    answers = question.get_answers()  # Get all answers of the selected question
     answer_options = [
         (answer.content, answer.id) for answer in answers
     ]  # Get the answer options

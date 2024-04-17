@@ -24,6 +24,8 @@ def add_quiz():
 # Edit a quiz in the database
 def edit_quiz(quiz_id):
     """Edit a quiz in the database"""
+    clear_screen()
+    list_specific_quiz(quiz_id)  # List the specific quiz
     quiz = Quiz.find_by_id(quiz_id)  # Find the quiz by its ID
     title = input(f"Enter the new title for {quiz.title}: ")  # Ask for the new title
     description = input(

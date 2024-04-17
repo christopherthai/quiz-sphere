@@ -16,13 +16,16 @@ def find_question_by_id():
 # Add a question to the database
 def add_question(selected_quiz_id):
     """Add a question to the database"""
+    clear_screen()
+    list_specific_quiz(selected_quiz_id)
+    list_questions(selected_quiz_id)  # List all questions in the database
     content = input("Enter the question's content: ")
     quiz_id = selected_quiz_id  # Get the quiz_id from the selected quiz
     question = Question.create(content, quiz_id)  # Create the question
     clear_screen()
     list_specific_quiz(selected_quiz_id)
     list_questions(selected_quiz_id)
-    print("Question created successfully")
+    print("Question created successfully\n")
 
     return question
 
@@ -30,12 +33,15 @@ def add_question(selected_quiz_id):
 # Edit a question in the database
 def edit_question(selected_question_id, selected_quiz_id):
     """Edit a question in the database"""
-    question = Question.find_by_id(selected_question_id)  # Find the question by its ID
-    content = input("Enter the new content: ")  # Ask the user to enter the new content
-    question.update_content(content)  # Update the content of the question
     clear_screen()
-    list_specific_quiz(selected_quiz_id)
-    list_questions(selected_quiz_id)
+    list_specific_question(selected_question_id)
+    question = Question.find_by_id(selected_question_id)  # Find the question by its ID
+    content_value = input(
+        "Enter the new content: "
+    )  # Ask the user to enter the new content
+    question.content = content_value  # Update the content of the question
+    question.update()  # Update the question in the database
+    clear_screen()
     print("Question updated successfully\n")
 
 
@@ -77,6 +83,7 @@ def list_questions_and_answers_of_the_quiz(selected_quiz_id):
 def list_questions_and_select_question(selected_quiz_id):
     """List all questions of the selected quiz and prompt the user to select a question"""
     clear_screen()
+    list_specific_quiz(selected_quiz_id)
     questions = list_questions_and_answers_of_the_quiz(selected_quiz_id)
     question_options = [(question.content, question.id) for question in questions]
 
