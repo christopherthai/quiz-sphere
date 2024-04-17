@@ -18,36 +18,33 @@ def find_question_by_id():
 # Add a question to the database
 def add_question(selected_quiz_id):
     """Add a question to the database"""
+    clear_screen()
+    list_specific_quiz(selected_quiz_id)
+    list_questions(selected_quiz_id)  # List all questions in the database
     content = input("Enter the question's content: ")
     quiz_id = selected_quiz_id  # Get the quiz_id from the selected quiz
     question = Question.create(content, quiz_id)  # Create the question
     clear_screen()
     list_specific_quiz(selected_quiz_id)
     list_questions(selected_quiz_id)
-    print("Question created successfully")
+    print("Question created successfully\n")
 
     return question
 
 
 # Edit a question in the database
-def update_question():
+def edit_question(selected_question_id, selected_quiz_id):
     """Edit a question in the database"""
-    id_ = input("Enter the question's id: ")
-
-    # Find the question by its ID
-    if question := Question.find_by_id(id_):
-        try:
-            content = input("Enter the question's new content: ")
-            question.content = content
-            quiz_id = input("Enter the question's quiz_id: ")
-            question.quiz_id = quiz_id
-
-            question.update()
-            print(f"Success: {question}")
-        except Exception as exc:
-            print("Error updating question: ", exc)
-    else:
-        print(f"Question {id_} not found")
+    clear_screen()
+    list_specific_question(selected_question_id)
+    question = Question.find_by_id(selected_question_id)  # Find the question by its ID
+    content_value = input(
+        "Enter the new content: "
+    )  # Ask the user to enter the new content
+    question.content = content_value  # Update the content of the question
+    question.update()  # Update the question in the database
+    clear_screen()
+    print("Question updated successfully\n")
 
 
 # Delete a question from the database
@@ -88,6 +85,7 @@ def list_questions_and_answers_of_the_quiz(selected_quiz_id):
 def list_questions_and_select_question(selected_quiz_id):
     """List all questions of the selected quiz and prompt the user to select a question"""
     clear_screen()
+    list_specific_quiz(selected_quiz_id)
     questions = list_questions_and_answers_of_the_quiz(selected_quiz_id)
     question_options = [(question.content, question.id) for question in questions]
 
@@ -102,8 +100,12 @@ def list_questions_and_select_question(selected_quiz_id):
         inquirer.Text(
             "question_id",
             message="Enter the question's id",
-            validate=lambda _, response: response.isdigit() # Check if the input is a number
-            and 1 <= int(response) <= len(question_options), # And if the input is within the range of the question_options
+            validate=lambda _, response: response.isdigit()  # Check if the input is a number
+            and 1
+            <= int(response)
+            <= len(
+                question_options
+            ),  # And if the input is within the range of the question_options
         )
     ]
 
@@ -113,6 +115,7 @@ def list_questions_and_select_question(selected_quiz_id):
     return selected_question_id
 
 
+<<<<<<< HEAD
 def get_user_answers_for_question(user, selected_question_id):
     """Get user answer for a question"""
 
@@ -126,3 +129,10 @@ def get_user_answers_for_question(user, selected_question_id):
 
 
 
+=======
+def list_specific_question(selected_question_id):
+    """List a specific question in the database"""
+    question = Question.find_by_id(selected_question_id)  # Find the question by its ID
+    print(f"Question: {question.content}\n")  # Print the question's content
+    return question
+>>>>>>> development

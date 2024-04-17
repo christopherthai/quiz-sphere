@@ -7,7 +7,7 @@ from models.answer import Answer
 
 import sqlite3
 
-DB_PATH = "lib/data/quiz_sphere_2.db"
+DB_PATH = "lib/data/quiz_sphere_database.db"
 
 
 class Question:

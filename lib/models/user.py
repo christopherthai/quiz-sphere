@@ -195,3 +195,10 @@ class User:
 
             # Print whether the user's answer is correct
             print(f"Correct: {question.answer_is_correct(user_answer)}")
+
+    def delete_user_and_scores(self):
+        """Delete the user and their scores"""
+        scores = self.get_all_scores()  # Get all the scores of the user
+        for score in scores:  # Loop through the scores
+            score.delete()  # Delete the score
+        self.delete()
