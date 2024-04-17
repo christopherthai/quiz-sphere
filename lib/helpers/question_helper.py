@@ -3,8 +3,7 @@ from models.question import Question
 from models.quiz import Quiz
 from helpers.user_helper import clear_screen
 from helpers.quiz_helper import list_specific_quiz
-from models.user_answer import User_Answer  
-
+from models.user_answer import User_Answer
 
 
 # Call the edit_question function
@@ -87,7 +86,7 @@ def list_questions_and_select_question(selected_quiz_id):
     clear_screen()
     list_specific_quiz(selected_quiz_id)
     questions = list_questions_and_answers_of_the_quiz(selected_quiz_id)
-    question_options = [(question.content, question.id) for question in questions]
+    question_options = [(question.content, question.id) for question in questions] # Create a list of question options in the format (question_content, question_id)
 
     print("List of Questions:\n")
 
@@ -110,7 +109,7 @@ def list_questions_and_select_question(selected_quiz_id):
     ]
 
     answer = inquirer.prompt(questions)
-    selected_question_id = question_options[int(answer["question_id"]) - 1][1]
+    selected_question_id = question_options[int(answer["question_id"]) - 1][1] # Get the selected question ID from the question options by index
 
     return selected_question_id
 

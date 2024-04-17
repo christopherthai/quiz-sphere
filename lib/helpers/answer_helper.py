@@ -51,6 +51,13 @@ def edit_answer(selected_answer_id):
 # Delete an answer from the database
 def delete_answer(selected_answer_id, selected_question_id):
     """Delete an answer from the database"""
+    id_ = input("Enter the answer's id: ")
+    if answer := Answer.find_by_id(id_):
+        answer.delete()
+        print(f"Answer {id_} deleted")
+    else:
+        print(f"Answer {id_} not found")
+
     answer = Answer.find_by_id(selected_answer_id)  # Find the answer by its ID
     answer.delete()  # Delete the answer from the database
     clear_screen()
@@ -80,7 +87,7 @@ def list_answers_and_select_answer(selected_question_id):
     answers = question.get_answers()  # Get all answers of the selected question
     answer_options = [
         (answer.content, answer.id) for answer in answers
-    ]  # Get the answer options
+    ]  # Create a list of answer options in the format (answer_content, answer_id)
 
     print("List of Answers:\n")
 
@@ -104,6 +111,8 @@ def list_answers_and_select_answer(selected_question_id):
 
     # Get the selected answer ID
     answer = inquirer.prompt(questions)
-    selected_answer_id = answer_options[int(answer["answer_id"]) - 1][1]
+    selected_answer_id = answer_options[int(answer["answer_id"]) - 1][
+        1
+    ]  # Get the selected answer ID from the answer options by index
 
     return selected_answer_id
