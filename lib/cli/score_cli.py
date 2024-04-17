@@ -6,11 +6,12 @@ from helpers.score_helper import (
 )
 from helpers.user_helper import clear_screen
 import inquirer
-from models.quiz import Quiz 
+from models.quiz import Quiz
 from tabulate import tabulate
 
 
 from helpers.quiz_helper import print_quiz_details
+
 
 # Function to display user scores in a table
 def display_user_scores(user_scores):
@@ -18,12 +19,12 @@ def display_user_scores(user_scores):
     table_data = []
     for i, (quiz, score) in enumerate(user_scores, start=1):
         table_data.append([i, quiz.title, score.score, score.date_taken])
-    
+
     headers = ["#", "Quiz", "Score", "Date Taken"]
     print(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))
 
 
-#Code and logic for the user's scores menu
+# Code and logic for the user's scores menu
 def scores_menu(user):
     from main import main_menu
 

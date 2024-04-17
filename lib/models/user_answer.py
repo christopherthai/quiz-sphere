@@ -53,7 +53,7 @@ class User_Answer:
     @question_id.setter
     def question_id(self, value):
         self._question_id = value
-        
+
     # Property method that returns the answer_id
     @property
     def answer_id(self):
