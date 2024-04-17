@@ -5,69 +5,6 @@ INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
 (54, 'World History', 'What was the code name for the Allied invasion of Normandy in World War II?', 1),
 (55, 'World History', 'Who was the first person to orbit the Earth?', 1);
 
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(56, 'Science Discoveries', 'What is the smallest unit of matter?', 2),
-(57, 'Science Discoveries', 'Who proposed the theory of evolution by natural selection?', 2),
-(58, 'Science Discoveries', 'What is the formula for Einstein’s theory of mass-energy equivalence?', 2),
-(59, 'Science Discoveries', 'Who discovered penicillin?', 2),
-(60, 'Science Discoveries', 'What is the name of the largest particle accelerator in the world?', 2);
-
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(61, 'Literature', 'Which author wrote "The Catcher in the Rye"?', 3),
-(62, 'Literature', 'What is the famous opening line of "Moby-Dick"?', 3),
-(63, 'Literature', 'In which novel would you find the character Holden Caulfield?', 3),
-(64, 'Literature', 'Who wrote the play "Romeo and Juliet"?', 3),
-(65, 'Literature', 'What is the full title of Charles Dickens novel "Oliver Twist"?', 3);
-
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(66, 'Movies', 'Who directed the movie "Schindlers List"?', 4),
-(67, 'Movies', 'Which movie features the character Hannibal Lecter?', 4),
-(68, 'Movies', 'Who played the role of Forrest Gump in the movie of the same name?', 4),
-(69, 'Movies', 'What is the highest-grossing animated film of all time?', 4),
-(70, 'Movies', 'Which movie won the Academy Award for Best Picture in 2020?', 4);
-
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(71, 'Music and Instruments', 'Which composer is known as the "Waltz King"?', 5),
-(72, 'Music and Instruments', 'What instrument does Kenny G play?', 5),
-(73, 'Music and Instruments', 'Which band released the album "The Dark Side of the Moon"?', 5),
-(74, 'Music and Instruments', 'Who sang the hit song "Imagine"?', 5),
-(75, 'Music and Instruments', 'What is the highest male singing voice?', 5);
-
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(76, 'Computer Science', 'What programming language was created by Guido van Rossum?', 6),
-(77, 'Computer Science', 'What is the most popular operating system for web servers?', 6),
-(78, 'Computer Science', 'What does the acronym "SQL" stand for?', 6),
-(79, 'Computer Science', 'Who invented the World Wide Web?', 6),
-(80, 'Computer Science', 'What is the function of a compiler?', 6);
-
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(81, 'Geography', 'Which desert is the largest in the world?', 7),
-(82, 'Geography', 'What is the tallest mountain in Africa?', 7),
-(83, 'Geography', 'Which continent is the least populated?', 7),
-(84, 'Geography', 'What is the capital of Canada?', 7),
-(85, 'Geography', 'Which river runs through Baghdad?', 7);
-
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(86, 'Sports', 'What is the highest possible score in a gymnastics routine?', 8),
-(87, 'Sports', 'In what year were the first modern Olympic Games held?', 8),
-(88, 'Sports', 'Which country hosted the 2016 Summer Olympics?', 8),
-(89, 'Sports', 'Who is the all-time leading goal scorer in FIFA World Cup history?', 8),
-(90, 'Sports', 'In what year were women allowed to participate in the modern Olympic Games?', 8);
-
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(91, 'Art and Artists', 'Which artist is famous for painting the "Girl with a Pearl Earring"?', 9),
-(92, 'Art and Artists', 'Who designed the iconic glass pyramid at the entrance of the Louvre Museum in Paris?', 9),
-(93, 'Art and Artists', 'Which art movement did Salvador Dalí belong to?', 9),
-(94, 'Art and Artists', 'What is the name of the famous sculpture depicting the Greek goddess of love and beauty?', 9),
-(95, 'Art and Artists', 'Which Italian artist is known for his sculptural masterpiece "David"?', 9);
-
-INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
-(96, 'Cooking and Food', 'Which country is the origin of paella?', 10),
-(97, 'Cooking and Food', 'What is the primary ingredient in hummus?', 10),
-(98, 'Cooking and Food', 'What type of cuisine is kimchi associated with?', 10),
-(99, 'Cooking and Food', 'What is the main ingredient in a traditional Caprese salad?', 10),
-(100, 'Cooking and Food', 'What is the national dish of Japan?', 10);
-
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (201, 'Egyptians', 1, 51),
 (202, 'Greeks', 0, 51),
@@ -97,6 +34,13 @@ INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (218, 'Neil Armstrong', 0, 55),
 (219, 'John Glenn', 0, 55),
 (220, 'Buzz Aldrin', 0, 55);
+
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(56, 'Science Discoveries', 'What is the smallest unit of matter?', 2),
+(57, 'Science Discoveries', 'Who proposed the theory of evolution by natural selection?', 2),
+(58, 'Science Discoveries', 'What is the formula for Einstein’s theory of mass-energy equivalence?', 2),
+(59, 'Science Discoveries', 'Who discovered penicillin?', 2),
+(60, 'Science Discoveries', 'What is the name of the largest particle accelerator in the world?', 2);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (221, 'Atom', 1, 56),
@@ -128,6 +72,13 @@ INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (239, 'Relativistic Heavy Ion Collider', 0, 60),
 (240, 'Linac Coherent Light Source', 0, 60);
 
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(61, 'Literature', 'Which author wrote "The Catcher in the Rye"?', 3),
+(62, 'Literature', 'What is the famous opening line of "Moby-Dick"?', 3),
+(63, 'Literature', 'In which novel would you find the character Holden Caulfield?', 3),
+(64, 'Literature', 'Who wrote the play "Romeo and Juliet"?', 3),
+(65, 'Literature', 'What is the full title of Charles Dickens novel "Oliver Twist"?', 3);
+
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (241, 'J.D. Salinger', 1, 61),
 (242, 'Ernest Hemingway', 0, 61),
@@ -157,6 +108,13 @@ INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (258, 'Great Expectations', 0, 65),
 (259, 'David Copperfield', 0, 65),
 (260, 'A Tale of Two Cities', 0, 65);
+
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(66, 'Movies', 'Who directed the movie "Schindlers List"?', 4),
+(67, 'Movies', 'Which movie features the character Hannibal Lecter?', 4),
+(68, 'Movies', 'Who played the role of Forrest Gump in the movie of the same name?', 4),
+(69, 'Movies', 'What is the highest-grossing animated film of all time?', 4),
+(70, 'Movies', 'Which movie won the Academy Award for Best Picture in 2020?', 4);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (261, 'Steven Spielberg', 1, 66),
@@ -188,35 +146,49 @@ INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (279, 'Joker', 0, 70),
 (280, 'The Shape of Water', 0, 70);
 
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(71, 'Music and Instruments', 'Which composer is known as the "Waltz King"?', 5),
+(72, 'Music and Instruments', 'What instrument does Kenny G play?', 5),
+(73, 'Music and Instruments', 'Which band released the album "The Dark Side of the Moon"?', 5),
+(74, 'Music and Instruments', 'Who sang the hit song "Imagine"?', 5),
+(75, 'Music and Instruments', 'What is the highest male singing voice?', 5);
+
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (281, 'Johann Strauss II', 1, 71),
-(282, 'Ludwig van Beethoven', 0, 71),
-(283, 'Wolfgang Amadeus Mozart', 0, 71),
-(284, 'Franz Schubert', 0, 71);
+(282, 'Wolfgang Amadeus Mozart', 0, 71),
+(283, 'Ludwig van Beethoven', 0, 71),
+(284, 'Frédéric Chopin', 0, 71);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (285, 'Saxophone', 1, 72),
-(286, 'Violin', 0, 72),
-(287, 'Piano', 0, 72),
+(286, 'Piano', 0, 72),
+(287, 'Trumpet', 0, 72),
 (288, 'Guitar', 0, 72);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(289, 'Reggae', 1, 73),
-(290, 'Jazz', 0, 73),
-(291, 'Classical', 0, 73),
-(292, 'Hip Hop', 0, 73);
+(289, 'Pink Floyd', 1, 73),
+(290, 'The Beatles', 0, 73),
+(291, 'Led Zeppelin', 0, 73),
+(292, 'The Rolling Stones', 0, 73);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(293, 'Michael Jackson', 1, 74),
-(294, 'Elvis Presley', 0, 74),
-(295, 'Prince', 0, 74),
-(296, 'Madonna', 0, 74);
+(293, 'John Lennon', 1, 74),
+(294, 'Paul McCartney', 0, 74),
+(295, 'David Bowie', 0, 74),
+(296, 'Elton John', 0, 74);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(297, 'Pianissimo', 1, 75),
-(298, 'Forte', 0, 75),
-(299, 'Piano', 0, 75),
-(300, 'Mezzo', 0, 75);
+(297, 'Countertenor', 1, 75),
+(298, 'Tenor', 0, 75),
+(299, 'Baritone', 0, 75),
+(300, 'Bass', 0, 75);
+
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(76, 'Computer Science', 'What programming language was created by Guido van Rossum?', 6),
+(77, 'Computer Science', 'What is the most popular operating system for web servers?', 6),
+(78, 'Computer Science', 'What does the acronym "SQL" stand for?', 6),
+(79, 'Computer Science', 'Who invented the World Wide Web?', 6),
+(80, 'Computer Science', 'What is the function of a compiler?', 6);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (301, 'Python', 1, 76),
@@ -248,6 +220,13 @@ INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (319, 'Store data permanently', 0, 80),
 (320, 'Connect to the internet', 0, 80);
 
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(81, 'Geography', 'Which desert is the largest in the world?', 7),
+(82, 'Geography', 'What is the tallest mountain in Africa?', 7),
+(83, 'Geography', 'Which continent is the least populated?', 7),
+(84, 'Geography', 'What is the capital of Canada?', 7),
+(85, 'Geography', 'Which river runs through Baghdad?', 7);
+
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (321, 'Antarctica', 1, 81),
 (322, 'Arctic', 0, 81),
@@ -278,92 +257,113 @@ INSERT INTO Answers (id, content, is_correct, question_id) VALUES
 (339, 'Amazon', 0, 85),
 (340, 'Yangtze', 0, 85);
 
-INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(341, 'France', 1, 86),
-(342, 'Germany', 0, 86),
-(343, 'Brazil', 0, 86),
-(344, 'Spain', 0, 86);
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(86, 'Sports', 'What is the highest possible score in a gymnastics routine?', 8),
+(87, 'Sports', 'In what year were the first modern Olympic Games held?', 8),
+(88, 'Sports', 'Which country hosted the 2016 Summer Olympics?', 8),
+(89, 'Sports', 'Who is the all-time leading goal scorer in FIFA World Cup history?', 8),
+(90, 'Sports', 'In what year were women allowed to participate in the modern Olympic Games?', 8);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(345, 'Chickpeas', 1, 87),
-(346, 'Eggplant', 0, 87),
-(347, 'Lentils', 0, 87),
-(348, 'Yogurt', 0, 87);
+(341, '10', 1, 86),
+(342, '9.5', 0, 86),
+(343, '15', 0, 86),
+(344, '20', 0, 86);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(349, 'Korean', 1, 88),
-(350, 'Japanese', 0, 88),
-(351, 'Thai', 0, 88),
-(352, 'Vietnamese', 0, 88);
+(345, '1896', 1, 87),
+(346, '1900', 0, 87),
+(347, '1888', 0, 87),
+(348, '1912', 0, 87);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(353, 'Tomato', 1, 89),
-(354, 'Mozzarella', 0, 89),
-(355, 'Basil', 0, 89),
-(356, 'Olive Oil', 0, 89);
+(349, 'Brazil', 1, 88),
+(350, 'China', 0, 88),
+(351, 'Russia', 0, 88),
+(352, 'Australia', 0, 88);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(357, 'Sushi', 1, 90),
-(358, 'Ramen', 0, 90),
-(359, 'Tempura', 0, 90),
-(360, 'Sashimi', 0, 90);
+(353, 'Miroslav Klose', 1, 89),
+(354, 'Pele', 0, 89),
+(355, 'Ronaldo', 0, 89),
+(356, 'Diego Maradona', 0, 89);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(361, 'Golden Retriever', 1, 91),
-(362, 'Bulldog', 0, 91),
-(363, 'Poodle', 0, 91),
-(364, 'German Shepherd', 0, 91);
+(357, '1900', 1, 90),
+(358, '1896', 0, 90),
+(359, '1920', 0, 90),
+(360, '1936', 0, 90);
+
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(91, 'Art and Artists', 'Which artist is famous for painting the "Girl with a Pearl Earring"?', 9),
+(92, 'Art and Artists', 'Who designed the iconic glass pyramid at the entrance of the Louvre Museum in Paris?', 9),
+(93, 'Art and Artists', 'Which art movement did Salvador Dalí belong to?', 9),
+(94, 'Art and Artists', 'What is the name of the famous sculpture depicting the Greek goddess of love and beauty?', 9),
+(95, 'Art and Artists', 'Which Italian artist is known for his sculptural masterpiece "David"?', 9);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(365, 'Hercules', 1, 92),
-(366, 'Zeus', 0, 92),
-(367, 'Poseidon', 0, 92),
-(368, 'Achilles', 0, 92);
+(361, 'Johannes Vermeer', 1, 91),
+(362, 'Vincent van Gogh', 0, 91),
+(363, 'Rembrandt', 0, 91),
+(364, 'Pablo Picasso', 0, 91);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(369, 'Spear', 1, 93),
-(370, 'Sword', 0, 93),
-(371, 'Bow and Arrow', 0, 93),
-(372, 'Shield', 0, 93);
+(365, 'I. M. Pei', 1, 92),
+(366, 'Frank Gehry', 0, 92),
+(367, 'Renzo Piano', 0, 92),
+(368, 'Zaha Hadid', 0, 92);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(373, 'The Sistine Chapel', 1, 94),
-(374, 'The Parthenon', 0, 94),
-(375, 'The Colosseum', 0, 94),
-(376, 'The Louvre', 0, 94);
+(369, 'Surrealism', 1, 93),
+(370, 'Impressionism', 0, 93),
+(371, 'Cubism', 0, 93),
+(372, 'Expressionism', 0, 93);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(377, 'Vanilla', 1, 95),
-(378, 'Chocolate', 0, 95),
-(379, 'Strawberry', 0, 95),
-(380, 'Mint', 0, 95);
+(373, 'Venus de Milo', 1, 94),
+(374, 'The Winged Victory of Samothrace', 0, 94),
+(375, 'Discobolus', 0, 94),
+(376, 'Laocoön and His Sons', 0, 94);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(381, 'David Bowie', 1, 96),
-(382, 'Elton John', 0, 96),
-(383, 'Freddie Mercury', 0, 96),
-(384, 'Mick Jagger', 0, 96);
+(377, 'Michelangelo', 1, 95),
+(378, 'Donatello', 0, 95),
+(379, 'Leonardo da Vinci', 0, 95),
+(380, 'Raphael', 0, 95);
+
+INSERT INTO Questions (id, Subject, content, quiz_id) VALUES
+(96, 'Cooking and Food', 'Which country is the origin of paella?', 10),
+(97, 'Cooking and Food', 'What is the primary ingredient in hummus?', 10),
+(98, 'Cooking and Food', 'What type of cuisine is kimchi associated with?', 10),
+(99, 'Cooking and Food', 'What is the main ingredient in a traditional Caprese salad?', 10),
+(100, 'Cooking and Food', 'What is the national dish of Japan?', 10);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(385, 'Violin', 1, 97),
-(386, 'Trumpet', 0, 97),
-(387, 'Flute', 0, 97),
-(388, 'Drums', 0, 97);
+(381, 'Spain', 1, 96),
+(382, 'Italy', 0, 96),
+(383, 'Portugal', 0, 96),
+(384, 'France', 0, 96);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(389, 'Punk', 1, 98),
-(390, 'Country', 0, 98),
-(391, 'Classical', 0, 98),
-(392, 'Blues', 0, 98);
+(385, 'Chickpeas', 1, 97),
+(386, 'Lentils', 0, 97),
+(387, 'Tahini', 0, 97),
+(388, 'Eggplant', 0, 97);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(393, 'Beyoncé', 1, 99),
-(394, 'Madonna', 0, 99),
-(395, 'Adele', 0, 99),
-(396, 'Rihanna', 0, 99);
+(389, 'Korean', 1, 98),
+(390, 'Japanese', 0, 98),
+(391, 'Chinese', 0, 98),
+(392, 'Thai', 0, 98);
 
 INSERT INTO Answers (id, content, is_correct, question_id) VALUES
-(397, 'Falsetto', 1, 100),
-(398, 'Soprano', 0, 100),
-(399, 'Tenor', 0, 100),
-(400, 'Baritone', 0, 100);
+(393, 'Tomatoes', 1, 99),
+(394, 'Mozzarella', 0, 99),
+(395, 'Basil', 0, 99),
+(396, 'Olive oil', 0, 99);
+
+INSERT INTO Answers (id, content, is_correct, question_id) VALUES
+(397, 'Sushi', 1, 100),
+(398, 'Ramen', 0, 100),
+(399, 'Tempura', 0, 100),
+(400, 'Teriyaki', 0, 100);
