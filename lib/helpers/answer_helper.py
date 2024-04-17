@@ -11,7 +11,7 @@ def add_answer(selected_question_id):
     clear_screen()
     list_specific_question(selected_question_id)
     list_answers(selected_question_id)  # List all answers in the database
-    content = input("Enter the answer's content: ")
+    content = input("Enter another answer to the question: ")
     is_correct = input("Is this the new correct answer? (y/n): ")
     while is_correct.lower() not in ["y", "n"]:
         print("Invalid input. Please enter 'y' or 'n'.\n")
@@ -51,13 +51,6 @@ def edit_answer(selected_answer_id):
 # Delete an answer from the database
 def delete_answer(selected_answer_id, selected_question_id):
     """Delete an answer from the database"""
-    id_ = input("Enter the answer's id: ")
-    if answer := Answer.find_by_id(id_):
-        answer.delete()
-        print(f"Answer {id_} deleted")
-    else:
-        print(f"Answer {id_} not found")
-
     answer = Answer.find_by_id(selected_answer_id)  # Find the answer by its ID
     answer.delete()  # Delete the answer from the database
     clear_screen()
