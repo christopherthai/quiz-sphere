@@ -1,8 +1,6 @@
 from models.__init__ import CURSOR, CONN
 from models.score import Score
 from models.quiz import Quiz
-from models.question import Question
-from models.answer import Answer
 
 
 class User:

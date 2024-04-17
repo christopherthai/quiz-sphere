@@ -1,5 +1,4 @@
 import random
-import sqlite3
 import inquirer
 
 from helpers.quiz_helper import list_quizzes, list_quizzes_and_select_quiz
@@ -220,6 +219,7 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
             input("Press Enter to continue...")
             clear_screen()
         quiz_menu(user)
+
 
 def get_formatted_date():
     return datetime.now().strftime("%Y-%m-%d")

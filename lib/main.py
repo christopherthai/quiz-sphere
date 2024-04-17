@@ -1,13 +1,10 @@
 import inquirer
-import os
 
 from cli.admin_cli import admin_menu
 from cli.user_cli import user_login_menu
 from cli.quiz_cli import quiz_menu
-
 from cli.score_cli import scores_menu
 from helpers.user_helper import clear_screen
-from models.user import User
 
 
 def main_menu(user):
@@ -46,6 +43,7 @@ def main_menu(user):
         else:
             clear_screen()
             print("Only admin users can access the admin menu.\n")
+            main_menu(user)
     elif answers["service"] == "Exit Application":
         print("Exiting application...")
         exit()

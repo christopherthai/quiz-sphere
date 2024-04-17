@@ -1,8 +1,5 @@
 from models.__init__ import CURSOR, CONN
-
-# from models.score import Score
 from models.user_answer import User_Answer
-# from models.quiz import Quiz
 from models.answer import Answer
 
 import sqlite3

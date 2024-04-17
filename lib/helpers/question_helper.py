@@ -20,7 +20,7 @@ def add_question(selected_quiz_id):
     clear_screen()
     list_specific_quiz(selected_quiz_id)
     list_questions(selected_quiz_id)  # List all questions in the database
-    content = input("Enter the question's content: ")
+    content = input("Enter the new question: ")
     quiz_id = selected_quiz_id  # Get the quiz_id from the selected quiz
     question = Question.create(content, quiz_id)  # Create the question
     clear_screen()
@@ -38,7 +38,7 @@ def edit_question(selected_question_id, selected_quiz_id):
     list_specific_question(selected_question_id)
     question = Question.find_by_id(selected_question_id)  # Find the question by its ID
     content_value = input(
-        "Enter the new content: "
+        "Enter the new question: "
     )  # Ask the user to enter the new content
     question.content = content_value  # Update the content of the question
     question.update()  # Update the question in the database
@@ -86,7 +86,9 @@ def list_questions_and_select_question(selected_quiz_id):
     clear_screen()
     list_specific_quiz(selected_quiz_id)
     questions = list_questions_and_answers_of_the_quiz(selected_quiz_id)
-    question_options = [(question.content, question.id) for question in questions] # Create a list of question options in the format (question_content, question_id)
+    question_options = [
+        (question.content, question.id) for question in questions
+    ]  # Create a list of question options in the format (question_content, question_id)
 
     print("List of Questions:\n")
 
@@ -109,9 +111,12 @@ def list_questions_and_select_question(selected_quiz_id):
     ]
 
     answer = inquirer.prompt(questions)
-    selected_question_id = question_options[int(answer["question_id"]) - 1][1] # Get the selected question ID from the question options by index
+    selected_question_id = question_options[int(answer["question_id"]) - 1][
+        1
+    ]  # Get the selected question ID from the question options by index
 
     return selected_question_id
+
 
 def get_user_answers_for_question(user, selected_question_id):
     """Get user answer for a question"""
@@ -123,9 +128,6 @@ def get_user_answers_for_question(user, selected_question_id):
     else:
         print("User's answer not found.")
         return None
-
-
-
 
 
 def list_specific_question(selected_question_id):
