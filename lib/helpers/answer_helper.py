@@ -31,7 +31,9 @@ def add_answer(selected_question_id):
 def edit_answer(selected_answer_id):
     """Edit an answer in the database"""
     answer = Answer.find_by_id(selected_answer_id)  # Find the answer by its ID
-    content_value = input("Enter the new content: ")  # Ask the user to enter the new content
+    content_value = input(
+        "Enter the new content: "
+    )  # Ask the user to enter the new content
     is_correct = input("Is this the new correct answer? (y/n): ")
     while is_correct.lower() not in ["y", "n"]:
         print("Invalid input. Please enter 'y' or 'n'.\n")
@@ -90,7 +92,7 @@ def list_answers_and_select_answer(selected_question_id):
     questions = [
         inquirer.Text(
             "answer_id",
-            message="Enter the ID of the answer you want to select",
+            message="Enter the number of the answer you want to select",
             validate=lambda _, x: x.isdigit()  # Check if the input is a number
             and 1
             <= int(x)
@@ -100,6 +102,7 @@ def list_answers_and_select_answer(selected_question_id):
         )
     ]
 
+    # Get the selected answer ID
     answer = inquirer.prompt(questions)
     selected_answer_id = answer_options[int(answer["answer_id"]) - 1][1]
 
