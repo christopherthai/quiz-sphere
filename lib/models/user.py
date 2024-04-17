@@ -49,7 +49,7 @@ class User:
         INSERT INTO Users (username, is_admin) VALUES (?, ?)
         """
         CURSOR.execute(sql, (self.username, self.is_admin))  # Execute the SQL statement
-        CONN.commit() # Commit the changes to the database
+        CONN.commit()  # Commit the changes to the database
 
         self.id = CURSOR.lastrowid  # Get the id of the last inserted row
         type(self).all[
@@ -89,7 +89,7 @@ class User:
     def instance_from_db(cls, row):
         """Return a User instance from a row in the Users table"""
         if row:
-            return cls(row[1], row[2], row[0]) # Create a User instance
+            return cls(row[1], row[2], row[0])  # Create a User instance
         return None
 
     # Class method that returns all records from the Users table
@@ -149,9 +149,9 @@ class User:
         sql = """
         SELECT * FROM Scores WHERE user_id = ? AND quiz_id = ?
         """
-        CURSOR.execute(sql, (self.id, quiz.id)) # Execute the SQL statement
-        row = CURSOR.fetchone() # Returns the first row
-        return Score.instance_from_db(row)  # Return a Score instance
+        CURSOR.execute(sql, (self.id, quiz.id))  # Execute the SQL statement
+        row = CURSOR.fetchone()  # Returns the first row
+        return Score.instance_from_db(row) if row else None  # Return a Score instance
 
     # Instance method that returns all the quizzes of the user
     def get_all_quizzes(self):
@@ -165,7 +165,6 @@ class User:
             Quiz.find_by_id(row[2]) for row in rows
         ]  # Return a Quiz instance for each row
 
-    # Instance method that returns all the quizzes and scores of the user
     def get_all_quizzes_and_scores(self):
         """Return all the quizzes and scores of the user"""
         sql = """
@@ -177,7 +176,6 @@ class User:
             (Quiz.find_by_id(row[4]), Score.instance_from_db(row)) for row in rows
         ]  # Return a tuple of Quiz and Score instance for each row
 
-    # Instance method that prints the details of the quizzes and scores of the user
     def print_quiz_details(self, quiz_id):
         """Print the details of the quizzes and scores of the user"""
         quiz = Quiz.find_by_id(quiz_id)
@@ -197,3 +195,10 @@ class User:
 
             # Print whether the user's answer is correct
             print(f"Correct: {question.answer_is_correct(user_answer)}")
+
+    def delete_user_and_scores(self):
+        """Delete the user and their scores"""
+        scores = self.get_all_scores()  # Get all the scores of the user
+        for score in scores:  # Loop through the scores
+            score.delete()  # Delete the score
+        self.delete()

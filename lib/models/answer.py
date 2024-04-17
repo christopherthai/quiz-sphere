@@ -2,7 +2,7 @@ from models.__init__ import CURSOR, CONN
 
 import sqlite3
 
-DB_PATH = "lib/data/quiz_sphere_2.db"
+DB_PATH = "lib/data/quiz_sphere_database.db"
 
 
 class Answer:
@@ -67,6 +67,7 @@ class Answer:
     def question_id(self, value):
         if value in self.all:
             raise ValueError("")
+        self._question_id = value
 
     # Insert a new record into the Answers table with the attributes of the Answer instance
     def save(self):

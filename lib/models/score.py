@@ -60,26 +60,42 @@ class Score:
     def save(self):
         """Insert a new record into the Scores table with the attributes of the Score instance"""
         sql = """
-        INSERT INTO Scores (id, score, date_taken, quiz_id, user_id) VALUES (?, ?, ?, ?, ?)
+        INSERT INTO Scores (id, score, date_taken, user_id, quiz_id) VALUES (?, ?, ?, ?, ?)
         """
         CURSOR.execute(
-            sql, (self.id, self.score, self.date_taken, self.quiz_id, self.user_id) # Execute the SQL statement
+            sql,
+            (
+                self.id,
+                self.score,
+                self.date_taken,
+                self.user_id,
+                self.quiz_id,
+            ),  # Execute the SQL statement
         )
-        CONN.commit() # Commit the changes to the database
+        CONN.commit()  # Commit the changes to the database
 
-        self.id = CURSOR.lastrowid   # Get the id of the last inserted row
-        type(self).all[self.score] = self  # Add the Score instance to the all dictionary 
+        self.id = CURSOR.lastrowid  # Get the id of the last inserted row
+        type(self).all[
+            self.score
+        ] = self  # Add the Score instance to the all dictionary
 
     # Update the record in the Scores table with the attributes of the Score instance
     def update(self):
         """Update the record in the Scores table with the attributes of the Score instance"""
         sql = """
-        UPDATE Scores SET user_id = ?, quiz_id = ?, date_taken = ?, score = ? WHERE id = ?
+        UPDATE Scores SET score = ?, date_taken = ?, user_id = ?, quiz_id = ? WHERE id = ?
         """
         CURSOR.execute(
-            sql, (self.score, self.date_taken, self.quiz_id, self.user_id, self.id) # Execute the SQL statement
-        )  
-        CONN.commit()  # Commit the changes to the database
+            sql,
+            (
+                self.score,
+                self.date_taken,
+                self.user_id,
+                self.quiz_id,
+                self.id,
+            ),  # Execute the SQL statement
+        )
+        CONN.commit()
 
     # Delete the record in the Scores table with the attributes of the Score instance
     def delete(self):
@@ -92,18 +108,20 @@ class Score:
 
     # Class method that creates a new instance of the Score class
     @classmethod
-    def create(cls, score, date_taken, quiz_id, user_id):
+    def create(cls, score, date_taken, user_id, quiz_id):
         """Create a new instance of the Score class"""
-        score = cls(score, date_taken, quiz_id, user_id) # Create a new Score instance
-        score.save() # Save the Score instance to the database
+        score = cls(score, date_taken, user_id, quiz_id)  # Create a new Score instance
+        score.save()  # Save the Score instance to the database
         return score
 
     # Class method that returns a Score instance from a row in Scores table
     @classmethod
     def instance_from_db(cls, row):
         """Return a Score instance from a row in Scores table"""
-        if row: # If the row is not None
-            return cls(row[1], row[2], row[3], row[4], id=row[0]) # Create a Score instance
+        if row:  # If the row is not None
+            return cls(
+                row[1], row[2], row[3], row[4], id=row[0]
+            )  # Create a Score instance
         return None
 
     # Class method that returns all records from the Scores table
@@ -126,6 +144,6 @@ class Score:
         sql = """
         SELECT * FROM Scores WHERE id = ?
         """
-        CURSOR.execute(sql, (id,)) # Execute the SQL statement
-        row = CURSOR.fetchone() # Returns the first row
+        CURSOR.execute(sql, (id,))  # Execute the SQL statement
+        row = CURSOR.fetchone()  # Returns the first row
         return cls.instance_from_db(row)  # Returns the first row
