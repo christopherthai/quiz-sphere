@@ -173,3 +173,5 @@ class Quiz:
         for question in questions: # Iterate over the questions
             question.delete_question_and_answers() # Delete the question and its answers
         self.delete() # Delete the quiz
+    
+    

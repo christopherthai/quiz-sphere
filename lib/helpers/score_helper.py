@@ -2,31 +2,38 @@ from matplotlib import pyplot as plt
 from sqlalchemy import select, func
 
 from models.__init__ import CURSOR
+from models.user import User
 from models.quiz import Quiz
+from models.question import Question
+from models.answer import Answer
 from models.score import Score
 
+# from models.user import get_all_quizzes_and_scores, get_quiz_score
 
-# prints out the users scores and quizzes when they enter the scores menu
+
 def get_user_scores(user):
     """Get the users scores"""
 
-    quizzes_scores = user.get_all_quizzes_and_scores()
+    
 
+    quizzes_scores = user.get_all_quizzes_and_scores()
+    
+        
     return quizzes_scores
 
 
-# Function to get/store the average score for all users and the users score for given quiz
 def get_average_scores(quiz_id, user):
     """Get average score from all users for given quiz"""
-
+    # score_query = select([func.avg(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
+    # result = CURSOR.execute(score_query).fetchone()
     quiz = Quiz.find_by_id(quiz_id)
 
     average_score = quiz.get_average_score()
-    user_score = user.get_quiz_score(quiz)
+    user_score = user.get_quiz_score(quiz) 
+    
     return user_score, average_score
 
 
-# Prints statement comparing user score vs average score
 def compare_with_average(average_score, user_score):
     user_score_value = user_score.score
     """Compares users average with all other users average"""
@@ -48,34 +55,22 @@ def compare_with_average(average_score, user_score):
             average_score,
             user_score_value,
         )
+    
+
+def print_quiz_details_user(quiz_id, user):
+    """Prints quiz details with incorrect and correct listed next to the question"""
+    result = user.print_quiz_details(quiz_id)
+    
+    return result
 
 
-# Returns all scores for all quizzes
 def get_scores_for_quiz(quiz):
     """Returns the scores for a given quiz"""
-
+    # score_query = select([func.sum(Answer.is_correct)]).where(Answer.quiz_id == quiz_id)
+    # result = CURSOR.execute(score_query)
+    # scores = [row[0] for row in result]
     scores = quiz.get_scores()
     return scores
-
-
-# #Plots histogram with users score against other scores
-# def plot_score_comparison(quiz, user):
-#     """Plots results of users score against other users scores"""
-#     all_scores = get_scores_for_quiz(quiz)
-
-#     all_scores = [score.score for score in all_scores]
-
-#     user_score = user.get_quiz_score(quiz).score
-
-#     plt.hist(all_scores, bins=10, alpha=0.5, label="All Scores")
-#     plt.axvline(
-#         user_score, color="red", linestyle="dashed", linewidth=1, label="Your Score"
-#     )
-#     plt.xlabel("Score")
-#     plt.ylabel("Frequency")
-#     plt.title("Score Comparison")
-#     plt.legend()
-#     plt.show()
 
 
 def plot_score_comparison(quiz, user):

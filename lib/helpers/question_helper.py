@@ -3,6 +3,8 @@ from models.question import Question
 from models.quiz import Quiz
 from helpers.user_helper import clear_screen
 from helpers.quiz_helper import list_specific_quiz
+from models.user_answer import User_Answer  
+
 
 
 # Call the edit_question function
@@ -97,7 +99,7 @@ def list_questions_and_select_question(selected_quiz_id):
     questions = [
         inquirer.Text(
             "question_id",
-            message="Enter the question's id",
+            message="Enter the question's number you want to select",
             validate=lambda _, response: response.isdigit()  # Check if the input is a number
             and 1
             <= int(response)
@@ -113,8 +115,24 @@ def list_questions_and_select_question(selected_quiz_id):
     return selected_question_id
 
 
+<<<<<<< HEAD
+def get_user_answers_for_question(user, selected_question_id):
+    """Get user answer for a question"""
+
+    # Retrieve the user's answer from the User_Answers table
+    user_answer = User_Answer.find_by_user_and_question(user.id, selected_question_id)
+    if user_answer:
+        return user_answer.user_answer
+    else:
+        print("User's answer not found.")
+        return None
+
+
+
+=======
 def list_specific_question(selected_question_id):
     """List a specific question in the database"""
     question = Question.find_by_id(selected_question_id)  # Find the question by its ID
     print(f"Question: {question.content}\n")  # Print the question's content
     return question
+>>>>>>> development
