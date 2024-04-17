@@ -135,8 +135,7 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
         else:
             quiz_menu(user)
     else:
-        clear_screen()
-
+        
 ##########################################################################################################################################
         from PIL import Image
 
