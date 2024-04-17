@@ -87,9 +87,6 @@ def quiz_flow(questions_and_answers, selected_quiz_id, user):
 
 def handle_score_submission(questions_and_answers, score, selected_quiz_id, user):
     if score < 60:
-        retry = inquirer.confirm(
-            "Your score is below 60. Do you want to take it again?", default=True
-        )
 ##########################################################################################################################################
         from PIL import Image
 
@@ -127,6 +124,10 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
         clear_screen()
 
 ##########################################################################################################################################
+        retry = inquirer.confirm(
+            "Your score is below 60. Do you want to take it again?", default=True
+        )
+
         if retry:
             quiz_flow(
                 questions_and_answers, selected_quiz_id, user
@@ -134,6 +135,8 @@ def handle_score_submission(questions_and_answers, score, selected_quiz_id, user
         else:
             quiz_menu(user)
     else:
+        clear_screen()
+
 ##########################################################################################################################################
         from PIL import Image
 
