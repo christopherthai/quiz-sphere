@@ -146,7 +146,7 @@ def delete_user(user_id):
     """Delete a user from the database"""
     user = User.find_by_id(user_id)  # Find the user by its ID
     if user:
-        user.delete()  # Delete the user from the database
+        user.delete_user_and_scores()  # Delete the user from the database
         clear_screen()  # Clear the screen
         list_users()  # List all users in the database
         print(f"User: {user.username} deleted successfully.\n")
