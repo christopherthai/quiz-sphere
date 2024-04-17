@@ -23,8 +23,7 @@ def display_user_scores(user_scores):
     print(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))
 
 
-
-# Code and logic for the user's scores menu
+#Code and logic for the user's scores menu
 def scores_menu(user):
     from main import main_menu
 

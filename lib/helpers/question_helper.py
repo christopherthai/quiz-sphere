@@ -113,7 +113,6 @@ def list_questions_and_select_question(selected_quiz_id):
 
     return selected_question_id
 
-
 def get_user_answers_for_question(user, selected_question_id):
     """Get user answer for a question"""
 
@@ -124,6 +123,9 @@ def get_user_answers_for_question(user, selected_question_id):
     else:
         print("User's answer not found.")
         return None
+
+
+
 
 
 def list_specific_question(selected_question_id):
