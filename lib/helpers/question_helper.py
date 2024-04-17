@@ -3,6 +3,8 @@ from models.question import Question
 from models.quiz import Quiz
 from helpers.user_helper import clear_screen
 from helpers.quiz_helper import list_specific_quiz
+from models.user_answer import User_Answer  
+
 
 
 # Call the edit_question function
@@ -109,3 +111,18 @@ def list_questions_and_select_question(selected_quiz_id):
     selected_question_id = question_options[int(answer["question_id"]) - 1][1]
 
     return selected_question_id
+
+
+def get_user_answers_for_question(user, selected_question_id):
+    """Get user answer for a question"""
+
+    # Retrieve the user's answer from the User_Answers table
+    user_answer = User_Answer.find_by_user_and_question(user.id, selected_question_id)
+    if user_answer:
+        return user_answer.user_answer
+    else:
+        print("User's answer not found.")
+        return None
+
+
+

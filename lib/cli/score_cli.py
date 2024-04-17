@@ -1,7 +1,22 @@
 from helpers.score_helper import get_user_scores, get_average_scores, plot_score_comparison, compare_with_average
 from helpers.user_helper import clear_screen
 import inquirer
-from models.quiz import Quiz
+from models.quiz import Quiz 
+from tabulate import tabulate
+
+
+from helpers.quiz_helper import print_quiz_details
+
+# Function to display user scores in a table
+def display_user_scores(user_scores):
+    """Display user scores in a table."""
+    table_data = []
+    for i, (quiz, score) in enumerate(user_scores, start=1):
+        table_data.append([i, quiz.title, score.score, score.date_taken])
+    
+    headers = ["#", "Quiz", "Score", "Date Taken"]
+    print(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))
+
 
 #Code and logic for the user's scores menu
 def scores_menu(user):
@@ -11,10 +26,12 @@ def scores_menu(user):
     user_scores = [(quiz, score) for quiz, score in user_scores]
 
     print("Your scores on each quiz:")
-    for quiz, score in user_scores:
-        print(
-            f"{user_scores.index((quiz, score)) + 1}. Quiz: {quiz.title} - Score: {score.score} - Date: {score.date_taken}\n"
-        )
+    display_user_scores(user_scores)
+
+    # for quiz, score in user_scores:
+    #     print(
+    #         f"{user_scores.index((quiz, score)) + 1}. Quiz: {quiz.title} - Score: {score.score} - Date: {score.date_taken}\n"
+    #     )
 
     print("\nOptions:")
     print("Enter the quiz # to see more options")
@@ -47,6 +64,7 @@ def display_quiz_options(quiz_id, user):
             choices=[
                 "Compare to average score",
                 "Plot score comparison graph",
+                "Print Quiz Details",
                 "Exit",
             ],
         )
@@ -55,11 +73,19 @@ def display_quiz_options(quiz_id, user):
 
     if answer["action"] == "Compare to average score":
         comparison_result = compare_with_average(average_score, user_score)
+        clear_screen()
         print(comparison_result[0])
+        print()
         display_quiz_options(quiz_id, user)
-    if answer["action"] == "Plot score comparison graph":
+    elif answer["action"] == "Plot score comparison graph":
+        clear_screen()
         plot_score_comparison(quiz, user)
         display_quiz_options(quiz_id, user)
+    elif answer["action"] == "Print Quiz Details":
+        clear_screen()
+        print_quiz_details(quiz, user)
+        display_quiz_options(quiz_id, user)
     elif answer["action"] == "Exit":
+        clear_screen()
         print("Exiting to Scores Menu...")
         scores_menu(user)

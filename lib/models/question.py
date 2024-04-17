@@ -1,7 +1,7 @@
 from models.__init__ import CURSOR, CONN
 
 # from models.score import Score
-# from models.user import User
+from models.user_answer import User_Answer
 # from models.quiz import Quiz
 from models.answer import Answer
 
@@ -182,3 +182,16 @@ class Question:
         for answer in answers: # Iterate over the answers
             answer.delete() # Delete the answer
         self.delete() # Delete the question
+        
+    # Gets users answers for a question
+    def get_user_answer(self):
+        """Get the user answer for the question"""
+        sql = """
+        SELECT * FROM User_Answers WHERE question_id = ? 
+        """
+        CURSOR.execute(sql, (self.id,)) # Execute the SQL statement
+        row = CURSOR.fetchone() # Fetch the first row from the result
+
+        return (
+            User_Answer.instance_from_db_row(row) if row else None
+        )  # Return the Answer instance
