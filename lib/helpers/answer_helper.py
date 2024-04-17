@@ -32,7 +32,7 @@ def edit_answer(selected_answer_id):
     """Edit an answer in the database"""
     answer = Answer.find_by_id(selected_answer_id)  # Find the answer by its ID
     content_value = input(
-        "Enter the new content: "
+        "Enter the new answer: "
     )  # Ask the user to enter the new content
     is_correct = input("Is this the new correct answer? (y/n): ")
     while is_correct.lower() not in ["y", "n"]:
