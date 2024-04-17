@@ -49,17 +49,6 @@ def edit_answer(selected_answer_id):
 # Delete an answer from the database
 def delete_answer(selected_answer_id, selected_question_id):
     """Delete an answer from the database"""
-<<<<<<< HEAD
-    id_ = input("Enter the answer's id: ")
-    if answer := Answer.find_by_id(id_):
-        answer.delete()
-        print(f"Answer {id_} deleted")
-    else:
-        print(f"Answer {id_} not found")
-        
-        
-
-=======
     answer = Answer.find_by_id(selected_answer_id)  # Find the answer by its ID
     answer.delete()  # Delete the answer from the database
     clear_screen()
@@ -115,4 +104,3 @@ def list_answers_and_select_answer(selected_question_id):
     selected_answer_id = answer_options[int(answer["answer_id"]) - 1][1]
 
     return selected_answer_id
->>>>>>> development

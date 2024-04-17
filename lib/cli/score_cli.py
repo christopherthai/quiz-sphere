@@ -23,8 +23,7 @@ def display_user_scores(user_scores):
     print(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))
 
 
-
-# Code and logic for the user's scores menu
+#Code and logic for the user's scores menu
 def scores_menu(user):
     from main import main_menu
 
@@ -81,13 +80,9 @@ def display_quiz_options(quiz_id, user):
     if answer["action"] == "Compare to average score":
         clear_screen()
         comparison_result = compare_with_average(average_score, user_score)
-<<<<<<< HEAD
         clear_screen()
         print(comparison_result[0])
         print()
-=======
-        print(f"{comparison_result[0]}\n")
->>>>>>> development
         display_quiz_options(quiz_id, user)
     elif answer["action"] == "Plot score comparison graph":
         clear_screen()

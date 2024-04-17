@@ -114,8 +114,6 @@ def list_questions_and_select_question(selected_quiz_id):
 
     return selected_question_id
 
-
-<<<<<<< HEAD
 def get_user_answers_for_question(user, selected_question_id):
     """Get user answer for a question"""
 
@@ -129,10 +127,10 @@ def get_user_answers_for_question(user, selected_question_id):
 
 
 
-=======
+
+
 def list_specific_question(selected_question_id):
     """List a specific question in the database"""
     question = Question.find_by_id(selected_question_id)  # Find the question by its ID
     print(f"Question: {question.content}\n")  # Print the question's content
     return question
->>>>>>> development
