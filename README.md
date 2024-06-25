@@ -20,15 +20,25 @@ To get a local copy up and running, follow these steps.
 
 ### Back-end Installation
 
-1. Ensure you are in the root directory of the project.
+1. Clone the repository:
 
-2. Install pipenv and dependencies:
+   ```bash
+   git clone git@github.com:your-username/quiz-sphere.git
+   ```
+
+2. Navigate to the back-end directory:
+
+   ```bash
+   cd quiz-sphere
+   ```
+
+3. Install pipenv and dependencies:
 
    ```bash
    pipenv install
    ```
 
-3. Activate the virtual environment:
+4. Activate the virtual environment:
 
    ```bash
    pipenv shell
