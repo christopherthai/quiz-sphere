@@ -6,6 +6,48 @@
 
 QuizSphere is a quiz application where users can choose a wide variety of quizzes covering various fields and topics.
 
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- You have installed [Git](https://git-scm.com/).
+- You have a [GitHub](https://github.com/) account.
+- You have installed [Python](https://www.python.org/) and [pipenv](https://pipenv.pypa.io/en/latest/).
+
+## Getting Started
+
+To get a local copy up and running, follow these steps.
+
+### Back-end Installation
+
+1. Ensure you are in the root directory of the project.
+
+2. Install pipenv and dependencies:
+
+   ```bash
+   pipenv install
+   ```
+
+3. Activate the virtual environment:
+
+   ```bash
+   pipenv shell
+   ```
+
+## Running the Application
+
+1. Navigate to the lib directory:
+
+   ```bash
+   cd lib
+   ```
+
+2. Start the application using the main script:
+
+   ```bash
+   python main.py
+   ```
+
 ## Database Diagram
 
 ![DatabaseDiagram](./Planning/database-diagram.png)
