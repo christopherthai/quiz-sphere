@@ -10,6 +10,7 @@ pytest = "7.1.3"
 inquirer = "*"
 matplotlib = "*"
 sqlalchemy = "*"
+tabulate = "*"
 
 [dev-packages]
 
