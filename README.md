@@ -48,6 +48,10 @@ To get a local copy up and running, follow these steps.
    python main.py
    ```
 
+## Additional Notes
+
+- Ensure your SQLite database file is correctly set up before starting the back-end server.
+
 ## Database Diagram
 
 ![DatabaseDiagram](./Planning/database-diagram.png)
